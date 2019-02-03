@@ -1,2 +1,3 @@
-# taboo_experiment
-Code for Taboo experiment design.
+# Taboo Experiment
+
+Repository for hosting JsPsych code for implementation of "Taboo" experiment (friends vs. strangers).
