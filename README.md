@@ -25,8 +25,8 @@ All turns should have the following **constraints**:
 
 * 1 minute per turn
 * 20 seconds per individual card  
-* Pull only from relevant deck for that turn
-* Pull only from *unused* cards from that deck (for that session)
+* Pull cards only from relevant deck for that turn
+* Pull cards only from *unused* cards from that deck (for that session)
 
 For each **card**:
 
