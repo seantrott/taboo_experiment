@@ -4,9 +4,9 @@ Repository for hosting JsPsych code for implementation of "Taboo" experiment (fr
 
 ## Experiment details
 
-*Number of players*: 4
-*Number of teams*: 2
-*Number of rounds*: ?
+*Number of players*: 4  
+*Number of teams*: 2  
+*Number of rounds*: ?  
 
 ### Important variables
 
