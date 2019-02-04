@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My experiment</title>
+        <script src="jspsych-6.0.5/jspsych.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script> 
+        <script src="jspsych-6.0.5/plugins/jspsych-instructions.js"></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body></body>
+    <script>
+
+
+var choice_array = ['Won', 'Discarded', 'Lost']
+
+jsPsych.data.addProperties({
+    subject: subject_id,
+    survey_code: survey_code,
+    group: group_assignment
+})
+
+
+var demo_card = {
+    type: 'html-button-response',
+    stimulus: '<p>\'Cactus.\'</p>',
+    choices: choice_array,
+    trial_duration: 20000, 
+    data: {card: 'cactus', item: 'h6'}
+};
+
+
+var timeline = [demo_card]
+
+
+/* start the experiment */
+jsPsych.init({
+    timeline: timeline, 
+    //on_finish: function(data){ 
+        //saveData(filename, jsPsych.data.get().csv());
+    // }
+  });
+    </script>
+</html>
