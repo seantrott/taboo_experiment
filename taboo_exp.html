@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>Taboo Experiment</title>
+        <script src="jspsych-6.0.5/jspsych.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body>
+    </body>
+    <script>
+
+    var timeline = []; 
+
+    var choice_array = ['Won', 'Discarded', 'Lost'];   
+
+    var welcome_message = {
+        type: 'html-keyboard-response',
+        stimulus: 'Welcome to the Taboo Experiment. Press any key to begin session.'
+    }
+
+    timeline.push(welcome_message);
+
+
+    //blue deck trial
+    var blue_deck = {
+        timeline: [
+        {
+        type: 'html-button-response',
+        choices: choice_array,
+        trial_duration: 20000,
+        stimulus: jsPsych.timelineVariable('blue_card')
+        }
+        ],
+        timeline_variables: [
+        {blue_card: '<p>\'Blue 1\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {blue_card: '<p>\'Blue 2\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {blue_card: '<p>\'Blue 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {blue_card: '<p>\'Blue 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
+        ],
+        randomize_order: true        
+    }
+
+    timeline.push(blue_deck);
+
+    /*var player_blue = {
+        type: 'html-button-response',
+        trial_duration: 10000,
+        stimulus: 'hi',
+        timeline: [blue_deck]
+    }
+
+    timeline.push(player_blue);*/
+
+    //purple deck trial
+    var purple_deck = {
+        timeline: [
+        {
+        type: 'html-button-response',
+        choices: choice_array,
+        trial_duration: 20000,
+        stimulus: jsPsych.timelineVariable('purple_card')
+        }
+        ],
+        timeline_variables: [
+        {purple_card: '<p>\'Purple 1\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {purple_card: '<p>\'Purple 2\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {purple_card: '<p>\'Purple 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {purple_card: '<p>\'Purple 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
+        ],
+        randomize_order: true        
+    }
+
+    timeline.push(purple_deck);
+
+    //red deck trial
+    var red_deck = {
+        timeline: [
+        {
+        type: 'html-button-response',
+        choices: choice_array,
+        trial_duration: 20000,
+        stimulus: jsPsych.timelineVariable('red_card')
+        }
+        ],
+        timeline_variables: [
+        {red_card: '<p>\'Red 1\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {red_card: '<p>\'Red 2\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {red_card: '<p>\'Red 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {red_card: '<p>\'Red 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
+        ],
+        randomize_order: true        
+    }
+
+    timeline.push(red_deck);
+
+    //yellow deck trial
+    var yellow_deck = {
+        timeline: [
+        {
+        type: 'html-button-response',
+        choices: choice_array,
+        trial_duration: 20000,
+        stimulus: jsPsych.timelineVariable('yellow_card')
+        }
+        ],
+        timeline_variables: [
+        {yellow_card: '<p>\'Yellow 1\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {yellow_card: '<p>\'Yellow 2\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {yellow_card: '<p>\'Yellow 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
+        {yellow_card: '<p>\'Yellow 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
+        ],
+        randomize_order: true        
+    }
+
+    timeline.push(yellow_deck);
+
+    
+    jsPsych.init({
+        timeline: timeline
+    })
+
+    </script>
+</html>
