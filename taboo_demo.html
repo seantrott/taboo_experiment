@@ -21,16 +21,38 @@ jsPsych.data.addProperties({
 })
 
 
-var demo_card = {
+var demo_card1 = {
     type: 'html-button-response',
-    stimulus: '<p>\'Cactus.\'</p>',
+    stimulus: '<p>\'Card1.\'</p>',
     choices: choice_array,
     trial_duration: 20000, 
-    data: {card: 'cactus', item: 'h6'}
+    data: {card: 'card1'}
 };
 
 
-var timeline = [demo_card]
+var demo_card2 = {
+    type: 'html-button-response',
+    stimulus: '<p>\'Card2.\'</p>',
+    choices: choice_array,
+    trial_duration: 20000, 
+    data: {card: 'card3'}
+};
+
+var demo_card3 = {
+    type: 'html-button-response',
+    stimulus: '<p>\'Card3.\'</p>',
+    choices: choice_array,
+    trial_duration: 20000, 
+    data: {card: 'card3'}
+};
+
+var demo_array = [demo_card1, demo_card2, demo_card3]
+
+/// To sample
+new_card = demo_array.splice(Math.floor(Math.random()*demo_array.length), 1)
+
+
+var timeline = [demo_card1]
 
 
 /* start the experiment */
