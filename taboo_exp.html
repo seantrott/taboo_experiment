@@ -4,15 +4,16 @@
         <script src="jspsych-6.0.5/jspsych.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-call-function.js"></script>
         <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body>
     </body>
     <script>
 
-    var timeline = []; 
+    var timeline = [];
 
-    var choice_array = ['Won', 'Discarded', 'Lost'];   
+    var choice_array = ['Won', 'Discarded', 'Lost'];
 
     var welcome_message = {
         type: 'html-keyboard-response',
@@ -21,39 +22,77 @@
 
     timeline.push(welcome_message);
 
-
-    //blue deck trial
-    var blue_deck = {
-        timeline: [
-        {
-        type: 'html-button-response',
-        choices: choice_array,
-        trial_duration: 20000,
-        stimulus: jsPsych.timelineVariable('blue_card')
-        }
-        ],
-        timeline_variables: [
-        {blue_card: '<p>\'Blue 1\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
-        {blue_card: '<p>\'Blue 2\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
-        {blue_card: '<p>\'Blue 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
-        {blue_card: '<p>\'Blue 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
-        ],
-        randomize_order: true        
+    //blue deck cards
+    var blue_card1= {
+      type: 'html-button-response',
+      stimulus: '<p>\'Blue 1\'</p>',
+      choices: choice_array,
+      trial_duration: 30000,
+      data: {card: 'Blue 1'}
     }
 
-    timeline.push(blue_deck);
+    var blue_card2= {
+      type: 'html-button-response',
+      stimulus: '<p>\'Blue 2\'</p>',
+      choices: choice_array,
+      trial_duration: 30000,
+      data: {card: 'Blue 2'}
+    }
+
+    var blue_card3= {
+      type: 'html-button-response',
+      stimulus: '<p>\'Blue 3\'</p>',
+      choices: choice_array,
+      trial_duration: 30000,
+      data: {card: 'Blue 3'}
+    }
+
+
+    //blue deck with cards
+    blue_deck = [blue_card1, blue_card2, blue_card3];
+
+
+    /*function BlueTurn {
+    for(var i= blue_deck.length-1; i>=0; i--){
+      card_index = Math.floor(Math.random()*(blue_deck.length));
+      timeline.push(blue_deck[card_index]);
+      blue_deck.splice(card_index, 1);
+    };*/
+
+    var interval = setInterval(function () {
+      card_index = Math.floor(Math.random()*(blue_deck.length));
+      timeline.push(blue_deck[card_index]);
+      blue_deck.splice(card_index, 1);
+      }, 0);
+
+    var blue_turn= function() {
+      alert("test");
+      card_index = Math.floor(Math.random()*(blue_deck.length));
+      timeline.push(blue_card1);
+      timeline.push(blue_deck[card_index]);
+      blue_deck.splice(card_index, 1);
+      setTimeout(function() {
+    clearInterval(interval);
+  }, 60000)
+    };
+
+    var sk = {
+      type: 'call-function',
+      func: blue_turn
+    };
+
+    timeline.push(sk);
+    //timeline.push(blue_deck);
 
     /*var player_blue = {
-        type: 'html-button-response',
-        trial_duration: 10000,
-        stimulus: 'hi',
+        trial_duration: 60000,
         timeline: [blue_deck]
     }
 
     timeline.push(player_blue);*/
 
     //purple deck trial
-    var purple_deck = {
+    /*var purple_deck = {
         timeline: [
         {
         type: 'html-button-response',
@@ -68,7 +107,7 @@
         {purple_card: '<p>\'Purple 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
         {purple_card: '<p>\'Purple 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
         ],
-        randomize_order: true        
+        randomize_order: true
     }
 
     timeline.push(purple_deck);
@@ -89,7 +128,7 @@
         {red_card: '<p>\'Red 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
         {red_card: '<p>\'Red 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
         ],
-        randomize_order: true        
+        randomize_order: true
     }
 
     timeline.push(red_deck);
@@ -110,12 +149,12 @@
         {yellow_card: '<p>\'Yellow 3\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'},
         {yellow_card: '<p>\'Yellow 4\'</p></br>Clue 1</br>Clue 2</br>Clue 3</br>Clue 4</br>Clue 5'}
         ],
-        randomize_order: true        
+        randomize_order: true
     }
 
-    timeline.push(yellow_deck);
+    timeline.push(yellow_deck);*/
 
-    
+
     jsPsych.init({
         timeline: timeline
     })
