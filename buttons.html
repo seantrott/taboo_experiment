@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Deck Response</title>
+        <script src="jspsych-6.0.5/jspsych.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body>
+    </body>
+    <script>
+
+    var timeline = [];
+
+    //var choice_array = ['Won', 'Discarded', 'Lost'];
+    //Deck colors
+    var decks = ['Blue', 'Purple', 'Yellow', 'Red'];
+
+    var welcome_message = {
+        type: 'html-keyboard-response',
+        stimulus: 'Welcome. Press any key to begin session.'
+    }
+
+    timeline.push(welcome_message);
+
+    //Record deck assignment
+    var choice = {
+      type: 'html-button-response',
+      stimulus: '<p>\'Choose Deck\'</p>',
+      choices: decks,
+      data: {card: 'choice', item: 'h6'}
+    };
+    timeline.push(choice)
+
+    //records button_pressed for deck
+    var if_node = {
+      chunk_type: 'if',
+      timeline: [choice],
+      conditional_function: function() {
+        var previous_data = jsPsych.data.get().last(1).values()[0]
+        if(previous_data.button_pressed == 0){
+          //Test conditional function
+          console.log('Blue')
+          //enter variable here later?
+        }
+        else if (previous_data.button_pressed == 1){
+          console.log('Purple')
+        }
+        else if (previous_data.button_pressed == 2) {
+          console.log('Yellow')}
+        else if (previous_data.button_pressed == 3) {
+          console.log('Red')}
+     }
+   }
+
+   //testing timeline *not pushed
+   timeline = [choice, if_node]
+
+    jsPsych.init({
+        timeline: timeline
+    })
+
+    </script>
+</html>
