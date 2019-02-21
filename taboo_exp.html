@@ -11,6 +11,14 @@
     </body>
     <script>
 
+
+  /* High-level variables */
+  var TURN_LENGTH = 60 * 1  
+  var TRIAL_LENGTH = 20 * 1000
+
+
+  /* Set up timeline. */
+
     var timeline = [];
 
     var choice_array = ['Won', 'Discarded', 'Lost'];
@@ -72,19 +80,38 @@
       return blue_cards1.indexOf(val) == -1;
     });
 
+
+    var trial_timer = function() {
+      endTime = new Date();
+      var timer = setInterval(function () {
+        endTime = new Date()
+        if(endTime - startTime >= TURN_LENGTH){
+          end_timeline = true
+          alert("Time is up!")
+          clearInterval(timer);
+          jsPsych.finishTrial()
+          // jsPsych.endCurrentTimeline();
+      }
+      }, 1000);
+    }
+
+    var test_for_turn_end = function() {
+      if(endTime - startTime >= TURN_LENGTH){
+          jsPsych.endCurrentTimeline();
+        }
+    }
+
     //1st blue turn
     var blue_turn1 = {
-    type: 'html-button-response',
-    choices: choice_array,
-    trial_duration: 30*1000, //max duration for one card
-    timeline: blue_cards1,
-    on_finish: function(){
-      endTime = new Date();
-      if(endTime - startTime >= 60*1000){
-        jsPsych.endCurrentTimeline();
-      }
-    }
+      type: 'html-button-response',
+      choices: choice_array,
+      trial_duration: 30*1000, //max duration for one card
+      timeline: blue_cards1,
+      on_start: trial_timer,
+      on_finish: test_for_turn_end
   }
+
+
 
     timeline.push(blue_turn1);
 
@@ -104,12 +131,8 @@
     choices: choice_array,
     trial_duration: 30*1000,
     timeline: blue_cards2,
-    on_finish: function(){
-      endTime = new Date();
-      if(endTime - startTime >= 60*1000){
-        jsPsych.endCurrentTimeline();
-      }
-    }
+    on_start: trial_timer,
+    on_finish: test_for_turn_end
   }
 
     timeline.push(blue_turn2);
@@ -130,18 +153,23 @@
     choices: choice_array,
     trial_duration: 30*1000,
     timeline: blue_cards3,
-    on_finish: function(){
-      endTime = new Date();
-      if(endTime - startTime >= 60*1000){
-        jsPsych.endCurrentTimeline();
-      }
-    }
+    on_start: trial_timer,
+    on_finish: test_for_turn_end
+  
   }
 
       timeline.push(blue_turn3);
 
+  timeline = [pause_message, blue_turn1, pause_message, blue_turn2, pause_message, blue_turn3]
 
-  jsPsych.init({timeline: timeline});
+  jsPsych.init({
+    timeline: timeline,
+    on_finish: function(data){ 
+        //saveData(filename, jsPsych.data.get().csv());
+        console.log(jsPsych.data.get().csv())
+    }
+    }
+    );
 
     </script>
     </html>
