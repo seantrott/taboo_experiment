@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <title>User Information</title>
+    <script src="jspsych-6.0.5/jspsych.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
+    <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  </head>
+
+  <body></body>
+
+  <script>
+    var timeline = [];
+    var player_type = ["Friend", "Stranger"];
+    var decks = ['Blue', 'Purple', 'Yellow', 'Red'];
+
+    //Records Players information
+    var user_id = {
+      type: 'survey-text',
+      questions: [{prompt: "Enter Speaker ID"}, {prompt: "Enter Player ID"}, {prompt: "Enter Team ID"}]
+    };
+
+    timeline.push(user_id);
+
+    //Records "Friend" or "Stranger"
+    var player_type = {
+      type: 'html-button-response',
+      stimulus: '<p>\'Who are you playing with?\'</p>',
+      choices: player_type,
+      data: {card: 'player_type'}
+    };
+
+    timeline.push(player_type)
+
+    var player_type_if = {
+      chunk_type: 'if',
+      timeline: [player_type],
+      conditional_function: function() {
+        var previous_data = jsPsych.data.get().last(1).values()[0]
+        if(previous_data.button_pressed == 0){
+          console.log('Friend')
+          //enter variable here later?
+        }
+        else if (previous_data.button_pressed == 1){
+          console.log('Stranger')
+        }
+     }
+   }
+   timeline.push(player_type_if)
+
+    var deck_color = {
+      type: 'html-button-response',
+      stimulus: '<p>\'Choose Deck\'</p>',
+      choices: decks,
+      data: {card: 'deck_color'}
+    };
+    timeline.push(deck_color)
+
+    //records button_pressed for deck
+    var if_node = {
+      chunk_type: 'if',
+      timeline: [deck_color],
+      conditional_function: function() {
+        var previous_data = jsPsych.data.get().last(1).values()[0]
+        if(previous_data.button_pressed == 0){
+          //Test conditional function
+          console.log('Blue')
+          //enter variable here later?
+        }
+        else if (previous_data.button_pressed == 1){
+          console.log('Purple')
+        }
+        else if (previous_data.button_pressed == 2) {
+          console.log('Yellow')}
+        else if (previous_data.button_pressed == 3) {
+          console.log('Red')}
+     }
+   }
+   timeline.push(if_node)
+
+    jsPsych.init({
+        timeline: timeline
+    })
+  </script>
+</html>
