@@ -5,6 +5,7 @@
         <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-call-function.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-instructions.js"></script>
         <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body>
@@ -13,74 +14,67 @@
 
 
   /* High-level variables */
-  var TURN_LENGTH = 5 * 1000  
-  var TRIAL_LENGTH = 10 * 1000
+  var TURN_LENGTH = 60 * 1000  
+  var TRIAL_LENGTH = 20 * 1000
+  var CARDS_PER_TURN = 5
+  var NUMBER_OF_TURNS = 20
+  var choice_array = ['Won', 'Discarded', 'Lost'];
+
+  var timeline = [];
+  var startTime;
 
 
-  /* Set up timeline. */
-
-    var timeline = [];
-
-    var choice_array = ['Won', 'Discarded', 'Lost'];
-
-    var startTime;
+  /* Set up welcome and pause messages. */
 
     var welcome_message = {
-        type: 'html-keyboard-response',
-        stimulus: 'Welcome to the Taboo Experiment. Press any key to begin session.',
+        type: 'instructions',
+        pages: ['Welcome to the Taboo Experiment. Press \"Next\" to begin session.'],
+        data: {'trial_category': 'pause'},
+        show_clickable_nav: true
+    }
+
+    var pause_message_blue = {
+        type: 'instructions',
+        pages: ['Next Turn is the <b>Blue</b> deck. Press \"Next\" to proceed.'],
+        data: {'trial_category': 'pause'},
+        show_clickable_nav: true,
         on_finish: function(){
           startTime=new Date();
         }
     }
 
-    var pause_message = {
-        type: 'html-keyboard-response',
-        stimulus: 'Next Turn. Press any key.',
+    var pause_message_red = {
+        type: 'instructions',
+        pages: ['Next Turn is the <b>Red</b> deck. Press \"Next\" to proceed.'],
+        data: {'trial_category': 'pause'},
+        show_clickable_nav: true,
         on_finish: function(){
           startTime=new Date();
         }
     }
 
-    timeline.push(welcome_message);
-
-
-    blue_deck =  [{stimulus: 'Blue 1', data:{card: 'Blue 1'}},
-                  {stimulus: 'Blue 2', data:{card: 'Blue 2'}},
-                  {stimulus: 'Blue 3', data:{card: 'Blue 3'}},
-                  {stimulus: 'Blue 4', data:{card: 'Blue 4'}},
-                  {stimulus: 'Blue 5', data:{card: 'Blue 5'}},
-                  {stimulus: 'Blue 6', data:{card: 'Blue 6'}},
-                  {stimulus: 'Blue 7', data:{card: 'Blue 7'}},
-                  {stimulus: 'Blue 8', data:{card: 'Blue 8'}},
-                  {stimulus: 'Blue 9', data:{card: 'Blue 9'}},
-                  {stimulus: 'Blue 10', data:{card: 'Blue 10'}}];
-
-
-
-    //function to randomly sample from array
-    function getRandom(arr, n) {
-    var result = new Array(n),
-    len = arr.length,
-    taken = new Array(len);
-    if (n > len)
-    throw new RangeError("getRandom: more elements taken than available");
-    while (n--) {
-    var x = Math.floor(Math.random() * len);
-    result[n] = arr[x in taken ? taken[x] : x];
-    taken[x] = --len in taken ? taken[len] : len;
-    }
-    return result;
+    var pause_message_purple= {
+        type: 'instructions',
+        pages: ['Next Turn is the <b>Purple</b> deck. Press \"Next\" to proceed.'],
+        data: {'trial_category': 'pause'},
+        show_clickable_nav: true,
+        on_finish: function(){
+          startTime=new Date();
+        }
     }
 
-    //blue_cards for 1st turn
-    blue_cards1 = getRandom(blue_deck, 3);
+    var pause_message_yellow= {
+        type: 'instructions',
+        pages: ['Next Turn is the <b>Yellow</b> deck. Press \"Next\" to proceed.'],
+        data: {'trial_category': 'pause'},
+        show_clickable_nav: true,
+        on_finish: function(){
+          startTime=new Date();
+        }
+    }
 
-    //blue_deck after 1 turn
-    blue_deck1 = blue_deck.filter(function(val){
-      return blue_cards1.indexOf(val) == -1;
-    });
 
-
+/* Functions. */
     var trial_timer = function() {
       endTime = new Date();
       var timer = setInterval(function () {
@@ -100,66 +94,1140 @@
         }
     }
 
-    //1st blue turn
-    var blue_turn1 = {
-      type: 'html-button-response',
-      choices: choice_array,
-      trial_duration: TRIAL_LENGTH, //max duration for one card
-      timeline: blue_cards1,
-      on_start: trial_timer,
-      on_finish: test_for_turn_end
-  }
+    function getRandom(arr, n) {
+      var result = new Array(n),
+      len = arr.length,
+      taken = new Array(len);
+      if (n > len)
+      throw new RangeError("getRandom: more elements taken than available");
+      while (n--) {
+      var x = Math.floor(Math.random() * len);
+      result[n] = arr[x in taken ? taken[x] : x];
+      taken[x] = --len in taken ? taken[len] : len;
+      }
+      return result;
+    }
 
 
+/* Set up blue deck. */
 
-    timeline.push(blue_turn1);
+///// BLUE CARDS
+blue_card1= {stimulus: "<p>\'Extreme\'</p><br>Sports<br>Athlete<br>Temperature<br>Radical<br>Difficulty", data:{card: 'Extreme', color:'Blue'}};
+blue_card2= {stimulus: "<p>\'Ambassador\'</p><br>Diplomat<br>United Nations<br>Country<br>Embassy<br>Foreign", data:{card: 'Ambassador', color:'Blue'}};
+blue_card3= {stimulus: "<p>\'Brain\'</p><br>Smart<br>Head<br>Mind<br>Skull<br>Cranium", data:{card: 'Brain', color:'Blue'}};
+blue_card4= {stimulus: "<p>\'Farm\'</p><br>Land<br>Cow<br>Milk<br>Stand<br>Vegetable", data:{card: 'Farm', color:'Blue'}};
+blue_card5= {stimulus: "<p>\'Camp\'</p><br>Fire<br>Woods<br>Summer<br>Tent<br>Backpack", data:{card: 'Camp', color:'Blue'}};
+blue_card6= {stimulus: "<p>\'Lifeguard\'</p><br>Pool<br>Beach<br>Sim<br>Drown<br>Save", data:{card: 'Lifeguard', color:'Blue'}};
+blue_card7= {stimulus: "<p>\'Luggage\'</p><br>Baggage<br>Suitcase<br>Travel<br>Vacation<br>Pack", data:{card: 'Luggage', color:'Blue'}};
+blue_card8= {stimulus: "<p>\'Hose\'</p><br>Water<br>Rubber<br>Stockings<br>Pant<br>Sprinkler", data:{card: 'Hose', color:'Blue'}};
+blue_card9= {stimulus: "<p>\'Aspirin\'</p><br>Pill<br>Headache<br>Medicine<br>Dosage<br>Pharmacy", data:{card: 'Aspirin', color:'Blue'}};
+blue_card10= {stimulus: "<p>\'Dead End\'</p><br>Street<br>Exit<br>Road<br>Job<br>Cul-De-Sac", data:{card: 'Dead End', color:'Blue'}};
+blue_card11= {stimulus: "<p>\'Dove\'</p><br>Bird<br>Peace<br>Pigeon<br>White<br>Soap", data:{card: 'Dove', color:'Blue'}};
+blue_card12= {stimulus: "<p>\'Dare\'</p><br>Truth<br>Challenge<br>Courage<br>Bold<br>Provoke", data:{card: 'Dare', color:'Blue'}};
+blue_card13= {stimulus: "<p>\'Amnesia\'</p><br>Forget<br>Memory<br>Remember<br>Head<br>Bump", data:{card: 'Amnesia', color:'Blue'}};
+blue_card14= {stimulus: "<p>\'Caricature\'</p><br>Cartoon<br>Drawing<br>Artist<br>Portrait<br>Distort", data:{card: 'Caricature', color:'Blue'}};
+blue_card15= {stimulus: "<p>\'Call\'</p><br>Phone<br>Dial<br>Back<br>Answer<br>Talk", data:{card: 'Call', color:'Blue'}};
+blue_card16= {stimulus: "<p>\'Dribble\'</p><br>Drool<br>Saliva<br>Spit<br>Basketball<br>Bounce", data:{card: 'Dribble', color:'Blue'}};
+blue_card17= {stimulus: "<p>\'Blush\'</p><br>Red<br>Cheeks<br>Makeup<br>Embarrass<br>Face", data:{card: 'Blush', color:'Blue'}};
+blue_card18= {stimulus: "<p>\'Dust\'</p><br>Dirt<br>Vacuum<br>Collect<br>Clean<br>Bunnies", data:{card: 'Dust', color:'Blue'}};
+blue_card19= {stimulus: "<p>\'Flashlight\'</p><br>Batteries<br>Beam<br>Shine<br>Dark<br>Hand", data:{card: 'Flashlight', color:'Blue'}};
+blue_card20= {stimulus: "<p>\'Blister\'</p><br>Sunburn<br>Bubble<br>Shoes<br>Skin<br>Rub", data:{card: 'Blister', color:'Blue'}};
+blue_card21= {stimulus: "<p>\'Battery\'</p><br>Car<br>Charge<br>Size<br>Jump<br>Cell", data:{card: 'Battery', color:'Blue'}};
+blue_card22= {stimulus: "<p>\'Bowling Alley\'</p><br>Pins<br>Shoes<br>Spare<br>Strike<br>Balls", data:{card: 'Bowling Alley', color:'Blue'}};
+blue_card23= {stimulus: "<p>\'Bald\'</p><br>Head<br>Hair<br>Spot<br>Rug<br>Toupee", data:{card: 'Bald', color:'Blue'}};
+blue_card24= {stimulus: "<p>\'Boardwalk\'</p><br>Atlantic City<br>Beach<br>Pier<br>Monopoly<br>Park Place", data:{card: 'Boardwalk', color:'Blue'}};
+blue_card25= {stimulus: "<p>\'Blast\'</p><br>Dynamite<br>Explosion<br>Party<br>Loud<br>Off", data:{card: 'Blast', color:'Blue'}};
+blue_card26= {stimulus: "<p>\'Pyramid\'</p><br>Egypt<br>Tombs<br>Pharaohs<br>King Tut<br>Buried", data:{card: 'Pyramid', color:'Blue'}};
+blue_card27= {stimulus: "<p>\'Applause\'</p><br>Cheers<br>Clapping<br>Ovation<br>Perform<br>Hand", data:{card: 'Applause', color:'Blue'}};
+blue_card28= {stimulus: "<p>\'Deal\'</p><br>Sale<br>Day<br>Cards<br>Breaker<br>Bargain", data:{card: 'Deal', color:'Blue'}};
+blue_card29= {stimulus: "<p>\'Champagne\'</p><br>Wine<br>Bubbles<br>Cork<br>Toast<br>Celebrate", data:{card: 'Champagne', color:'Blue'}};
+blue_card30= {stimulus: "<p>\'Doctor\'</p><br>Scrubs<br>Medical<br>Hospital<br>Nurse<br>Surgeon", data:{card: 'Doctor', color:'Blue'}};
+blue_card31= {stimulus: "<p>\'Mansion\'</p><br>Haunted<br>Celebrity<br>Estate<br>Live<br>Rich", data:{card: 'Mansion', color:'Blue'}};
+blue_card32= {stimulus: "<p>\'Bunny\'</p><br>Rabbit<br>Pet<br>Ears<br>Animal<br>Easter", data:{card: 'Bunny', color:'Blue'}};
+blue_card33= {stimulus: "<p>\'Oil\'</p><br>Price<br>Well<br>Drill<br>Car<br>Olive", data:{card: 'Oil', color:'Blue'}};
+blue_card34= {stimulus: "<p>\'Book\'</p><br>Paperback<br>Pages<br>Novel<br>Library<br>Read", data:{card: 'Book', color:'Blue'}};
+blue_card35= {stimulus: "<p>\'Army\'</p><br>Navy<br>Soldier<br>Draft<br>Service<br>Military", data:{card: 'Army', color:'Blue'}};
+blue_card36= {stimulus: "<p>\'Bayou\'</p><br>Water<br>Swamp<br>Louisiana<br>Delta<br>South", data:{card: 'Bayou', color:'Blue'}};
+blue_card37= {stimulus: "<p>\'Drive\'</p><br>Car<br>Highway<br>License<br>Scenic<br>Way", data:{card: 'Drive', color:'Blue'}};
+blue_card38= {stimulus: "<p>\'Basement\'</p><br>Cellar<br>Apartment<br>House<br>Finished<br>Downstairs", data:{card: 'Basement', color:'Blue'}};
+blue_card39= {stimulus: "<p>\'Daydream\'</p><br>Think<br>Sleep<br>Fantasize<br>Bored<br>Mind", data:{card: 'Daydream', color:'Blue'}};
+blue_card40= {stimulus: "<p>\'Polar Bear\'</p><br>White<br>Zoo<br>Snow<br>Cold<br>Brown", data:{card: 'Polar Bear', color:'Blue'}};
+blue_card41= {stimulus: "<p>\'Balloon\'</p><br>Helium<br>Blow<br>Candles<br>Pop<br>Birthday", data:{card: 'Balloon', color:'Blue'}};
+blue_card42= {stimulus: "<p>\'Crutches\'</p><br>Broken<br>Leg<br>Cane<br>Cast<br>Walk", data:{card: 'Crutches', color:'Blue'}};
+blue_card43= {stimulus: "<p>\'Dip\'</p><br>Vegetable<br>Chip<br>Swim<br>Stick<br>Oil", data:{card: 'Dip', color:'Blue'}};
+blue_card44= {stimulus: "<p>\'Ladybug\'</p><br>Insect<br>Beetle<br>Spotted<br>Red<br>Good Luck", data:{card: 'Ladybug', color:'Blue'}};
+blue_card45= {stimulus: "<p>\'Bridge\'</p><br>Brooklyn<br>Golden Gate<br>Water<br>Over<br>Cross", data:{card: 'Bridge', color:'Blue'}};
+blue_card46= {stimulus: "<p>\'Fame\'</p><br>Celebrity<br>Fleeting<br>Fame<br>Hall<br>Glory", data:{card: 'Fame', color:'Blue'}};
+blue_card47= {stimulus: "<p>\'Freshen\'</p><br>Up<br>Renew<br>Revive<br>Clean<br>Cleanse", data:{card: 'Freshen', color:'Blue'}};
+blue_card48= {stimulus: "<p>\'Immortal\'</p><br>Die<br>Live<br>Forever<br>Eternity<br>Youth", data:{card: 'Immortal', color:'Blue'}};
+blue_card49= {stimulus: "<p>\'Batter\'</p><br>Baseball<br>Hitter<br>Pitcher<br>Cake<br>Mix", data:{card: 'Batter', color:'Blue'}};
+blue_card50= {stimulus: "<p>\'Shadow\'</p><br>Sunlight<br>Shade<br>Eye<br>Casts<br>Meat", data:{card: 'Shadow', color:'Blue'}};
+blue_card51= {stimulus: "<p>\'Design\'</p><br>Interior<br>Graphic<br>Artist<br>Fashion<br>Trends", data:{card: 'Design', color:'Blue'}};
+blue_card52= {stimulus: "<p>\'Acne\'</p><br>Zits<br>Teenager<br>Pimple<br>Face<br>Clearasil", data:{card: 'Acne', color:'Blue'}};
+blue_card53= {stimulus: "<p>\'Cologne\'</p><br>Perfume<br>Scent<br>Smell<br>Aftershave<br>Fragrance", data:{card: 'Cologne', color:'Blue'}};
+blue_card54= {stimulus: "<p>\'Adhesive\'</p><br>Glue<br>Sticky<br>Paste<br>Tape<br>Together", data:{card: 'Adhesive', color:'Blue'}};
+blue_card55= {stimulus: "<p>\'Chef\'</p><br>Kitchen<br>Cook<br>Top<br>Restaurant<br>Celebrity", data:{card: 'Chef', color:'Blue'}};
+blue_card56= {stimulus: "<p>\'Headline\'</p><br>News<br>Act<br>Performer<br>Title<br>Star", data:{card: 'Headline', color:'Blue'}};
+blue_card57= {stimulus: "<p>\'Flames\'</p><br>Fire<br>Red<br>Orange<br>Down<br>Calgary", data:{card: 'Flames', color:'Blue'}};
+blue_card58= {stimulus: "<p>\'Defrost\'</p><br>Ice<br>Freezer<br>Thaw<br>Melt<br>Refrigerator", data:{card: 'Defrost', color:'Blue'}};
+blue_card59= {stimulus: "<p>\'Career\'</p><br>Profession<br>Job<br>Vocation<br>Living<br>Work", data:{card: 'Career', color:'Blue'}};
+blue_card60= {stimulus: "<p>\'Gallon\'</p><br>Measurement<br>Quart<br>Gasoline<br>Pint<br>Milk", data:{card: 'Gallon', color:'Blue'}};
+blue_card61= {stimulus: "<p>\'Burp\'</p><br>Belch<br>Baby<br>Gas<br>Air<br>Eat", data:{card: 'Burp', color:'Blue'}};
+blue_card62= {stimulus: "<p>\'Claustrophobia\'</p><br>Fear<br>Close<br>Feeling<br>Trapped<br>Panic", data:{card: 'Claustrophobia', color:'Blue'}};
+blue_card63= {stimulus: "<p>\'Chocolate\'</p><br>Cocoa<br>Bar<br>Vanilla<br>Candy Bar<br>Chip", data:{card: 'Chocolate', color:'Blue'}};
+blue_card64= {stimulus: "<p>\'Beret\'</p><br>Hat<br>French<br>Cap<br>Green<br>Artist", data:{card: 'Beret', color:'Blue'}};
+blue_card65= {stimulus: "<p>\'Elf\'</p><br>Fairy<br>Will Ferrell<br>Little<br>Santa<br>Keebler", data:{card: 'Elf', color:'Blue'}};
+blue_card66= {stimulus: "<p>\'Clown\'</p><br>Circus<br>Jester<br>Birthday Party<br>Funny<br>Costume", data:{card: 'Clown', color:'Blue'}};
+blue_card67= {stimulus: "<p>\'Motorcycle\'</p><br>Leather<br>Helmet<br>Bike<br>Ride<br>Harley-Davidson", data:{card: 'Motorcycle', color:'Blue'}};
+blue_card68= {stimulus: "<p>\'Breeze\'</p><br>Ocean<br>Warm<br>Island<br>Easy<br>Sweater", data:{card: 'Breeze', color:'Blue'}};
+blue_card69= {stimulus: "<p>\'Cheat\'</p><br>Scam<br>Fraud<br>Swindle<br>Dupe<br>Games", data:{card: 'Cheat', color:'Blue'}};
+blue_card70= {stimulus: "<p>\'Cartoon\'</p><br>Comics<br>Animated<br>Draw<br>Television<br>Character", data:{card: 'Cartoon', color:'Blue'}};
+blue_card71= {stimulus: "<p>\'Bath\'</p><br>Tub<br>Water<br>Relax<br>Shower<br>Bubble", data:{card: 'Bath', color:'Blue'}};
+blue_card72= {stimulus: "<p>\'Academy\'</p><br>Naval<br>Awards<br>School<br>Police<br>Oscars", data:{card: 'Academy', color:'Blue'}};
+blue_card73= {stimulus: "<p>\'Airport\'</p><br>Travel<br>Planes<br>Security<br>Takeoff<br>Fly", data:{card: 'Airport', color:'Blue'}};
+blue_card74= {stimulus: "<p>\'Blink\'</p><br>Eye<br>Lid<br>Flash<br>Red<br>Light", data:{card: 'Blink', color:'Blue'}};
+blue_card75= {stimulus: "<p>\'Postcard\'</p><br>Mail<br>Picture<br>Stamp<br>Vacation<br>Send", data:{card: 'Postcard', color:'Blue'}};
+blue_card76= {stimulus: "<p>\'Cheer\'</p><br>Yell<br>Support<br>Toast<br>Fans<br>Hurrah", data:{card: 'Cheer', color:'Blue'}};
+blue_card77= {stimulus: "<p>\'Downtown\'</p><br>Go<br>City<br>Shopping<br>Urban<br>Main Street", data:{card: 'Downtown', color:'Blue'}};
+blue_card78= {stimulus: "<p>\'Carpet\'</p><br>Floor<br>Rug<br>Hardwood<br>Vacuum<br>Shag", data:{card: 'Carpet', color:'Blue'}};
+blue_card79= {stimulus: "<p>\'Beach\'</p><br>Seashore<br>Sand<br>Waves<br>Shells<br>Ocean", data:{card: 'Beach', color:'Blue'}};
+blue_card80= {stimulus: "<p>\'Cowboy\'</p><br>Hat<br>Horse<br>West<br>Cattle<br>Dallas", data:{card: 'Cowboy', color:'Blue'}};
+blue_card81= {stimulus: "<p>\'Honeymoon\'</p><br>Marriage<br>Newlyweds<br>Niagara Falls<br>Trip<br>Vacation", data:{card: 'Honeymoon', color:'Blue'}};
+blue_card82= {stimulus: "<p>\'Handcuffs\'</p><br>Wrist<br>Police<br>Jail<br>Arrest<br>Criminal", data:{card: 'Handcuffs', color:'Blue'}};
+blue_card83= {stimulus: "<p>\'Crawl\'</p><br>Baby<br>Walk<br>Learn<br>Knees<br>Spider", data:{card: 'Crawl', color:'Blue'}};
+blue_card84= {stimulus: "<p>\'Bargain\'</p><br>Price<br>Deal<br>Wholesale<br>Shops<br>Haggle", data:{card: 'Bargain', color:'Blue'}};
+blue_card85= {stimulus: "<p>\'Barn\'</p><br>Farm<br>Horse<br>Animals<br>Door<br>Hay", data:{card: 'Barn', color:'Blue'}};
+blue_card86= {stimulus: "<p>\'Fingerprint\'</p><br>Hand<br>Unique<br>Evidence<br>Crime<br>Dust", data:{card: 'Fingerprint', color:'Blue'}};
+blue_card87= {stimulus: "<p>\'Bench\'</p><br>Sit<br>Play<br>Judge<br>Seat<br>Park", data:{card: 'Bench', color:'Blue'}};
+blue_card88= {stimulus: "<p>\'Gasp\'</p><br>Sound<br>Shock<br>Surprise<br>Breath<br>Noise", data:{card: 'Gasp', color:'Blue'}};
+blue_card89= {stimulus: "<p>\'Cactus\'</p><br>Grow<br>Needles<br>Desert<br>Plant<br>Sharp", data:{card: 'Cactus', color:'Blue'}};
+blue_card90= {stimulus: "<p>\'Antique\'</p><br>Old<br>Ancient<br>Dated<br>Collector<br>Furniture", data:{card: 'Antique', color:'Blue'}};
+blue_card91= {stimulus: "<p>\'Battle\'</p><br>War<br>Fight<br>Combat<br>Army<br>Conflict", data:{card: 'Battle', color:'Blue'}};
+blue_card92= {stimulus: "<p>\'Bikini\'</p><br>Swimsuit<br>Two-Piece<br>Beach<br>Wear<br>Bathing", data:{card: 'Bikini', color:'Blue'}};
+blue_card93= {stimulus: "<p>\'Bacon\'</p><br>Pig<br>Eat<br>Breakfast<br>Sausage<br>Eggs", data:{card: 'Bacon', color:'Blue'}};
+blue_card94= {stimulus: "<p>\'Bag\'</p><br>Paper<br>Garbage<br>Brown<br>Purse<br>Plastic", data:{card: 'Bag', color:'Blue'}};
+blue_card95= {stimulus: "<p>\'Pitch\'</p><br>Toss<br>Throw<br>Baseball<br>Sales<br>Horseshoes", data:{card: 'Pitch', color:'Blue'}};
+blue_card96= {stimulus: "<p>\'Bartender\'</p><br>Drinks<br>Restaurant<br>Alcohol<br>Mixes<br>Cocktail", data:{card: 'Bartender', color:'Blue'}};
+blue_card97= {stimulus: "<p>\'Calories\'</p><br>Count<br>Burn<br>Low<br>Food<br>Weight", data:{card: 'Calories', color:'Blue'}};
+blue_card98= {stimulus: "<p>\'Dorm\'</p><br>College<br>Student<br>Home<br>Campus<br>Room", data:{card: 'Dorm', color:'Blue'}};
+blue_card99= {stimulus: "<p>\'Atlas\'</p><br>Map<br>Book<br>Chart<br>World<br>Globe", data:{card: 'Atlas', color:'Blue'}};
+blue_card100= {stimulus: "<p>\'Cotton\'</p><br>White<br>Ball<br>Clothes<br>Material<br>Organic", data:{card: 'Cotton', color:'Blue'}};
+blue_card101= {stimulus: "<p>\'Busboy\'</p><br>Restaurant<br>Waiter<br>Dishes<br>Clears<br>Tables", data:{card: 'Busboy', color:'Blue'}};
+blue_card102= {stimulus: "<p>\'Bakery\'</p><br>Bread<br>Cake<br>Pastry<br>Rolls<br>Fresh", data:{card: 'Bakery', color:'Blue'}};
+blue_card103= {stimulus: "<p>\'Appendix\'</p><br>Index<br>Book<br>Emergency<br>Scar<br>Stomach", data:{card: 'Appendix', color:'Blue'}};
+blue_card104= {stimulus: "<p>\'Eyelash\'</p><br>Hair<br>Mascara<br>Lid<br>Curler<br>Comb", data:{card: 'Eyelash', color:'Blue'}};
+blue_card105= {stimulus: "<p>\'Ache\'</p><br>Tooth<br>Head<br>Pain<br>Sore<br>Back", data:{card: 'Ache', color:'Blue'}};
+blue_card106= {stimulus: "<p>\'Cottage\'</p><br>Country<br>Cheese<br>House<br>Cabin<br>Little", data:{card: 'Cottage', color:'Blue'}};
+blue_card107= {stimulus: "<p>\'Bait\'</p><br>Worms<br>Fishing<br>Hook<br>Lure<br>Catch", data:{card: 'Bait', color:'Blue'}};
+blue_card108= {stimulus: "<p>\'Cherry\'</p><br>Fruit<br>Red<br>Tree<br>Blossoms<br>Sundae", data:{card: 'Cherry', color:'Blue'}};
+blue_card109= {stimulus: "<p>\'Backpack\'</p><br>School<br>Student<br>Books<br>Hike<br>Bag", data:{card: 'Backpack', color:'Blue'}};
+blue_card110= {stimulus: "<p>\'Angel\'</p><br>Heaven<br>Devil<br>Halo<br>Wings<br>Sweet", data:{card: 'Angel', color:'Blue'}};
+blue_card111= {stimulus: "<p>\'Cockroach\'</p><br>Bug<br>City<br>Pest<br>Kitchen<br>Insect", data:{card: 'Cockroach', color:'Blue'}};
+blue_card112= {stimulus: "<p>\'Bloom\'</p><br>Flowers<br>Spring<br>Annual<br>Plant<br>Flourish", data:{card: 'Bloom', color:'Blue'}};
+blue_card113= {stimulus: "<p>\'Fidget\'</p><br>Move<br>Restless<br>Sit Still<br> Impatient<br>Hair", data:{card: 'Fidget', color:'Blue'}};
+blue_card114= {stimulus: "<p>\'Grease\'</p><br>Fat<br>Oil<br>Fry<br>Lubricate<br>John Travolta", data:{card: 'Grease', color:'Blue'}};
+blue_card115= {stimulus: "<p>\'Guess\'</p><br>Know<br>Answer<br>Question<br>What<br>Who", data:{card: 'Guess', color:'Blue'}};
+blue_card116= {stimulus: "<p>\'Boomerang\'</p><br>Return<br>Throw<br>Australia<br>Air<br>Back", data:{card: 'Boomerang', color:'Blue'}};
+blue_card117= {stimulus: "<p>\'Bonfire\'</p><br>Burn<br>Camp<br>Beach<br>Rally<br>Wood", data:{card: 'Bonfire', color:'Blue'}};
+blue_deck = [blue_card1,blue_card2,blue_card3,blue_card4,blue_card5,blue_card6,blue_card7,blue_card8,blue_card9,
+blue_card10,blue_card11,blue_card12,blue_card13,blue_card14,blue_card15,blue_card16,blue_card17,
+blue_card18,blue_card19,blue_card20,blue_card21,blue_card22,blue_card23,blue_card24,blue_card25,
+blue_card26,blue_card27,blue_card28,blue_card29,blue_card30,blue_card31,blue_card32,blue_card33,
+blue_card34,blue_card35,blue_card36,blue_card37,blue_card38,blue_card39,blue_card40,blue_card41,
+blue_card42,blue_card43,blue_card44,blue_card45,blue_card46,blue_card47,blue_card48,blue_card49,
+blue_card50,blue_card51,blue_card52,blue_card53,blue_card54,blue_card55,blue_card56,blue_card57,
+blue_card58,blue_card59,blue_card60,blue_card61,blue_card62,blue_card63,blue_card64,blue_card65,
+blue_card66,blue_card67,blue_card68,blue_card69,blue_card70,blue_card71,blue_card72,blue_card73,
+blue_card74,blue_card75,blue_card76,blue_card77,blue_card78,blue_card79,blue_card80,blue_card81,
+blue_card82,blue_card83,blue_card84,blue_card85,blue_card86,blue_card87,blue_card88,blue_card89,
+blue_card90,blue_card91,blue_card92,blue_card93,blue_card94,blue_card95,blue_card96,blue_card97,
+blue_card98,blue_card99,blue_card100,blue_card101,blue_card102,blue_card103,blue_card104,blue_card105,
+blue_card106,blue_card107,blue_card108,blue_card109,blue_card110,blue_card111,blue_card112,blue_card113,
+blue_card114,blue_card115,blue_card116,blue_card117];
 
-    timeline.push(pause_message);
+///// RED CARDS
+red_card1= {stimulus: "<p>\'Zebra\'</p><br>Black<br>White<br>Stripes<br>Horse<br>Zoo", data:{card: 'Zebra', color:'Red'}};
+red_card2= {stimulus: "<p>\'Smear\'</p><br>Lipstick<br>Campaign<br>Smudge<br>Wipe<br>Ink", data:{card: 'Smear', color:'Red'}};
+red_card3= {stimulus: "<p>\'Thug\'</p><br>Brute<br>Criminal<br>Gang<br>Violent<br>Jail", data:{card: 'Thug', color:'Red'}};
+red_card4= {stimulus: "<p>\'Static\'</p><br>Cling<br>Electricity<br>Tradition<br>Stationary<br>Constant", data:{card: 'Static', color:'Red'}};
+red_card5= {stimulus: "<p>\'Tweezers\'</p><br>Pluck<br>Pull<br>Eyebrow<br>Splinter<br>Squeeze", data:{card: 'Tweezers', color:'Red'}};
+red_card6= {stimulus: "<p>\'Trolley Car\'</p><br>Tracks<br>San Francisco<br>Cable<br>Train<br>Street", data:{card: 'Trolley Car', color:'Red'}};
+red_card7= {stimulus: "<p>\'Sword\'</p><br>Knife<br>Weapon<br>Fencing<br>Steel<br>Blade", data:{card: 'Sword', color:'Red'}};
+red_card8= {stimulus: "<p>\'Tip\'</p><br>Gratuity<br>Restaurant<br>Meal<br>Bill<br>Off", data:{card: 'Tip', color:'Red'}};
+red_card9= {stimulus: "<p>\'Outhouse\'</p><br>Toilet<br>John<br>Half-Moon<br>Bathroom<br>Latrine", data:{card: 'Outhouse', color:'Red'}};
+red_card10= {stimulus: "<p>\'Suds\'</p><br>Soap<br>Foam<br>Wash<br>Bathroom<br>Bubbles", data:{card: 'Suds', color:'Red'}};
+red_card11= {stimulus: "<p>\'Teapot\'</p><br>Boil<br>Water<br>Coffee<br>Kettle<br>Whistle", data:{card: 'Teapot', color:'Red'}};
+red_card12= {stimulus: "<p>\'Piano\'</p><br>Keys<br>Lesson<br>Instrument<br>Grand<br>Music", data:{card: 'Piano', color:'Red'}};
+red_card13= {stimulus: "<p>\'Hamster\'</p><br>Animal<br>Rodent<br>Cage<br>Gerbil<br>Wheel", data:{card: 'Hamster', color:'Red'}};
+red_card14= {stimulus: "<p>\'Fudge\'</p><br>Chocolate<br>Ice Cream<br>Candy<br>Hot<br>Sundae", data:{card: 'Fudge', color:'Red'}};
+red_card15= {stimulus: "<p>\'Tweet\'</p><br>Bird<br>Chirp<br>Twitter<br>140<br>News", data:{card: 'Tweet', color:'Red'}};
+red_card16= {stimulus: "<p>\'Touch\'</p><br>Hands<br>Don't<br>Feel<br>Reach<br>Down", data:{card: 'Touch', color:'Red'}};
+red_card17= {stimulus: "<p>\'Ransom\'</p><br>Kidnap<br>Money<br>Hostage<br>Pay<br>Take", data:{card: 'Ransom', color:'Red'}};
+red_card18= {stimulus: "<p>\'Volcano\'</p><br>Eruption<br>Lava<br>Iceland<br>Hawaii<br>Flow", data:{card: 'Volcano', color:'Red'}};
+red_card19= {stimulus: "<p>\'Smoke\'</p><br>Detector<br>Fire<br>Stack<br>Cigarette<br>Light", data:{card: 'Smoke', color:'Red'}};
+red_card20= {stimulus: "<p>\'Sunflower\'</p><br>Yellow<br>Oil<br>Seeds<br>Bloom<br>Tall", data:{card: 'Sunflower', color:'Red'}};
+red_card21= {stimulus: "<p>\'Lighthouse\'</p><br>Building<br>Warning<br>Coast<br>Ships<br>Fog", data:{card: 'Lighthouse', color:'Red'}};
+red_card22= {stimulus: "<p>\'Vineyard\'</p><br>Wine<br>Tour<br>Grapes<br>Tasting<br>Napa Valley", data:{card: 'Vineyard', color:'Red'}};
+red_card23= {stimulus: "<p>\'Shake\'</p><br>Ice Cream<br>Frappe<br>Move<br>Rattle<br>Roll", data:{card: 'Shake', color:'Red'}};
+red_card24= {stimulus: "<p>\'Vitamin C\'</p><br>Nutrition<br>Colds<br>Oranges<br>Citrus<br>Immunity", data:{card: 'Vitamin C', color:'Red'}};
+red_card25= {stimulus: "<p>\'Valet\'</p><br>Parking<br>Drive<br>Tip<br>Car<br>Restaurant", data:{card: 'Valet', color:'Red'}};
+red_card26= {stimulus: "<p>\'Marble\'</p><br>Ball<br>Game<br>Collection<br>Cake<br>Swirl", data:{card: 'Marble', color:'Red'}};
+red_card27= {stimulus: "<p>\'Zebra\'</p><br>Black<br>White<br>Stripes<br>Horse<br>Zoo", data:{card: 'Zebra', color:'Red'}};
+red_card28= {stimulus: "<p>\'Marriage\'</p><br>Wedding<br>Husband<br>Wife<br>Ceremony<br>Vows", data:{card: 'Marriage', color:'Red'}};
+red_card29= {stimulus: "<p>\'Wishing Well\'</p><br>Magic<br>Coin<br>Fairytale<br>Water<br>Grant", data:{card: 'Wishing Well', color:'Red'}};
+red_card30= {stimulus: "<p>\'Keys\'</p><br>House<br>Car<br>Heart<br>Lost<br>Florida", data:{card: 'Keys', color:'Red'}};
+red_card31= {stimulus: "<p>\'Poem\'</p><br>Limerick<br>Rhyme<br>Verse<br>Write<br>Words", data:{card: 'Poem', color:'Red'}};
+red_card32= {stimulus: "<p>\'Pen\'</p><br>Write<br>Ball-Point<br>Felt-Tip<br>Pal<br>Ink", data:{card: 'Pen', color:'Red'}};
+red_card33= {stimulus: "<p>\'Straw\'</p><br>Sip<br>Camel<br>Hay<br>Berry<br>Scarecrow", data:{card: 'Straw', color:'Red'}};
+red_card34= {stimulus: "<p>\'Scarecrow\'</p><br>Straw<br>The Wizard Of Oz<br>Garden<br>Field<br>Birds", data:{card: 'Scarecrow', color:'Red'}};
+red_card35= {stimulus: "<p>\'Snorkel\'</p><br>Swim<br>Fins<br>Underwater<br>Ocean<br>Scuba", data:{card: 'Snorkel', color:'Red'}};
+red_card36= {stimulus: "<p>\'Salt\'</p><br>Sea<br>Water<br>Pepper<br>Table<br>Food", data:{card: 'Salt', color:'Red'}};
+red_card37= {stimulus: "<p>\'Wet\'</p><br>Damp<br>Dry<br>Water<br>Rain<br>Drenched", data:{card: 'Wet', color:'Red'}};
+red_card38= {stimulus: "<p>\'Welcome\'</p><br>You're<br>Thank You<br>Greeting<br>Warm<br>Mat", data:{card: 'Welcome', color:'Red'}};
+red_card39= {stimulus: "<p>\'Trophy\'</p><br>Cup<br>Prize<br>Award<br>Win<br>Sports", data:{card: 'Trophy', color:'Red'}};
+red_card40= {stimulus: "<p>\'Tired\'</p><br>Fatigue<br>Sleep<br>Deprived<br>Worn Out<br>Newborn", data:{card: 'Tired', color:'Red'}};
+red_card41= {stimulus: "<p>\'Tombstone\'</p><br>Grave<br>Marker<br>Funeral<br>Cemetery<br>Bury", data:{card: 'Tombstone', color:'Red'}};
+red_card42= {stimulus: "<p>\'Stars\'</p><br>Sky<br>Night<br>Twinkle<br>Celebrity<br>Dancing", data:{card: 'Stars', color:'Red'}};
+red_card43= {stimulus: "<p>\'Pool\'</p><br>Billiards<br>Swimming<br>Ground<br>Water<br>Dive", data:{card: 'Pool', color:'Red'}};
+red_card44= {stimulus: "<p>\'Stomach\'</p><br>Belly<br>Gut<br>Flat<br>Muscles<br>Tummy", data:{card: 'Stomach', color:'Red'}};
+red_card45= {stimulus: "<p>\'Hunk\'</p><br>Attractive<br>Gorgeous<br>Handsome<br>Guy<br>Meat", data:{card: 'Hunk', color:'Red'}};
+red_card46= {stimulus: "<p>\'Manicure\'</p><br>Fingernail<br>Polish<br>File<br>Hand<br>Women", data:{card: 'Manicure', color:'Red'}};
+red_card47= {stimulus: "<p>\'Snowflake\'</p><br>Winter<br>White<br>Ice<br>Big<br>Catch", data:{card: 'Snowflake', color:'Red'}};
+red_card48= {stimulus: "<p>\'Trigger\'</p><br>Gun<br>Blast<br>Horse<br>Pull<br>Shoot", data:{card: 'Trigger', color:'Red'}};
+red_card49= {stimulus: "<p>\'Yesterday\'</p><br>Past<br>Before<br>Hours<br>Time<br>Tomorrow", data:{card: 'Yesterday', color:'Red'}};
+red_card50= {stimulus: "<p>\'Shrimp\'</p><br>Seafood<br>Prawn<br>Jumbo<br>Shellfish<br>Scampi", data:{card: 'Shrimp', color:'Red'}};
+red_card51= {stimulus: "<p>\'Shampoo\'</p><br>Wash<br>Hair<br>Lather<br>Suds<br>Conditioner", data:{card: 'Shampoo', color:'Red'}};
+red_card52= {stimulus: "<p>\'Whisper\'</p><br>Speak<br>Soft<br>Ear<br>Secret<br>Loud", data:{card: 'Whisper', color:'Red'}};
+red_card53= {stimulus: "<p>\'Strapless\'</p><br>Gown<br>Shoulders<br>Bathing Suit<br>Bare<br>Dress", data:{card: 'Strapless', color:'Red'}};
+red_card54= {stimulus: "<p>\'Simple\'</p><br>Plain<br>Easy<br>Difficult<br>Hard<br>Stupid", data:{card: 'Simple', color:'Red'}};
+red_card55= {stimulus: "<p>\'Secret\'</p><br>Agent<br>Top<br>Classified<br>Tell<br>Keep", data:{card: 'Secret', color:'Red'}};
+red_card56= {stimulus: "<p>\'Tape\'</p><br>Duct<br>Masking<br>Cassette<br>Video<br>Scotch", data:{card: 'Tape', color:'Red'}};
+red_card57= {stimulus: "<p>\'Vote\'</p><br>Elect<br>Ballot<br>Cast<br>November<br>Candidate", data:{card: 'Vote', color:'Red'}};
+red_card58= {stimulus: "<p>\'Windmill\'</p><br>Holland<br>Dutch<br>Building<br>Blades<br>Energy", data:{card: 'Windmill', color:'Red'}};
+red_card59= {stimulus: "<p>\'Mad\'</p><br>Insane<br>Crazy<br>Angry<br>Furious<br>Mood", data:{card: 'Mad', color:'Red'}};
+red_card60= {stimulus: "<p>\'Yellow\'</p><br>Color<br>Red<br>Banana<br>Lemon<br>Sundae", data:{card: 'Yellow', color:'Red'}};
+red_card61= {stimulus: "<p>\'Parsley\'</p><br>Garnish<br>Food<br>Green<br>Herb<br>Spice", data:{card: 'Parsley', color:'Red'}};
+red_card62= {stimulus: "<p>\'Snowman\'</p><br>Frosty<br>Abominable<br>Build<br>Winter<br>Make", data:{card: 'Snowman', color:'Red'}};
+red_card63= {stimulus: "<p>\'Helmet\'</p><br>Head<br>Bicycle<br>Protect<br>Safety<br>Injuries", data:{card: 'Helmet', color:'Red'}};
+red_card64= {stimulus: "<p>\'Scoop\'</p><br>Ice Cream<br>Cone<br>Reporter<br>Newspaper<br>Story", data:{card: 'Scoop', color:'Red'}};
+red_card65= {stimulus: "<p>\'Hiccup\'</p><br>Bout<br>Eat<br>Drink<br>Breath<br>Air", data:{card: 'Hiccup', color:'Red'}};
+red_card66= {stimulus: "<p>\'Stiff\'</p><br>Rigid<br>Corpse<br>Dead<br>Drink<br>Board", data:{card: 'Stiff', color:'Red'}};
+red_card67= {stimulus: "<p>\'Sleepwalk\'</p><br>Awake<br>Move<br>Wander<br>Pajamas<br>Night", data:{card: 'Sleepwalk', color:'Red'}};
+red_card68= {stimulus: "<p>\'Yawn\'</p><br>Tired<br>Sleep<br>Snooze<br>Open<br>Mouth", data:{card: 'Yawn', color:'Red'}};
+red_card69= {stimulus: "<p>\'Surprise\'</p><br>Astonish<br>Party<br>Expect<br>Birthday<br>Off-Guard", data:{card: 'Surprise', color:'Red'}};
+red_card70= {stimulus: "<p>\'Spy\'</p><br>CIA<br>Traitor<br>Secret<br>James Bond<br>Undercover", data:{card: 'Spy', color:'Red'}};
+red_card71= {stimulus: "<p>\'Queen\'</p><br>Elizabeth<br>King<br>Woman<br>Royal<br>England", data:{card: 'Queen', color:'Red'}};
+red_card72= {stimulus: "<p>\'Teacher\'</p><br>School<br>Learn<br>Grade<br>Student<br>Professor", data:{card: 'Teacher', color:'Red'}};
+red_card73= {stimulus: "<p>\'Tuxedo\'</p><br>Formal<br>Prom<br>Jacket<br>Black Tie<br>Wedding", data:{card: 'Tuxedo', color:'Red'}};
+red_card74= {stimulus: "<p>\'Snore\'</p><br>Sleep<br>Disrupt<br>Night<br>Nose<br>Noise", data:{card: 'Snore', color:'Red'}};
+red_card75= {stimulus: "<p>\'Stop\'</p><br>Light<br>Sign<br>It<br>By<br>Red", data:{card: 'Stop', color:'Red'}};
+red_card76= {stimulus: "<p>\'Street\'</p><br>Road<br>Avenue<br>Way<br>Drive<br>Cross", data:{card: 'Street', color:'Red'}};
+red_card77= {stimulus: "<p>\'Stagger\'</p><br>Sway<br>Hesitate<br>Walk<br>Unsteady<br>Straight", data:{card: 'Stagger', color:'Red'}};
+red_card78= {stimulus: "<p>\'Yo-Yo\'</p><br>Toy<br>String<br>Up<br>Down<br>Spin", data:{card: 'Yo-Yo', color:'Red'}};
+red_card79= {stimulus: "<p>\'Plumber\'</p><br>Leak<br>Pipes<br>Toilet<br>Sink<br>Fix", data:{card: 'Plumber', color:'Red'}};
+red_card80= {stimulus: "<p>\'Waiter\'</p><br>Restaurant<br>Waitress<br>Serve<br>Tip<br>Eat", data:{card: 'Waiter', color:'Red'}};
+red_card81= {stimulus: "<p>\'Sunburn\'</p><br>Red<br>Skin<br>Lotion<br>Tan<br>Vacation", data:{card: 'Sunburn', color:'Red'}};
+red_card82= {stimulus: "<p>\'Pin\'</p><br>Needle<br>Point<br>Down<br>Safety<br>Brooch", data:{card: 'Pin', color:'Red'}};
+red_card83= {stimulus: "<p>\'Twins\'</p><br>Babies<br>Two<br>Identical<br>Fraternal<br>Minnesota", data:{card: 'Twins', color:'Red'}};
+red_card84= {stimulus: "<p>\'Karaoke\'</p><br>Sing<br>Along<br>Words<br>Duet<br>Pub", data:{card: 'Karaoke', color:'Red'}};
+red_card85= {stimulus: "<p>\'Watch\'</p><br>Wrist<br>Clock<br>Time<br>Wear<br>Look", data:{card: 'Watch', color:'Red'}};
+red_card86= {stimulus: "<p>\'Midnight\'</p><br>Twelve O' Clock<br>Curfew<br>Noon<br>Time<br>Strike", data:{card: 'Midnight', color:'Red'}};
+red_card87= {stimulus: "<p>\'Wrinkle\'</p><br>Crease<br>Line<br>Old<br>Skin<br>Face", data:{card: 'Wrinkle', color:'Red'}};
+red_card88= {stimulus: "<p>\'Wine\'</p><br>Red<br>White<br>Cocktail<br>Glass<br>Cheese", data:{card: 'Wine', color:'Red'}};
+red_card89= {stimulus: "<p>\'Sweat\'</p><br>Perspire<br>Hot<br>Exercise<br>Wet<br>Water", data:{card: 'Sweat', color:'Red'}};
+red_card90= {stimulus: "<p>\'Truffle\'</p><br>Chocolate<br>Mushroom<br>White<br>Black<br>Oil", data:{card: 'Truffle', color:'Red'}};
+red_card91= {stimulus: "<p>\'Quintuplets\'</p><br>Babies<br>Five<br>Birth<br>Twins<br>Multiple", data:{card: 'Quintuplets', color:'Red'}};
+red_card92= {stimulus: "<p>\'Tag\'</p><br>Price<br>Hash<br>Sale<br>Label<br>Along", data:{card: 'Tag', color:'Red'}};
+red_card93= {stimulus: "<p>\'Pound\'</p><br>Weight<br>Currency<br>Ounce<br>Dog<br>Calories", data:{card: 'Pound', color:'Red'}};
+red_card94= {stimulus: "<p>\'Watermelon\'</p><br>Fruit<br>Seeds<br>Picnics<br>Pink<br>Green", data:{card: 'Watermelon', color:'Red'}};
+red_card95= {stimulus: "<p>\'Skateboard\'</p><br>Wheels<br>Roll<br>Park<br>Trucks<br>Tony Hawk", data:{card: 'Skateboard', color:'Red'}};
+red_card96= {stimulus: "<p>\'Pose\'</p><br>Photograph<br>Model<br>Picture<br>Stand<br>Still", data:{card: 'Pose', color:'Red'}};
+red_card97= {stimulus: "<p>\'Knife\'</p><br>Cutlery<br>Sharp<br>Spoon<br>Fork<br>Set", data:{card: 'Knife', color:'Red'}};
+red_card98= {stimulus: "<p>\'Snowboard\'</p><br>Ski<br>Snow<br>Winter<br>Shaun White<br>Halfpipe", data:{card: 'Snowboard', color:'Red'}};
+red_card99= {stimulus: "<p>\'Tent\'</p><br>Camping<br>Woods<br>Sleep<br>Outside<br>Circus", data:{card: 'Tent', color:'Red'}};
+red_card100= {stimulus: "<p>\'Jersey\'</p><br>New<br>State<br>Shirt<br>Wear<br>Shore", data:{card: 'Jersey', color:'Red'}};
+red_card101= {stimulus: "<p>\'Peak\'</p><br>Summit<br>Mountain<br>Point<br>Career<br>Shape", data:{card: 'Peak', color:'Red'}};
+red_card102= {stimulus: "<p>\'Oatmeal\'</p><br>Cereal<br>Breakfast<br>Cookies<br>Quaker<br>Hot", data:{card: 'Oatmeal', color:'Red'}};
+red_card103= {stimulus: "<p>\'Polo\'</p><br>Sport<br>Horses<br>Mallet<br>Shirt<br>Royalty", data:{card: 'Polo', color:'Red'}};
+red_card104= {stimulus: "<p>\'Sweet\'</p><br>Sugary<br>Tea<br>Nice<br>Sour<br>Sixteen", data:{card: 'Sweet', color:'Red'}};
+red_card105= {stimulus: "<p>\'Waterfall\'</p><br>Niagara<br>Cliff<br>River<br>Over<br>Bridge", data:{card: 'Waterfall', color:'Red'}};
+red_card106= {stimulus: "<p>\'Theme Park\'</p><br>Rides<br>Entertainment<br>Family<br>Roller Coaster<br>Disney", data:{card: 'Theme Park', color:'Red'}};
+red_card107= {stimulus: "<p>\'Mirror\'</p><br>Wall<br>See<br>Reflection<br>Looking-Glass<br>Rear View", data:{card: 'Mirror', color:'Red'}};
+red_card108= {stimulus: "<p>\'Jockey\'</p><br>Ride<br>Horse<br>Race<br>Saddle<br>Track", data:{card: 'Jockey', color:'Red'}};
+red_card109= {stimulus: "<p>\'Stress\'</p><br>Nervous<br>Tense<br>Pressure<br>Anxiety<br>Work", data:{card: 'Stress', color:'Red'}};
+red_card110= {stimulus: "<p>\'Tropical\'</p><br>Climate<br>Weather<br>Storm<br>Vacation<br>Flowers", data:{card: 'Tropical', color:'Red'}};
+red_card111= {stimulus: "<p>\'Spatula\'</p><br>Cook<br>Kitchen<br>Flip<br>Food<br>Utensil", data:{card: 'Spatula', color:'Red'}};
+red_card112= {stimulus: "<p>\'Wallet\'</p><br>Billfold<br>Purse<br>Money<br>Credit Card<br>Pocket", data:{card: 'Wallet', color:'Red'}};
+red_card113= {stimulus: "<p>\'Waffle\'</p><br>Belgian<br>Iron<br>Strawberries<br>Breakfast<br>Syrup", data:{card: 'Waffle', color:'Red'}};
+red_card114= {stimulus: "<p>\'Snack\'</p><br>Hungry<br>Food<br>Fruit<br>Time<br>Healthy", data:{card: 'Snack', color:'Red'}};
+red_card115= {stimulus: "<p>\'Strategy\'</p><br>Plan<br>Business<br>Tactics<br>Think<br>Plot", data:{card: 'Strategy', color:'Red'}};
+red_card116= {stimulus: "<p>\'Turkey\'</p><br>Gobble<br>Thanksgiving<br>Stuffing<br>Drumstick<br>Bird", data:{card: 'Turkey', color:'Red'}};
+red_card117= {stimulus: "<p>\'Trunk\'</p><br>Elephant<br>Car<br>Suitcase<br>Tree<br>Spare Tire", data:{card: 'Trunk', color:'Red'}};
+red_card118= {stimulus: "<p>\'Violin\'</p><br>Music<br>Instrument<br>String<br>Bow<br>Chin", data:{card: 'Violin', color:'Red'}};
+red_card119= {stimulus: "<p>\'Stunt\'</p><br>Extreme<br>Car<br>Risk<br>Man<br>Danger", data:{card: 'Stunt', color:'Red'}};
+red_deck = [red_card1, red_card2, red_card3, red_card4, red_card5, red_card6, red_card7, red_card8,red_card9,
+red_card10,red_card11,red_card12,red_card13,red_card14,red_card15,red_card16,red_card17,
+red_card18,red_card19,red_card20,red_card21,red_card22,red_card23,red_card24,red_card25,
+red_card26,red_card27,red_card28,red_card29,red_card30,red_card31,red_card32,red_card33,
+red_card34,red_card35,red_card36,red_card37,red_card38,red_card39,red_card40,red_card41,
+red_card42,red_card43,red_card44,red_card45,red_card46,red_card47,red_card48,red_card49,
+red_card50,red_card51,red_card52,red_card53,red_card54,red_card55,red_card56,red_card57,
+red_card58,red_card59,red_card60,red_card61,red_card62,red_card63,red_card64,red_card65,
+red_card66,red_card67,red_card68,red_card69,red_card70,red_card71,red_card72,red_card73,
+red_card74,red_card75,red_card76,red_card77,red_card78,red_card79,red_card80,red_card81,
+red_card82,red_card83,red_card84,red_card85,red_card86,red_card87,red_card88,red_card89,
+red_card90,red_card91,red_card92,red_card93,red_card94,red_card95,red_card96,red_card97,
+red_card98,red_card99,red_card100,red_card101,red_card102,red_card103,red_card104,red_card105,
+red_card106,red_card107,red_card108,red_card109,red_card110,red_card111,red_card112,red_card113,
+red_card114,red_card115,red_card116,red_card117,red_card118,red_card119];
 
-    //blue_cards for 2nd turn
-    blue_cards2 = getRandom(blue_deck1, 3);
+///// PURPLE CARDS
 
-    //blue_deck after 2 turns
-    blue_deck2 = blue_deck1.filter(function(val){
-      return blue_cards2.indexOf(val) == -1;
-    });
+purple_card1= {stimulus: "<p>\'Tickle\'</p><br>Giggle<br>Smile<br>Laugh<br>Kids<br>Pink", data:{card: 'Tickle', color:'Purple'}};
+purple_card2= {stimulus: "<p>\'Pickpocket\'</p><br>Thief<br>Wallet<br>Crowds<br>Steal<br>Crime", data:{card: 'Pickpocket', color:'Purple'}};
+purple_card3= {stimulus: "<p>\'Thirst\'</p><br>Drink<br>Dry<br>Water<br>Quench<br>Liquid", data:{card: 'Thirst', color:'Purple'}};
+purple_card4= {stimulus: "<p>\'Teddy Bear\'</p><br>Toy<br>Kids<br>Cuddle<br>Sleep<br>President", data:{card: 'Teddy Bear', color:'Purple'}};
+purple_card5= {stimulus: "<p>\'Sunny\'</p><br>Bright<br>Warm<br>Summer<br>Cloudy<br>Weather", data:{card: 'Sunny', color:'Purple'}};
+purple_card6= {stimulus: "<p>\'Scorpion\'</p><br>Desert<br>Sting<br>Tail<br>Poison<br>Crawl", data:{card: 'Scorpion', color:'Purple'}};
+purple_card7= {stimulus: "<p>\'Panda\'</p><br>Bear<br>Giant<br>Zoo<br>Bamboo<br>Express", data:{card: 'Panda', color:'Purple'}};
+purple_card8= {stimulus: "<p>\'Skunk\'</p><br>Animal<br>Stripe<br>Stink<br>Spray<br>Smell", data:{card: 'Skunk', color:'Purple'}};
+purple_card9= {stimulus: "<p>\'Mountain\'</p><br>Climb<br>Range<br>Molehill<br>Skin<br>Rockies", data:{card: 'Mountain', color:'Purple'}};
+purple_card10= {stimulus: "<p>\'Pedicure\'</p><br>Feet<br>Toenails<br>File<br>Polish<br>Spa", data:{card: 'Pedicure', color:'Purple'}};
+purple_card11= {stimulus: "<p>\'Surgery\'</p><br>Hospital<br>Doctor<br>Operation<br>Cut<br>Scalpel", data:{card: 'Surgery', color:'Purple'}};
+purple_card12= {stimulus: "<p>\'Peacock\'</p><br>Bird<br>Tail<br>Proud<br>NBC<br>Feather", data:{card: 'Peacock', color:'Purple'}};
+purple_card13= {stimulus: "<p>\'Gossip\'</p><br>Dirt<br>Talk<br>Office<br>Rumors<br>Grapevine", data:{card: 'Gossip', color:'Purple'}};
+purple_card14= {stimulus: "<p>\'In-Law\'</p><br>Marriage<br>Family<br>Relative<br>Spouse<br>Parents", data:{card: 'In-Law', color:'Purple'}};
+purple_card15= {stimulus: "<p>\'Hiking\'</p><br>Mountain<br>Boots<br>Gear<br>Trip<br>Trail", data:{card: 'Hiking', color:'Purple'}};
+purple_card16= {stimulus: "<p>\'Test\'</p><br>Exam<br>Quiz<br>SAT<br>School<br>Standardized", data:{card: 'Test', color:'Purple'}};
+purple_card17= {stimulus: "<p>\'Mistake\'</p><br>Error<br>Blunder<br>Make<br>Wrong<br>Right", data:{card: 'Mistake', color:'Purple'}};
+purple_card18= {stimulus: "<p>\'Lake\'</p><br>Water<br>Ocean<br>Stream<br>Great<br>Front", data:{card: 'Lake', color:'Purple'}};
+purple_card19= {stimulus: "<p>\'Ivory\'</p><br>White<br>Tower<br>Color<br>Elephant<br>Soap", data:{card: 'Ivory', color:'Purple'}};
+purple_card20= {stimulus: "<p>\'Navy\'</p><br>Ships<br>Ocean<br>Seals<br>Sailor<br>Military", data:{card: 'Navy', color:'Purple'}};
+purple_card21= {stimulus: "<p>\'Dance\'</p><br>Lessons<br>Recital<br>Ballet<br>Class<br>High School", data:{card: 'Dance', color:'Purple'}};
+purple_card22= {stimulus: "<p>\'Snooze\'</p><br>Nap<br>Doze<br>Sleep<br>Tired<br>Alarm", data:{card: 'Snooze', color:'Purple'}};
+purple_card23= {stimulus: "<p>\'Skyline\'</p><br>Horizon<br>New York<br>City<br>Buildings<br>Nissan", data:{card: 'Skyline', color:'Purple'}};
+purple_card24= {stimulus: "<p>\'Jury\'</p><br>Trial<br>Court<br>Verdict<br>Twelve<br>Duty", data:{card: 'Jury', color:'Purple'}};
+purple_card25= {stimulus: "<p>\'Luau\'</p><br>Hawaiian<br>Party<br>Feast<br>Food<br>Hula", data:{card: 'Luau', color:'Purple'}};
+purple_card26= {stimulus: "<p>\'Pigeon\'</p><br>City<br>Bird<br>Park<br>Messages<br>Window", data:{card: 'Pigeon', color:'Purple'}};
+purple_card27= {stimulus: "<p>\'Survive\'</p><br>Alive<br>Die<br>Succeed<br>Persevere<br>Endure", data:{card: 'Survive', color:'Purple'}};
+purple_card28= {stimulus: "<p>\'Ping-Pong\'</p><br>Game<br>Ball<br>Paddle<br>Table<br>Tennis", data:{card: 'Ping-Pong', color:'Purple'}};
+purple_card29= {stimulus: "<p>\'Studio\'</p><br>Art<br>Music<br>Dance<br>Apartment<br>Loft", data:{card: 'Studio', color:'Purple'}};
+purple_card30= {stimulus: "<p>\'Mascara\'</p><br>Eyelash<br>Makeup<br>Cosmetic<br>Brush<br>Apply", data:{card: 'Mascara', color:'Purple'}};
+purple_card31= {stimulus: "<p>\'Sneeze\'</p><br>Dust<br>Bless<br>Cold<br>Pepper<br>Nose", data:{card: 'Sneeze', color:'Purple'}};
+purple_card32= {stimulus: "<p>\'Question Mark\'</p><br>Punctuation<br>Sentence<br>Exclamation<br>Period<br>Ask", data:{card: 'Question Mark', color:'Purple'}};
+purple_card33= {stimulus: "<p>\'Stale\'</p><br>Old<br>Moldy<br>Dry<br>Bread<br>Fresh", data:{card: 'Stale', color:'Purple'}};
+purple_card34= {stimulus: "<p>\'Underdog\'</p><br>Longshot<br>Favorite<br>Odds<br>Win<br>Dark Horse", data:{card: 'Underdog', color:'Purple'}};
+purple_card35= {stimulus: "<p>\'Lottery\'</p><br>Ticket<br>Money<br>Numbers<br>Win<br>Buy", data:{card: 'Lottery', color:'Purple'}};
+purple_card36= {stimulus: "<p>\'Race Horse\'</p><br>Thoroughbred<br>Kentucky Derby<br>Bet<br>Track<br>Jockey", data:{card: 'Race Horse', color:'Purple'}};
+purple_card37= {stimulus: "<p>\'Jogging\'</p><br>Running<br>Exercise<br>Workout<br>Sneakers<br>Marathon", data:{card: 'Jogging', color:'Purple'}};
+purple_card38= {stimulus: "<p>\'Slow\'</p><br>Down<br>Fast<br>Move<br>Snail<br>Speed", data:{card: 'Slow', color:'Purple'}};
+purple_card39= {stimulus: "<p>\'Pastry\'</p><br>Danish<br>Chef<br>Donuts<br>Dessert<br>Eat", data:{card: 'Pastry', color:'Purple'}};
+purple_card40= {stimulus: "<p>\'Stew\'</p><br>Food<br>Crockpot<br>Beef<br>Flavor<br>Mad", data:{card: 'Stew', color:'Purple'}};
+purple_card41= {stimulus: "<p>\'Oyster\'</p><br>Eat<br>Pearl<br>Shellfish<br>Clam<br>Raw", data:{card: 'Oyster', color:'Purple'}};
+purple_card42= {stimulus: "<p>\'Marshmallow\'</p><br>White<br>S'mores<br>Toasted<br>Peanut Butter<br>Fluffy", data:{card: 'Marshmallow', color:'Purple'}};
+purple_card43= {stimulus: "<p>\'Spring Break\'</p><br>College<br>Vacation<br>Party<br>Travel<br>Florida", data:{card: 'Spring Break', color:'Purple'}};
+purple_card44= {stimulus: "<p>\'Plant\'</p><br>Pot<br>Water<br>Vs. Zombies<br>Leaves<br>Grow", data:{card: 'Plant', color:'Purple'}};
+purple_card45= {stimulus: "<p>\'Fly\'</p><br>Trap<br>Swat<br>Bug<br>Sky<br>Bird", data:{card: 'Fly', color:'Purple'}};
+purple_card46= {stimulus: "<p>\'Paycheck\'</p><br>Salary<br>Wages<br>Direct Deposit<br>Work<br>Money", data:{card: 'Paycheck', color:'Purple'}};
+purple_card47= {stimulus: "<p>\'Quack\'</p><br>Doctor<br>Duck<br>Medicine<br>Sound<br>Noise", data:{card: 'Quack', color:'Purple'}};
+purple_card48= {stimulus: "<p>\'Recipe\'</p><br>Card<br>Cook<br>Instructions<br>Food<br>Ingredients", data:{card: 'Recipe', color:'Purple'}};
+purple_card49= {stimulus: "<p>\'Rainbow\'</p><br>Over<br>Colors<br>Gold<br>Sky<br>Sundae", data:{card: 'Rainbow', color:'Purple'}};
+purple_card50= {stimulus: "<p>\'Mud\'</p><br>Dirt<br>Sling<br>Wet<br>Puddle<br>Rain", data:{card: 'Mud', color:'Purple'}};
+purple_card51= {stimulus: "<p>\'Giraffe\'</p><br>Animal<br>Neck<br>Tail<br>Long<br>Spotted", data:{card: 'Giraffe', color:'Purple'}};
+purple_card52= {stimulus: "<p>\'Scientist\'</p><br>Study<br>Laboratory<br>Experiments<br>Discovery<br>Mad", data:{card: 'Scientist', color:'Purple'}};
+purple_card53= {stimulus: "<p>\'Sushi\'</p><br>Fish<br>Raw<br>Japan<br>Bar<br>Roll", data:{card: 'Sushi', color:'Purple'}};
+purple_card54= {stimulus: "<p>\'Scenery\'</p><br>View<br>Beautiful<br>Look<br>Landscape<br>Change", data:{card: 'Scenery', color:'Purple'}};
+purple_card55= {stimulus: "<p>\'Puppy\'</p><br>Young<br>Dog<br>Playful<br>Furry<br>Kitten", data:{card: 'Puppy', color:'Purple'}};
+purple_card56= {stimulus: "<p>\'Dream\'</p><br>Nightmare<br>Sleep<br>Goal<br>Job<br>Team", data:{card: 'Dream', color:'Purple'}};
+purple_card57= {stimulus: "<p>\'Mix\'</p><br>Blend<br>Stir<br>Combine<br>Batter<br>Together", data:{card: 'Mix', color:'Purple'}};
+purple_card58= {stimulus: "<p>\'Buffalo\'</p><br>Bison<br>Animal<br>Bill<br>West<br>Sauce", data:{card: 'Buffalo', color:'Purple'}};
+purple_card59= {stimulus: "<p>\'Mouse\'</p><br>Computer<br>Rodent<br>Wireless<br>Pad<br>Mickey", data:{card: 'Mouse', color:'Purple'}};
+purple_card60= {stimulus: "<p>\'Fireplace\'</p><br>Logs<br>Chimney<br>Brick<br>Burn<br>Wood", data:{card: 'Fireplace', color:'Purple'}};
+purple_card61= {stimulus: "<p>\'Tavern\'</p><br>Drink<br>Inn<br>Bar<br>Pub<br>England", data:{card: 'Tavern', color:'Purple'}};
+purple_card62= {stimulus: "<p>\'Kangaroo\'</p><br>Pouch<br>Hop<br>Animal<br>Australia<br>Joey", data:{card: 'Kangaroo', color:'Purple'}};
+purple_card63= {stimulus: "<p>\'Rock\'</p><br>Roll<br>Band<br>Music<br>Diamond<br>Stone", data:{card: 'Rock', color:'Purple'}};
+purple_card64= {stimulus: "<p>\'Turnover\'</p><br>Apple<br>Car<br>Flip<br>Worker<br>Change", data:{card: 'Turnover', color:'Purple'}};
+purple_card65= {stimulus: "<p>\'Fog\'</p><br>Weather<br>Rain<br>Day<br>Drive<br>See", data:{card: 'Fog', color:'Purple'}};
+purple_card66= {stimulus: "<p>\'Paw\'</p><br>Foot<br>Dog<br>Claw<br>Toes<br>Leg", data:{card: 'Paw', color:'Purple'}};
+purple_card67= {stimulus: "<p>\'Shovel\'</p><br>Tool<br>Hole<br>Dig<br>Snow<br>Dirt", data:{card: 'Shovel', color:'Purple'}};
+purple_card68= {stimulus: "<p>\'Raisin\'</p><br>Grape<br>California<br>Dried<br>Snack<br>Nuts", data:{card: 'Raisin', color:'Purple'}};
+purple_card69= {stimulus: "<p>\'Pizza\'</p><br>Crust<br>Slice<br>Sauce<br>Cheese<br>Domino's", data:{card: 'Pizza', color:'Purple'}};
+purple_card70= {stimulus: "<p>\'Saddle\'</p><br>Horse<br>Stirrups<br>Leather<br>Sit<br>Ride", data:{card: 'Saddle', color:'Purple'}};
+purple_card71= {stimulus: "<p>\'Path\'</p><br>Way<br>Road<br>Course<br>Bicycle<br>Career", data:{card: 'Path', color:'Purple'}};
+purple_card72= {stimulus: "<p>\'Tonsils\'</p><br>Throat<br>Operation<br>Ice Cream<br>Remove<br>Surgery", data:{card: 'Tonsils', color:'Purple'}};
+purple_card73= {stimulus: "<p>\'Owl\'</p><br>Bird<br>Wise<br>Hoot<br>Night<br>Tree", data:{card: 'Owl', color:'Purple'}};
+purple_card74= {stimulus: "<p>\'Gingerbread\'</p><br>House<br>Holiday<br>Man<br>Cake<br>Molasses", data:{card: 'Gingerbread', color:'Purple'}};
+purple_card75= {stimulus: "<p>\'Lasagna\'</p><br>Italian<br>Noodles<br>Meat<br>Eat<br>Layers", data:{card: 'Lasagna', color:'Purple'}};
+purple_card76= {stimulus: "<p>\'Finger\'</p><br>Ring<br>Point<br>Hand<br>Nail<br>Toe", data:{card: 'Finger', color:'Purple'}};
+purple_card77= {stimulus: "<p>\'Shaving Cream\'</p><br>Face<br>Razor<br>Foam<br>Beard<br>White", data:{card: 'Shaving Cream', color:'Purple'}};
+purple_card78= {stimulus: "<p>\'Hug\'</p><br>Embrace<br>Kiss<br>Hold<br>Warm<br>Arms", data:{card: 'Hug', color:'Purple'}};
+purple_card79= {stimulus: "<p>\'Point\'</p><br>Tip<br>Sharp<br>Finger<br>Power<br>End", data:{card: 'Point', color:'Purple'}};
+purple_card80= {stimulus: "<p>\'Silk\'</p><br>Fabric<br>Sheets<br>Shirt<br>Soft<br>Worm", data:{card: 'Silk', color:'Purple'}};
+purple_card81= {stimulus: "<p>\'Sizzle\'</p><br>Fry<br>Hot<br>Burn<br>Sound<br>Angry", data:{card: 'Sizzle', color:'Purple'}};
+purple_card82= {stimulus: "<p>\'Tightrope\'</p><br>Circus<br>Acrobat<br>Balance<br>Walk<br>High Wire", data:{card: 'Tightrope', color:'Purple'}};
+purple_card83= {stimulus: "<p>\'Tart\'</p><br>Pop<br>Taste<br>Sour<br>Pastry<br>Fruit", data:{card: 'Tart', color:'Purple'}};
+purple_card84= {stimulus: "<p>\'Monster\'</p><br>Frankenstein<br>Horror<br>Movie<br>Creature<br>Scary", data:{card: 'Monster', color:'Purple'}};
+purple_card85= {stimulus: "<p>\'Note\'</p><br>Letter<br>Write<br>Thank-You<br>Musical<br>Foot", data:{card: 'Note', color:'Purple'}};
+purple_card86= {stimulus: "<p>\'Grape\'</p><br>Purple<br>Wine<br>Vineyard<br>Welch's<br>Fruit", data:{card: 'Grape', color:'Purple'}};
+purple_card87= {stimulus: "<p>\'Leftovers\'</p><br>Reheat<br>Yesterday<br>Food<br>Meal<br>Save", data:{card: 'Leftovers', color:'Purple'}};
+purple_card88= {stimulus: "<p>\'Recliner\'</p><br>Chair<br>Sofa<br>TV<br>Den<br>La-Z-Boy", data:{card: 'Recliner', color:'Purple'}};
+purple_card89= {stimulus: "<p>\'Mattress\'</p><br>Bed<br>Sleep<br>Firm<br>Pillow<br>Sheet", data:{card: 'Mattress', color:'Purple'}};
+purple_card90= {stimulus: "<p>\'Dummy\'</p><br>Stupid<br>Fake<br>Ventriloquist<br>Mannequin<br>Wood", data:{card: 'Dummy', color:'Purple'}};
+purple_card91= {stimulus: "<p>\'Job\'</p><br>Paycheck<br>Employment<br>Career<br>Interview<br>Work", data:{card: 'Job', color:'Purple'}};
+purple_card92= {stimulus: "<p>\'Lemon\'</p><br>Citrus<br>Sour<br>Lime<br>Fruit<br>Defective", data:{card: 'Lemon', color:'Purple'}};
+purple_card93= {stimulus: "<p>\'Lily\'</p><br>Flower<br>Easter<br>White<br>Garden<br>Scent", data:{card: 'Lily', color:'Purple'}};
+purple_card94= {stimulus: "<p>\'Tickle\'</p><br>Giggle<br>Smile<br>Laugh<br>Kids<br>Pink", data:{card: 'Tickle', color:'Purple'}};
+purple_card95= {stimulus: "<p>\'Intelligent\'</p><br>Dumb<br>Smart<br>Education<br>Brilliant<br>Stupid", data:{card: 'Intelligent', color:'Purple'}};
+purple_card96= {stimulus: "<p>\'Nail\'</p><br>Polish<br>Manicure<br>Toe<br>Hammer<br>Finger", data:{card: 'Nail', color:'Purple'}};
+purple_card97= {stimulus: "<p>\'Picnic\'</p><br>Basket<br>Food<br>Outside<br>Eat<br>Ants", data:{card: 'Picnic', color:'Purple'}};
+purple_card98= {stimulus: "<p>\'Boss\'</p><br>Supervisor<br>Manager<br>Report<br>Work<br>Bruce Springsteen", data:{card: 'Boss', color:'Purple'}};
+purple_card99= {stimulus: "<p>\'Touchdown\'</p><br>Points<br>Football<br>Score<br>End Zone<br>Super Bowl", data:{card: 'Touchdown', color:'Purple'}};
+purple_card100= {stimulus: "<p>\'Fumble\'</p><br>Football<br>Drop<br>Search<br>Catch<br>Hands", data:{card: 'Fumble', color:'Purple'}};
+purple_card101= {stimulus: "<p>\'Jail\'</p><br>Prison<br>Cell<br>Sentence<br>Convict<br>Bars", data:{card: 'Jail', color:'Purple'}};
+purple_card102= {stimulus: "<p>\'Skill\'</p><br>Talent<br>Craft<br>Aptitude<br>Training<br>Ability", data:{card: 'Skill', color:'Purple'}};
+purple_card103= {stimulus: "<p>\'Temperature\'</p><br>Fever<br>Mouth<br>Hot<br>Baby<br>Temperature", data:{card: 'Temperature', color:'Purple'}};
+purple_card104= {stimulus: "<p>\'Nozzle\'</p><br>Faucet<br>Shower<br>Hose<br>Water<br>Adjust", data:{card: 'Nozzle', color:'Purple'}};
+purple_card105= {stimulus: "<p>\'Negative\'</p><br>Positive<br>Minus<br>Film<br>Picture<br>Attitude", data:{card: 'Negative', color:'Purple'}};
+purple_card106= {stimulus: "<p>\'Toll\'</p><br>Bell<br>Highway<br>Booth<br>Fee<br>Pay", data:{card: 'Toll', color:'Purple'}};
+purple_card107= {stimulus: "<p>\'Flip Flops\'</p><br>Summer<br>Sandals<br>Beach<br>Casual<br>Reverse", data:{card: 'Flip Flops', color:'Purple'}};
+purple_card108= {stimulus: "<p>\'Graduation\'</p><br>Ceremony<br>School<br>Cap<br>Diploma<br>Gown", data:{card: 'Graduation', color:'Purple'}};
+purple_card109= {stimulus: "<p>\'Mistletoe\'</p><br>Hang<br>Kiss<br>Christmas<br>Green<br>Under", data:{card: 'Mistletoe', color:'Purple'}};
+purple_card110= {stimulus: "<p>\'Panic\'</p><br>Attack<br>Fret<br>Worry<br>Calm<br>Stress", data:{card: 'Panic', color:'Purple'}};
+purple_card111= {stimulus: "<p>\'Purple\'</p><br>Color<br>Blue<br>Violet<br>Heart<br>Rain", data:{card: 'Purple', color:'Purple'}};
+purple_card112= {stimulus: "<p>\'Huddle\'</p><br>Gather<br>Football<br>Group<br>Play<br>Together", data:{card: 'Huddle', color:'Purple'}};
+purple_card113= {stimulus: "<p>\'Prom\'</p><br>Dance<br>Dress<br>Tux<br>Date<br>Queen", data:{card: 'Prom', color:'Purple'}};
+purple_card114= {stimulus: "<p>\'Sulk\'</p><br>Pout<br>Mope<br>Frown<br>Kids<br>Silent", data:{card: 'Sulk', color:'Purple'}};
+purple_card115= {stimulus: "<p>\'Puke\'</p><br>Vomit<br>Barf<br>Sick<br>Throw Up<br>Nauseous", data:{card: 'Puke', color:'Purple'}};
+purple_card116= {stimulus: "<p>\'Taxes\'</p><br>IRS<br>Deduction<br>Extension<br>Credit<br>Pay", data:{card: 'Taxes', color:'Purple'}};
+purple_card117= {stimulus: "<p>\'Stable\'</p><br>Horse<br>Relationship<br>Steady<br>Even<br>Farm", data:{card: 'Stable', color:'Purple'}};
+purple_card118= {stimulus: "<p>\'Rain Forest\'</p><br>Amazon<br>Tropical<br>River<br>Wildlife<br>Trees", data:{card: 'Rain Forest', color:'Purple'}};
+purple_card119= {stimulus: "<p>\'Slap\'</p><br>Strike<br>Hit<br>Smack<br>Face<br>Hand", data:{card: 'Slap', color:'Purple'}};
+purple_deck = [purple_card1,purple_card2,purple_card3,purple_card4,purple_card5,purple_card6,purple_card7,purple_card8,purple_card9,
+purple_card10,purple_card11,purple_card12,purple_card13,purple_card14,purple_card15,purple_card16,purple_card17,
+purple_card18,purple_card19,purple_card20,purple_card21,purple_card22,purple_card23,purple_card24,purple_card25,
+purple_card26,purple_card27,purple_card28,purple_card29,purple_card30,purple_card31,purple_card32,purple_card33,
+purple_card34,purple_card35,purple_card36,purple_card37,purple_card38,purple_card39,purple_card40,purple_card41,
+purple_card42,purple_card43,purple_card44,purple_card45,purple_card46,purple_card47,purple_card48,purple_card49,
+purple_card50,purple_card51,purple_card52,purple_card53,purple_card54,purple_card55,purple_card56,purple_card57,
+purple_card58,purple_card59,purple_card60,purple_card61,purple_card62,purple_card63,purple_card64,purple_card65,
+purple_card66,purple_card67,purple_card68,purple_card69,purple_card70,purple_card71,purple_card72,purple_card73,
+purple_card74,purple_card75,purple_card76,purple_card77,purple_card78,purple_card79,purple_card80,purple_card81,
+purple_card82,purple_card83,purple_card84,purple_card85,purple_card86,purple_card87,purple_card88,purple_card89,
+purple_card90,purple_card91,purple_card92,purple_card93,purple_card94,purple_card95,purple_card96,purple_card97,
+purple_card98,purple_card99,purple_card100,purple_card101,purple_card102,purple_card103,purple_card104,purple_card105,
+purple_card106,purple_card107,purple_card108,purple_card109,purple_card110,purple_card111,purple_card112,purple_card113,
+purple_card114,purple_card115,purple_card116,purple_card117, purple_card118, purple_card119];
 
-    //2nd blue turn
-    var blue_turn2 = {
-    type: 'html-button-response',
-    choices: choice_array,
-    trial_duration: TRIAL_LENGTH,
-    timeline: blue_cards2,
-    on_start: trial_timer,
-    on_finish: test_for_turn_end
-  }
+// YELLOW CARDS
 
-    timeline.push(blue_turn2);
+yellow_card1 = {
+     stimulus: '<p>\'Journey\'</p> <p>Trip<br>Travel<br>Adventure<br>Go<br>Band</p>',
+     data: {card: 'Journey', color: 'Yellow'}
+   };
 
-    timeline.push(pause_message);
+   yellow_card2 = {
+     stimulus: '<p>\'Geometry\'</p> <p>Angle<br>Math<br>Shape<br>School<br>Algebra</p>',
+     data: {card: 'Geometry', color: 'Yellow'}
+   };
 
-    //blue_cards for 3rd turn
-    blue_cards3 = getRandom(blue_deck2, 3);
+   yellow_card3 = {
+     stimulus: '<p>\'Dimples\'</p> <p>Face<br>Smile<br>Cheek<br>Cute<br>Baby</p>',
+     data: {card: 'Dimples', color: 'Yellow'}
+   };
 
-    //blue_deck after 3 turns
-    blue_deck3 = blue_deck2.filter(function(val){
-      return blue_cards3.indexOf(val) == -1;
-    });
+   yellow_card4 = {
+     stimulus: '<p>\'Snob\'</p> <p>Better<br>Rich<br>Uppity<br>Nose<br>Conceited</p>',
+     data: {card: 'Snob', color: 'Yellow'}
+   };
 
-    //3rd blue turn
-    var blue_turn3 = {
-    type: 'html-button-response',
-    choices: choice_array,
-    trial_duration: TRIAL_LENGTH,
-    timeline: blue_cards3,
-    on_start: trial_timer,
-    on_finish: test_for_turn_end
-  
-  }
+   yellow_card5 = {
+     stimulus: '<p>\'Paint\'</p> <p>Color<br>Brush<br>Wall<br>House<br>Artist</p>',
+     data: {card: 'Paint', color: 'Yellow'}
+   };
 
-      timeline.push(blue_turn3);
+   yellow_card6 = {
+     stimulus: '<p>\'Blow\'</p> <p>Wind<br>Air<br>Mouth<br>Off<br>Bubble</p>',
+     data: {card: 'Blow', color: 'Yellow'}
+   };
 
-  timeline = [pause_message, blue_turn1, pause_message, blue_turn2, pause_message, blue_turn3]
+   yellow_card7 = {
+     stimulus: '<p>\'Hypnosis\'</p> <p>Trance<br>Sleep<br>Watch<br>Relax<br>Subconscious</p>',
+     data: {card: 'Hypnosis', color: 'Yellow'}
+   };
+
+   yellow_card8 = {
+     stimulus: '<p>\'Lunch\'</p> <p>Meal<br>Break<br>Noon<br>Eat<br>Breakfast</p>',
+     data: {card: 'Lunch', color: 'Yellow'}
+   };
+
+   yellow_card9 = {
+     stimulus: '<p>\'Honesty\'</p> <p>Truth<br>Lie<br>Integrity<br>Honor<br>Trustworthy</p>',
+     data: {card: 'Honesty', color: 'Yellow'}
+   };
+
+   yellow_card10 = {
+     stimulus: '<p>\'Quit\'</p> <p>Resign<br>Stop<br>Give Up<br>Job<br>Fire</p>',
+     data: {card: 'Quit', color: 'Yellow'}
+   };
+
+   yellow_card11 = {
+     stimulus: '<p>\'Milk\'</p> <p>Drinks<br>Cow<br>Gallon<br>Dairy<br>Got</p>',
+     data: {card: 'Milk', color: 'Yellow'}
+   };
+
+   yellow_card12 = {
+     stimulus: '<p>\'Brandy\'</p> <p>Booze<br>Drink<br>Cocktail<br>Liquor<br>Alcohol</p>',
+     data: {card: 'Brandy', color: 'Yellow'}
+   };
+
+   yellow_card13 = {
+     stimulus: '<p>\'Museum\'</p> <p>Art<br>Paintings<br>Exhibits<br>Night<br>Collection</p>',
+     data: {card: 'Museum', color: 'Yellow'}
+   };
+
+   yellow_card14 = {
+     stimulus: '<p>\'Canoe\'</p> <p>Boat<br>Paddle<br>Kayak<br>Water<br>Dugout</p>',
+     data: {card: 'Canoe', color: 'Yellow'}
+   };
+
+   yellow_card15 = {
+     stimulus: '<p>\'Organic\'</p> <p>Food<br>Natural<br>Cotton<br>Basic<br>Pesticides</p>',
+     data: {card: 'Organic', color: 'Yellow'}
+   };
+
+   yellow_card16 = {
+     stimulus: '<p>\'Diamond\'</p> <p>Marriage<br>Ring<br>Engagement<br>Rock<br>Carat</p>',
+     data: {card: 'Diamond', color: 'Yellow'}
+   };
+
+   yellow_card17 = {
+     stimulus: '<p>\'Butter\'</p> <p>Margarine<br>Spread<br>Dairy<br>Bake<br>Popcorn</p>',
+     data: {card: 'Butter', color: 'Yellow'}
+   };
+
+   yellow_card18 = {
+     stimulus: '<p>\'Lipstick\'</p> <p>Mouth<br>Makeup<br>Cosmetic<br>Red<br>Tube</p>',
+     data: {card: 'Lipstick', color: 'Yellow'}
+   };
+
+   yellow_card19 = {
+     stimulus: '<p>\'Bubble Gum\'</p> <p>Chew<br>Baseball Card<br>Bazooka<br>Blow<br>Balls</p>',
+     data: {card: 'Bubble Gum', color: 'Yellow'}
+   };
+
+   yellow_card20 = {
+     stimulus: '<p>\'Infinity\'</p> <p>Limitless<br>Eternity<br>Boundless<br>Beyond<br>Forever</p>',
+     data: {card: 'Infinity', color: 'Yellow'}
+   };
+
+   yellow_card21 = {
+     stimulus: '<p>\'Cast\'</p> <p>Actor<br>Fishing<br>Broken<br>Plaster<br>Bone</p>',
+     data: {card: 'Cast', color: 'Yellow'}
+   };
+
+   yellow_card22 = {
+     stimulus: '<p>\'Soup\'</p> <p>Tomato<br>Chicken<br>Salad<br>Spoon<br>Homemade</p>',
+     data: {card: 'Soup', color: 'Yellow'}
+   };
+
+   yellow_card23 = {
+     stimulus: '<p>\'Crab\'</p> <p>Seafood<br>Shellfish<br>Alaskan<br>Claws<br>Cakes</p>',
+     data: {card: 'Crab', color: 'Yellow'}
+   };
+
+   yellow_card24 = {
+     stimulus: '<p>\'Park\'</p> <p>Recreation<br>Garage<br>Cards<br>Tree<br>Yellowstone</p>',
+     data: {card: 'Park', color: 'Yellow'}
+   };
+
+   yellow_card25 = {
+     stimulus: '<p>\'Tunnel\'</p> <p>Dirt<br>Love<br>Cars<br>Mountains<br>Hole</p>',
+     data: {card: 'Tunnel', color: 'Yellow'}
+   };
+
+   yellow_card26 = {
+     stimulus: '<p>\'Butterfly\'</p> <p>Wings<br>Moth<br>Caterpillar<br>Cocoon<br>Net</p>',
+     data: {card: 'Butterfly', color: 'Yellow'}
+   };
+
+   yellow_card27 = {
+     stimulus: '<p>\'Detective\'</p> <p>Investigate<br>Crime<br>Clues<br>Private eye<br>Sherlock Holmes</p>',
+     data: {card: 'Detective', color: 'Yellow'}
+   };
+
+   yellow_card28 = {
+     stimulus: '<p>\'Scale\'</p> <p>Fish<br>Weigh<br>Diet<br>Climb<br>Pounds</p>',
+     data: {card: 'Scale', color: 'Yellow'}
+   };
+
+   yellow_card29 = {
+     stimulus: '<p>\'Crayon\'</p> <p>Wax<br>Children<br>Draw<br>Kids<br>Coloring Book</p>',
+     data: {card: 'Crayon', color: 'Yellow'}
+   };
+
+   yellow_card30 = {
+     stimulus: '<p>\'Artist\'</p> <p>Painter<br>Sculptor<br>Canvas<br>Studio<br>Easel</p>',
+     data: {card: 'Artist', color: 'Yellow'}
+   };
+
+   yellow_card31 = {
+     stimulus: '<p>\'Flamingo\'</p> <p>Pink<br>Bird<br>Lawn<br>Long<br>Legs</p>',
+     data: {card: 'Flamingo', color: 'Yellow'}
+   };
+
+   yellow_card32 = {
+     stimulus: '<p>\'Duvet\'</p> <p>Bed<br>Blanket<br>Cover<br>Feathers<br>Quilt</p>',
+     data: {card: 'Duvet', color: 'Yellow'}
+   };
+
+   yellow_card33 = {
+     stimulus: '<p>\'Sauna\'</p> <p>Steam<br>Room<br>Hot<br>Sweat<br>Spa</p>',
+     data: {card: 'Sauna', color: 'Yellow'}
+   };
+
+   yellow_card34 = {
+     stimulus: '<p>\'Deck\'</p> <p>Ship<br>Cards<br>Hit<br>Halls<br>Porch</p>',
+     data: {card: 'Deck', color: 'Yellow'}
+   };
+
+   yellow_card35 = {
+     stimulus: '<p>\'Garage\'</p> <p>Car<br>Park<br>House<br>Band<br>Door</p>',
+     data: {card: 'Garage', color: 'Yellow'}
+   };
+
+   yellow_card36 = {
+     stimulus: '<p>\'Fall\'</p> <p>Season<br>Spring<br>Winter<br>Down<br>Leaves</p>',
+     data: {card: 'Fall', color: 'Yellow'}
+   };
+
+   yellow_card37 = {
+     stimulus: '<p>\'Coincidence\'</p> <p>Unexpected<br>Occurs<br>Happen<br>Same<br>Chance</p>',
+     data: {card: 'Coincidence', color: 'Yellow'}
+   };
+
+   yellow_card38 = {
+     stimulus: '<p>\'Feather\'</p> <p>Wing<br>Pillow<br>Fly<br>Bird<br>Light</p>',
+     data: {card: 'Feather', color: 'Yellow'}
+   };
+
+   yellow_card39 = {
+     stimulus: '<p>\'Chill\'</p> <p>Cold<br>Ice<br>Night<br>Air<br>Bone</p>',
+     data: {card: 'Chill', color: 'Yellow'}
+   };
+
+   yellow_card40 = {
+     stimulus: '<p>\'Field\'</p> <p>Grass<br>Green<br>Wildflowers<br>Run<br>Picnic</p>',
+     data: {card: 'Field', color: 'Yellow'}
+   };
+
+   yellow_card41 = {
+     stimulus: '<p>\'Ice\'</p> <p>Cube<br>Water<br>Drink<br>Winter<br>Tea</p>',
+     data: {card: 'Ice', color: 'Yellow'}
+   };
+
+   yellow_card42 = {
+     stimulus: '<p>\'Jump\'</p> <p>Rope<br>Off<br>Up<br>Down<br>High</p>',
+     data: {card: 'Jump', color: 'Yellow'}
+   };
+
+   yellow_card43 = {
+     stimulus: '<p>\'Globe\'</p> <p>World<br>Map<br>Ball<br>Round<br>Earth</p>',
+     data: {card: 'Globe', color: 'Yellow'}
+   };
+
+   yellow_card44 = {
+     stimulus: '<p>\'Cupcake\'</p> <p>Frosting<br>Party<br>Bake<br>Foil<br>Wars</p>',
+     data: {card: 'Cupcake', color: 'Yellow'}
+   };
+
+   yellow_card45 = {
+     stimulus: '<p>\'Spider\'</p> <p>Eight<br>Legs<br>Insect<br>Black Widow<br>Web</p>',
+     data: {card: 'Spider', color: 'Yellow'}
+   };
+
+   yellow_card46 = {
+     stimulus: '<p>\'Desert\'</p> <p>Sahara<br>Cactus<br>Hot<br>Dry<br>Sand</p>',
+     data: {card: 'Desert', color: 'Yellow'}
+   };
+
+   yellow_card47 = {
+     stimulus: '<p>\'Forest\'</p> <p>Trees<br>National<br>Fires<br>Wood<br>See</p>',
+     data: {card: 'Forest', color: 'Yellow'}
+   };
+
+   yellow_card48 = {
+     stimulus: '<p>\'Customer\'</p> <p>Store<br>Buy<br>Sell<br>Pay<br>Customer</p>',
+     data: {card: 'Customer', color: 'Yellow'}
+   };
+
+   yellow_card49 = {
+     stimulus: '<p>\'Explode\'</p> <p>Blow<br>Detonate<br>Burst<br>Dynamite<br>Bomb</p>',
+     data: {card: 'Explode', color: 'Yellow'}
+   };
+
+   yellow_card50 = {
+     stimulus: '<p>\'Helicopter\'</p> <p>Blade<br>Ride<br>Chopper<br>Fly<br>Pad</p>',
+     data: {card: 'Helicopter', color: 'Yellow'}
+   };
+
+   yellow_card51 = {
+     stimulus: '<p>\'Mop\'</p> <p>Sweep<br>Bucket<br>Clean<br>Floor<br>Spill</p>',
+     data: {card: 'Mop', color: 'Yellow'}
+   };
+
+   yellow_card52 = {
+     stimulus: '<p>\'Pat\'</p> <p>Tap<br>Back<br>Down<br>Praise<br>Name</p>',
+     data: {card: 'Pat', color: 'Yellow'}
+   };
+
+   yellow_card53 = {
+     stimulus: '<p>\'Ghost\'</p> <p>Casper<br>Spirit<br>Halloween<br>Sheet<br>Haunted</p>',
+     data: {card: 'Ghost', color: 'Yellow'}
+   };
+
+   yellow_card54 = {
+     stimulus: '<p>\'Island\'</p> <p>Adventure<br>Ocean<br>Tropical<br>Breeze<br>Caribbean</p>',
+     data: {card: 'Island', color: 'Yellow'}
+   };
+
+   yellow_card55 = {
+     stimulus: '<p>\'Stripes\'</p> <p>Horizontal<br>Vertical<br>Lines<br>Flag<br>Stars</p>',
+     data: {card: 'Stripes', color: 'Yellow'}
+   };
+
+   yellow_card56 = {
+     stimulus: '<p>\'Money\'</p> <p>Dollars<br>Cents<br>Buy<br>Spend<br>Cash</p>',
+     data: {card: 'Money', color: 'Yellow'}
+   };
+
+   yellow_card57 = {
+     stimulus: '<p>\'Swamp\'</p> <p>Water<br>Mud<br>Marsh<br>Boat<br>Alligator</p>',
+     data: {card: 'Swamp', color: 'Yellow'}
+   };
+
+   yellow_card58 = {
+     stimulus: '<p>\'Quick\'</p> <p>Fast<br>Express<br>Rapid<br>Hasty<br>Swift</p>',
+     data: {card: 'Quick', color: 'Yellow'}
+   };
+
+   yellow_card59 = {
+     stimulus: '<p>\'Fake\'</p> <p>Fraud<br>Con<brReal><br>Phony<br>Counterfeit</p>',
+     data: {card: 'Fake', color: 'Yellow'}
+   };
+
+   yellow_card60 = {
+     stimulus: '<p>\'Pretzel\'</p> <p>Twisted<br>Salty<br>Snack<br>Dough<br>Mustard</p>',
+     data: {card: 'Pretzel', color: 'Yellow'}
+   };
+
+   yellow_card61 = {
+     stimulus: '<p>\'Ancient\'</p> <p>Old<br>History<br>Past<br>Time<br>Rome</p>',
+     data: {card: 'Ancient', color: 'Yellow'}
+   };
+
+   yellow_card62 = {
+     stimulus: '<p>\'Heart\'</p> <p>Beat<br>Break<br>Attack<br>Burn<br>Love</p>',
+     data: {card: 'Heart', color: 'Yellow'}
+   };
+
+   yellow_card63 = {
+     stimulus: '<p>\'License\'</p> <p>Driver<br>Permit<br>Tag<br>Plate<br>Poetic</p>',
+     data: {card: 'License', color: 'Yellow'}
+   };
+
+   yellow_card64 = {
+     stimulus: '<p>\'Garlic\'</p> <p>Smell<br>Cook<br>Press<br>Pasta<br>Breath</p>',
+     data: {card: 'Garlic', color: 'Yellow'}
+   };
+
+   yellow_card65 = {
+     stimulus: '<p>\'Moon\'</p> <p>Night<br>Sky<br>Sun<br>Full<br>Neil Armstrong</p>',
+     data: {card: 'Moon', color: 'Yellow'}
+   };
+
+   yellow_card66 = {
+     stimulus: '<p>\'Germ\'</p> <p>Disease<br>Spread<br>Virus<br>Bacteria<br>Cold</p>',
+     data: {card: 'Germ', color: 'Yellow'}
+   };
+
+   yellow_card67 = {
+     stimulus: '<p>\'Jackpot\'</p> <p>Win<br>Hit<br>Gamble<br>Money<br>Lottery</p>',
+     data: {card: 'Jackpot', color: 'Yellow'}
+   };
+
+   yellow_card68 = {
+     stimulus: '<p>\'Cobweb\'</p> <p>Spider<br>Trap<br>Hang<br>Spin<br>Insect</p>',
+     data: {card: 'Cobweb', color: 'Yellow'}
+   };
+
+   yellow_card69 = {
+     stimulus: '<p>\'Engine\'</p> <p>Motor<br>Cards<br>Light<br>Train<br>Hood</p>',
+     data: {card: 'Engine', color: 'Yellow'}
+   };
+
+   yellow_card70 = {
+     stimulus: '<p>\'Chopsticks\'</p> <p>Wood<br>Piano<br>Utensil<br>Eat<br>Fork</p>',
+     data: {card: 'Chopsticks', color: 'Yellow'}
+   };
+
+   yellow_card71 = {
+     stimulus: '<p>\'Crash\'</p> <p>Stock Market<br>Accident<br>Car<br>Party<br>Collision</p>',
+     data: {card: 'Crash', color: 'Yellow'}
+   };
+
+   yellow_card72 = {
+     stimulus: '<p>\'Geyser\'</p> <p>Old Faithful<br>Hot<br>Water<br>Shoot<br>Yellowstone</p>',
+     data: {card: 'Geyser', color: 'Yellow'}
+   };
+
+   yellow_card73 = {
+     stimulus: '<p>\'Debut\'</p> <p>Premiere<br>Introduction<br>First<br>Society<br>Perform</p>',
+     data: {card: 'Debut', color: 'Yellow'}
+   };
+
+   yellow_card74 = {
+     stimulus: '<p>\'Refrigerator\'</p> <p>Door<br>Freezer<br>Cold<br>Food<br>Raid</p>',
+     data: {card: 'Refrigerator', color: 'Yellow'}
+   };
+
+   yellow_card75 = {
+     stimulus: '<p>\'Confetti\'</p> <p>Paper<br>Scraps<br>Throw<br>Wedding<br>Celebration</p>',
+     data: {card: 'Confetti', color: 'Yellow'}
+   };
+
+   yellow_card76 = {
+     stimulus: '<p>\'Curfew\'</p> <p>Date<br>Teenagers<br>Time<br>Rules<br>Home</p>',
+     data: {card: 'Curfew', color: 'Yellow'}
+   };
+
+   yellow_card77 = {
+     stimulus: '<p>\'Earth\'</p> <p>Globe<br>World<br>Planet<br>Ground<br>Mother</p>',
+     data: {card: 'Earth', color: 'Yellow'}
+   };
+
+   yellow_card78 = {
+     stimulus: '<p>\'Belly Button\'</p> <p>Navel<br>Tummy<br>Ring<br>Cord<br>Lint</p>',
+     data: {card: 'Belly Button', color: 'Yellow'}
+   };
+
+   yellow_card79 = {
+     stimulus: '<p>\'Chandelier\'</p> <p>Light<br>Ceiling<br>Fixture<br>Crystal<br>Dining</p>',
+     data: {card: 'Chandelier', color: 'Yellow'}
+   };
+
+   yellow_card80 = {
+     stimulus: '<p>\'Bulb\'</p> <p>Light<br>Glass<br>Watt<br>Tulip<br>Plant</p>',
+     data: {card: 'Bulb', color: 'Yellow'}
+   };
+
+   yellow_card81 = {
+     stimulus: '<p>\'Decipher\'</p> <p>Decode<br>Interpret<br>Secret<br>Read<br>Figure</p>',
+     data: {card: 'Decipher', color: 'Yellow'}
+   };
+
+   yellow_card82 = {
+     stimulus: '<p>\'Score\'</p> <p>Total<br>Music<br>Goal<br>Average<br>Test</p>',
+     data: {card: 'Score', color: 'Yellow'}
+   };
+
+   yellow_card83 = {
+     stimulus: '<p>\'Newspaper\'</p> <p>Print<br>Press<br>Daily<br>Reporters<br>Read</p>',
+     data: {card: 'Newspaper', color: 'Yellow'}
+   };
+
+   yellow_card84 = {
+     stimulus: '<p>\'Knot\'</p> <p>Tie<br>Rope<br>Loop<br>Shoelace<br>Tangle</p>',
+     data: {card: 'Know', color: 'Yellow'}
+   };
+
+   yellow_card85 = {
+     stimulus: '<p>\'Rhyme\'</p> <p>Poem<br>Sound<br>Words<br>Alike<br>Nursery</p>',
+     data: {card: 'Rhyme', color: 'Yellow'}
+   };
+
+   yellow_card86 = {
+     stimulus: '<p>\'Costume\'</p> <p>Halloween<br>Scary<br>Play<br>Stage<br>Party</p>',
+     data: {card: 'Costume', color: 'Yellow'}
+   };
+
+   yellow_card87 = {
+     stimulus: '<p>\'Parrot\'</p> <p>Bird<br>Pet<br>Mimic<br>Speech<br>Imitate</p>',
+     data: {card: 'Parrot', color: 'Yellow'}
+   };
+
+   yellow_card88 = {
+     stimulus: '<p>\'Nest\'</p> <p>Bird<br>Eggs<br>Tree<br>Home<br>Build</p>',
+     data: {card: 'Nest', color: 'Yellow'}
+   };
+
+   yellow_card89 = {
+     stimulus: '<p>\'Kite\'</p> <p>Fly<br>Wind<br>String<br>Park<br>Sky</p>',
+     data: {card: 'Kite', color: 'Yellow'}
+   };
+
+   yellow_card90 = {
+     stimulus: '<p>\'Band\'</p> <p>Group<br>Rubber<br>School<br>Orchestra<br>Wedding</p>',
+     data: {card: 'Band', color: 'Yellow'}
+   };
+
+   yellow_card91 = {
+     stimulus: '<p>\'Lizard\'</p> <p>Snake<br>Reptile<br>Salamander<br>Chameleon<br>Alligator</p>',
+     data: {card: 'Lizard', color: 'Yellow'}
+   };
+
+   yellow_card92 = {
+     stimulus: '<p>\'Rug\'</p> <p>Floor<br>Carpet<br>Oriental<br>Toupee<br>Hairpiece</p>',
+     data: {card: 'Rug', color: 'Yellow'}
+   };
+
+   yellow_card93 = {
+     stimulus: '<p>\'Gravity\'</p> <p>Spave<br>Force<br>Earth<br>Weight<br>Physics</p>',
+     data: {card: 'Gravity', color: 'Yellow'}
+   };
+
+   yellow_card94 = {
+     stimulus: '<p>\'Forecast\'</p> <p>Weather<br>Future<br>Radio<br>Prediction<br>News</p>',
+     data: {card: 'Forecast', color: 'Yellow'}
+   };
+
+   yellow_card95 = {
+     stimulus: '<p>\'Diner\'</p> <p>Eat<br>Greasy Spoon<br>Restaurant<br>Truck Stop<br>50s</p>',
+     data: {card: 'Diner', color: 'Yellow'}
+   };
+
+   yellow_card96 = {
+     stimulus: '<p>\'Doll\'</p> <p>House<br>Baby<br>Toy<br>Girl<br>Paper</p>',
+     data: {card: 'Doll', color: 'Yellow'}
+   };
+
+   yellow_card97 = {
+     stimulus: '<p>\'Circle\'</p> <p>Shape<br>Round<br>Ring<br>Friends<br>Full</p>',
+     data: {card: 'Circle', color: 'Yellow'}
+   };
+
+   yellow_card98 = {
+     stimulus: '<p>\'Invitation\'</p> <p>Wedding<br>RSVP<br>Mail<br>Pary<br>Friend</p>',
+     data: {card: 'Invitation', color: 'Yellow'}
+   };
+
+   yellow_card99 = {
+     stimulus: '<p>\'Fajita\'</p> <p>Mexican<br>Wrap<br>Cheese<br>Peppers<br>Salsa</p>',
+     data: {card: 'Fajita', color: 'Yellow'}
+   };
+
+   yellow_card100 = {
+     stimulus: '<p>\'Gallery\'</p> <p>Art<br>Museum<br>Collections<br>Shower<br>Paintings</p>',
+     data: {card: 'Gallery', color: 'Yellow'}
+   };
+
+   yellow_card101 = {
+     stimulus: '<p>\'Insomnia\'</p> <p>Sleep<br>Toss<br>Restless<br>Bed<br>Night</p>',
+     data: {card: 'Insomnia', color: 'Yellow'}
+   };
+
+   yellow_card102 = {
+     stimulus: '<p>\'Couch\'</p> <p>Potato<br>Sofa<br>Sit Still<br>Furniture<br>Leather</p>',
+     data: {card: 'Couch', color: 'Yellow'}
+   };
+
+   yellow_card103 = {
+     stimulus: '<p>\'Reindeer\'</p> <p>Christmas<br>Santa<br>Sleigh<br>Rudolph<br>Red-nosed</p>',
+     data: {card: 'Reindeer', color: 'Yellow'}
+   };
+
+   yellow_card104 = {
+     stimulus: '<p>\'Break\'</p> <p>Snap<br>Fracture<br>Separate<br>Rest<br>Lucky</p>',
+     data: {card: 'Break', color: 'Yellow'}
+   };
+
+   yellow_card105 = {
+     stimulus: '<p>\'Healthy\'</p> <p>Well<br>Fit<br>Exercise<br>Feel<br>Shape</p>',
+     data: {card: 'Healthy', color: 'Yellow'}
+   };
+
+   yellow_card106 = {
+     stimulus: '<p>\'Coach\'</p> <p>Sports<br>Team<br>Leader<br>Improve<br>Teach</p>',
+     data: {card: 'Coach', color: 'Yellow'}
+   };
+
+   yellow_card107 = {
+     stimulus: '<p>\'Float\'</p> <p>Swim<br>Raft<br>Parade<br>Root Beer<br>Water</p>',
+     data: {card: 'Float', color: 'Yellow'}
+   };
+
+   yellow_card108 = {
+     stimulus: '<p>\'Shuffle\'</p> <p>Cards<br>Feet<br>Dance<br>Walk<br>Board</p>',
+     data: {card: 'Shuffle', color: 'Yellow'}
+   };
+
+   yellow_card109 = {
+     stimulus: '<p>\'Heist\'</p> <p>Robber<br>Thief<br>Steal<br>Art<br>Gene Hackman</p>',
+     data: {card: 'Heist', color: 'Yellow'}
+   };
+
+   yellow_card110 = {
+     stimulus: '<p>\'Nutcracker\'</p> <p>Ballet<br>Open<br>Suite<br>Christmas<br>Dance</p>',
+     data: {card: 'Nutcracker', color: 'Yellow'}
+   };
+
+   yellow_card111 = {
+     stimulus: '<p>\'Fan\'</p> <p>Ceiling<br>Air Conditioner<br>Cool<br>Cheer<br>Mail</p>',
+     data: {card: 'Fan', color: 'Yellow'}
+   };
+
+   yellow_card112 = {
+     stimulus: '<p>\'Honey\'</p> <p>Bees<br>Sweetheart<br>Bear<br>Shrunk<br>Hive</p>',
+     data: {card: 'Honey', color: 'Yellow'}
+   };
+
+   yellow_card113 = {
+     stimulus: '<p>\'Pomegranate\'</p> <p>Fruit<br>Tree<br>Health<br>Juice<br>Red</p>',
+     data: {card: 'Pomegranate', color: 'Yellow'}
+   };
+
+   yellow_card114 = {
+     stimulus: '<p>\'Clumsy\'</p> <p>Awkward<br>Uncoordinate<br>Drop<br>Oaf<br>Klutz</p>',
+     data: {card: 'Clumsy', color: 'Yellow'}
+   };
+
+   yellow_card115 = {
+     stimulus: '<p>\'Sip\'</p> <p>Drink<br>Taste<br>Wine<br>Take<br>Straw</p>',
+     data: {card: 'Sip', color: 'Yellow'}
+   };
+
+   yellow_card116 = {
+     stimulus: '<p>\'Cream\'</p> <p>Coffee<br>Tea<br>Milk<br>Ice<br>Whipped</p>',
+     data: {card: 'Cream', color: 'Yellow'}
+   };
+
+   yellow_card117 = {
+     stimulus: '<p>\'Brown\'</p> <p>Color<br>Beige<br>Black<br>Golden<br>Sugar</p>',
+     data: {card: 'Brown', color: 'Yellow'}
+   };
+
+   yellow_card118 = {
+     stimulus: '<p>\'Map\'</p> <p>Find<br>Drive<br>Lost<br>Route<br>Road</p>',
+     data: {card: 'Map', color: 'Yellow'}
+   };
+
+   yellow_deck = [yellow_card1, yellow_card2, yellow_card3, yellow_card4, yellow_card5,
+   yellow_card6, yellow_card7, yellow_card8, yellow_card9, yellow_card10, yellow_card11,
+   yellow_card12, yellow_card13, yellow_card14, yellow_card15, yellow_card16, yellow_card17,
+   yellow_card18, yellow_card19, yellow_card20, yellow_card21, yellow_card22, yellow_card23,
+   yellow_card24, yellow_card25, yellow_card26, yellow_card27, yellow_card28, yellow_card29,
+   yellow_card30, yellow_card31, yellow_card32, yellow_card33, yellow_card34, yellow_card35,
+   yellow_card36, yellow_card37, yellow_card38, yellow_card39, yellow_card40,
+   yellow_card41, yellow_card42, yellow_card43, yellow_card44, yellow_card45, yellow_card46,
+   yellow_card47, yellow_card48, yellow_card49, yellow_card50, yellow_card51, yellow_card52,
+   yellow_card53, yellow_card54, yellow_card55,yellow_card56, yellow_card57, yellow_card58,
+   yellow_card59, yellow_card60, yellow_card61, yellow_card62, yellow_card63, yellow_card64,
+   yellow_card65,yellow_card66, yellow_card67, yellow_card68, yellow_card69, yellow_card70,
+   yellow_card71, yellow_card72, yellow_card73, yellow_card74, yellow_card75, yellow_card76,
+   yellow_card77, yellow_card78, yellow_card79, yellow_card80, yellow_card81, yellow_card82,
+   yellow_card83, yellow_card84, yellow_card85,yellow_card86, yellow_card87, yellow_card88,
+   yellow_card89, yellow_card90, yellow_card91, yellow_card92, yellow_card93, yellow_card94, yellow_card95,
+   yellow_card96, yellow_card97, yellow_card98, yellow_card99, yellow_card100, yellow_card101,
+   yellow_card102, yellow_card103, yellow_card104, yellow_card105, yellow_card106, yellow_card107,
+   yellow_card108, yellow_card109, yellow_card110, yellow_card111, yellow_card112, yellow_card113,
+   yellow_card114, yellow_card115, yellow_card116, yellow_card117, yellow_card118]
+
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+/* SET UP TIMELINE. */
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+    /* Set up turns. */
+    var blue_turns = []
+    for (i = 0; i < NUMBER_OF_TURNS; i++) {
+      blue_cards = getRandom(blue_deck, CARDS_PER_TURN);
+      blue_deck = blue_deck.filter(function(val){
+        return blue_cards.indexOf(val) == -1;
+      });
+      console.log("BLUE TURNS")
+      console.log(blue_deck.length)
+      var new_blue_turn = {
+                type: 'html-button-response',
+                choices: choice_array,
+                trial_duration: TRIAL_LENGTH, //max duration for one card
+                timeline: blue_cards,
+                on_start: trial_timer,
+                on_finish: test_for_turn_end
+              }
+      blue_turns.push(new_blue_turn)
+    } 
+
+    var red_turns = []
+    for (i = 0; i < NUMBER_OF_TURNS; i++) {
+      red_cards = getRandom(red_deck, CARDS_PER_TURN);
+      red_deck = red_deck.filter(function(val){
+        return red_cards.indexOf(val) == -1;
+      });
+      console.log("RED TURNS")
+      console.log(red_deck.length)
+      var new_red_turn = {
+                type: 'html-button-response',
+                choices: choice_array,
+                trial_duration: TRIAL_LENGTH, //max duration for one card
+                timeline: red_cards,
+                on_start: trial_timer,
+                on_finish: test_for_turn_end
+              }
+      red_turns.push(new_red_turn)
+    } 
+
+    var yellow_turns = []
+    for (i = 0; i < NUMBER_OF_TURNS; i++) {
+      yellow_cards = getRandom(yellow_deck, CARDS_PER_TURN);
+      yellow_deck = red_deck.filter(function(val){
+        return yellow_cards.indexOf(val) == -1;
+      });
+      console.log("YELLOW TURNS")
+      console.log(yellow_deck.length)
+      var new_yellow_turn = {
+                type: 'html-button-response',
+                choices: choice_array,
+                trial_duration: TRIAL_LENGTH, //max duration for one card
+                timeline: yellow_cards,
+                on_start: trial_timer,
+                on_finish: test_for_turn_end
+              }
+      yellow_turns.push(new_yellow_turn)
+    } 
+
+    var purple_turns = []
+    for (i = 0; i < NUMBER_OF_TURNS; i++) {
+      purple_cards = getRandom(purple_deck, CARDS_PER_TURN);
+      purple_deck = purple_deck.filter(function(val){
+        return purple_cards.indexOf(val) == -1;
+      });
+      console.log("PURPLE TURNS")
+      console.log(purple_deck.length)
+      var new_purple_turn = {
+                type: 'html-button-response',
+                choices: choice_array,
+                trial_duration: TRIAL_LENGTH, //max duration for one card
+                timeline: red_cards,
+                on_start: trial_timer,
+                on_finish: test_for_turn_end
+              }
+      purple_turns.push(new_purple_turn)
+    } 
+
+  timeline = [welcome_message, 
+              pause_message_blue, blue_turns[0], 
+              pause_message_red, red_turns[0],
+              pause_message_purple, purple_turns[0],
+              pause_message_yellow, yellow_turns[0]]
 
   jsPsych.init({
     timeline: timeline,
