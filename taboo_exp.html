@@ -1194,8 +1194,6 @@ yellow_card1 = {
       blue_deck = blue_deck.filter(function(val){
         return blue_cards.indexOf(val) == -1;
       });
-      console.log("BLUE TURNS")
-      console.log(blue_deck.length)
       var new_blue_turn = {
                 type: 'html-button-response',
                 choices: choice_array,
@@ -1213,8 +1211,6 @@ yellow_card1 = {
       red_deck = red_deck.filter(function(val){
         return red_cards.indexOf(val) == -1;
       });
-      console.log("RED TURNS")
-      console.log(red_deck.length)
       var new_red_turn = {
                 type: 'html-button-response',
                 choices: choice_array,
@@ -1233,8 +1229,6 @@ yellow_card1 = {
       yellow_deck = red_deck.filter(function(val){
         return yellow_cards.indexOf(val) == -1;
       });
-      console.log("YELLOW TURNS")
-      console.log(yellow_deck.length)
       var new_yellow_turn = {
                 type: 'html-button-response',
                 choices: choice_array,
@@ -1252,8 +1246,6 @@ yellow_card1 = {
       purple_deck = purple_deck.filter(function(val){
         return purple_cards.indexOf(val) == -1;
       });
-      console.log("PURPLE TURNS")
-      console.log(purple_deck.length)
       var new_purple_turn = {
                 type: 'html-button-response',
                 choices: choice_array,
@@ -1286,6 +1278,7 @@ timeline.push(welcome_message)
       if (i == NUMBER_OF_TURNS / 2) {
         timeline.push(rotate_message)
       }
+      /*
       timeline.push(pause_message_blue)
       timeline.push(data_collection_screen)
       timeline.push(blue_turns[i])
@@ -1301,39 +1294,40 @@ timeline.push(welcome_message)
       timeline.push(pause_message_yellow)
       timeline.push(data_collection_screen)
       timeline.push(yellow_turns[i])
+      */
     }
 
 
 
-  var experiment_id = jsPsych.randomization.randomID();
+  var session_id = jsPsych.randomization.randomID();
 
   jsPsych.init({
     timeline: timeline,
     on_finish: function(data) {
       console.log(jsPsych.data.get().csv())
       //console.log(jsPsych.data.dataAsCSV())
-      jsPsych.data.addProperties({"experiment_id": experiment_id});
-      var filename = experiment_id + "_pilot.csv";
+      jsPsych.data.addProperties({"session_id": session_id});
+      var filename = session_id + "_pilot.csv";
       //saveData(filename, jsPsych.data.get().csv());
       
       $.ajax({
         type:'post',
         cache: false,
         url: "save_data.php",
-        data: {filename: experiment_id + "_pilot.csv", filedata: jsPsych.data.get().csv()}
+        data: {filename: session_id + "_pilot.csv", filedata: jsPsych.data.get().csv()}
       });
       $.ajax({
         type:'post',
         cache: false,
         url: "save_data.php",
-        data: {filename: experiment_id + "_pilot.json", filedata: jsPsych.data.get().json()}
+        data: {filename: session_id + "_pilot.json", filedata: jsPsych.data.get().json()}
       });
-      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the subject ID: <b>" + experiment_id + "</b>");
+      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the session ID: <b>" + session_id + "</b>");
       
-}
-
     }
-    );
+
+  }
+  );
 
     </script>
     </html>
