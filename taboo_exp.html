@@ -1278,7 +1278,7 @@ timeline.push(welcome_message)
       if (i == NUMBER_OF_TURNS / 2) {
         timeline.push(rotate_message)
       }
-      /*
+      
       timeline.push(pause_message_blue)
       timeline.push(data_collection_screen)
       timeline.push(blue_turns[i])
@@ -1294,7 +1294,7 @@ timeline.push(welcome_message)
       timeline.push(pause_message_yellow)
       timeline.push(data_collection_screen)
       timeline.push(yellow_turns[i])
-      */
+      
     }
 
 
@@ -1304,11 +1304,10 @@ timeline.push(welcome_message)
   jsPsych.init({
     timeline: timeline,
     on_finish: function(data) {
-      console.log(jsPsych.data.get().csv());
       jsPsych.data.addProperties({"session_id": session_id});
       var filename = session_id + "_pilot.csv";
       saveData(filename, jsPsych.data.get().csv());
-      alert("test")
+      console.log(jsPsych.data.get().csv());
       
       $.ajax({
         type:'post',
