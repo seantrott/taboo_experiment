@@ -1300,18 +1300,18 @@ timeline.push(welcome_message)
     on_finish: function(data) {
       console.log(jsPsych.data.get().csv())
       //console.log(jsPsych.data.dataAsCSV())
-      jsPsych.data.addProperties({"rand_id": id});
+      jsPsych.data.addProperties({"experiment_id": experiment_id});
       $.ajax({
         type:'post',
         cache: false,
         url: "save_data.php",
-        data: {filename: id + ".csv", filedata: jsPsych.data.get().csv()}
+        data: {filename: experiment_id + ".csv", filedata: jsPsych.data.get().csv()}
       });
       $.ajax({
         type:'post',
         cache: false,
         url: "save_data.php",
-        data: {filename: id + ".json", filedata: jsPsych.data.get().json()}
+        data: {filename: experiment_id + ".json", filedata: jsPsych.data.get().json()}
       });
       $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the subject ID: <b>" + id + "</b>");
 }
