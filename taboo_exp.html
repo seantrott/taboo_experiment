@@ -18,7 +18,7 @@
   var TURN_LENGTH = 60 * 1000  
   var TRIAL_LENGTH = 20 * 1000
   var CARDS_PER_TURN = 5
-  var NUMBER_OF_TURNS = 20
+  var NUMBER_OF_TURNS = 1
   var choice_array = ['Won', 'Discarded', 'Lost'];
 
   var timeline = [];
@@ -1293,14 +1293,29 @@ timeline.push(welcome_message)
 
 
 
-
+  var experiment_id = jsPsych.randomization.randomID();
 
   jsPsych.init({
     timeline: timeline,
-    on_finish: function(data){ 
-        //saveData(filename, jsPsych.data.get().csv());
-        console.log(jsPsych.data.get().csv())
-    }
+    on_finish: function(data) {
+      console.log(jsPsych.data.get().csv())
+      //console.log(jsPsych.data.dataAsCSV())
+      jsPsych.data.addProperties({"rand_id": id});
+      $.ajax({
+        type:'post',
+        cache: false,
+        url: "save_data.php",
+        data: {filename: id + ".csv", filedata: jsPsych.data.get().csv()}
+      });
+      $.ajax({
+        type:'post',
+        cache: false,
+        url: "save_data.php",
+        data: {filename: id + ".json", filedata: jsPsych.data.get().json()}
+      });
+      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the subject ID: <b>" + id + "</b>");
+}
+
     }
     );
 
