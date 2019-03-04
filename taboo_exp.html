@@ -1304,11 +1304,11 @@ timeline.push(welcome_message)
   jsPsych.init({
     timeline: timeline,
     on_finish: function(data) {
-      console.log(jsPsych.data.get().csv())
-      //console.log(jsPsych.data.dataAsCSV())
+      console.log(jsPsych.data.get().csv());
       jsPsych.data.addProperties({"session_id": session_id});
       var filename = session_id + "_pilot.csv";
       saveData(filename, jsPsych.data.get().csv());
+      alert("test")
       
       $.ajax({
         type:'post',
