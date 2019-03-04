@@ -1314,8 +1314,8 @@ timeline.push(welcome_message)
       //console.log(jsPsych.data.dataAsCSV())
       jsPsych.data.addProperties({"experiment_id": experiment_id});
       var filename = experiment_id + "_pilot.csv";
-      saveData(filename, jsPsych.data.get().csv());
-      /*
+      //saveData(filename, jsPsych.data.get().csv());
+      
       $.ajax({
         type:'post',
         cache: false,
@@ -1329,7 +1329,7 @@ timeline.push(welcome_message)
         data: {filename: experiment_id + "_pilot.json", filedata: jsPsych.data.get().json()}
       });
       $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the subject ID: <b>" + id + "</b>");
-      */
+      
 }
 
     }
