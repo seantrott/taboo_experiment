@@ -79,7 +79,7 @@
 
     var pause_message_red = {
       type: 'html-button-response',
-        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        stimulus: 'Next Turn is the <b>Red</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
         choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
@@ -90,7 +90,7 @@
 
     var pause_message_purple= {
       type: 'html-button-response',
-        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        stimulus: 'Next Turn is the <b>Purple</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
         choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
@@ -101,7 +101,7 @@
 
     var pause_message_yellow= {
       type: 'html-button-response',
-        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        stimulus: 'Next Turn is the <b>Yellow</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
         choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
@@ -1328,7 +1328,7 @@ timeline.push(welcome_message)
         url: "save_data.php",
         data: {filename: experiment_id + "_pilot.json", filedata: jsPsych.data.get().json()}
       });
-      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the subject ID: <b>" + id + "</b>");
+      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the subject ID: <b>" + experiment_id + "</b>");
       
 }
 
