@@ -1308,7 +1308,7 @@ timeline.push(welcome_message)
       //console.log(jsPsych.data.dataAsCSV())
       jsPsych.data.addProperties({"session_id": session_id});
       var filename = session_id + "_pilot.csv";
-      //saveData(filename, jsPsych.data.get().csv());
+      saveData(filename, jsPsych.data.get().csv());
       
       $.ajax({
         type:'post',
