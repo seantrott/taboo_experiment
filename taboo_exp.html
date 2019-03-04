@@ -4,6 +4,7 @@
         <script src="jspsych-6.0.5/jspsych.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-call-function.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-instructions.js"></script>
         <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
@@ -23,6 +24,7 @@
   var timeline = [];
   var startTime;
   var pair_type;
+  var responses;
 
 
   /* Set up welcome and pause messages. */
@@ -32,6 +34,24 @@
         pages: ['Welcome to the Taboo Experiment. Press \"Next\" to begin session.'],
         data: {'trial_category': 'welcome'},
         show_clickable_nav: true
+    }
+
+    var rotate_message = {
+        type: 'instructions',
+        pages: ['Now it is time to rotate team members!'],
+        data: {'trial_category': 'welcome'},
+        show_clickable_nav: true
+    }
+
+    var data_collection_screen = {
+        type: 'survey-text',
+        preamble: 'Please enter some information about the next round.',
+        questions: [{prompt: 'Participant ID for the <b>speaker</b>'}, {prompt: 'Participant ID for the <b>guesser</b>'}],
+        button_label: 'Start round!',
+        on_finish: function(){
+          responses = jsPsych.data.get().last(1).values()[0].responses
+          startTime=new Date();
+        }
     }
 
     var pause_message_blue = {
@@ -102,6 +122,9 @@
 
     var test_for_turn_end = function(trial) {
       trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
+      var response_json = JSON.parse(responses)
+      jsPsych.data.addDataToLastTrial({'speaker_id': response_json['Q0'],
+                                       'guesser_id': response_json['Q1']})
       if (trial_outcome == "0") {
         jsPsych.data.addDataToLastTrial({'trial_outcome': 'Won'})
       } else if (trial_outcome == "1") {
@@ -1247,16 +1270,24 @@ yellow_card1 = {
 timeline.push(welcome_message)
 
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
-      timeline.push(pause_message_blue)
-      timeline.push(blue_turns[i])
 
+      if (i == NUMBER_OF_TURNS / 2) {
+        timeline.push(rotate_message)
+      }
+      timeline.push(pause_message_blue)
+      timeline.push(data_collection_screen)
+      timeline.push(blue_turns[i])
+      
       timeline.push(pause_message_red)
+      timeline.push(data_collection_screen)
       timeline.push(red_turns[i])
 
       timeline.push(pause_message_purple)
+      timeline.push(data_collection_screen)
       timeline.push(purple_turns[i])
 
       timeline.push(pause_message_yellow)
+      timeline.push(data_collection_screen)
       timeline.push(yellow_turns[i])
     }
 
