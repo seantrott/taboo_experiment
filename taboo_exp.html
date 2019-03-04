@@ -17,11 +17,12 @@
   var TURN_LENGTH = 60 * 1000  
   var TRIAL_LENGTH = 20 * 1000
   var CARDS_PER_TURN = 5
-  var NUMBER_OF_TURNS = 20
+  var NUMBER_OF_TURNS = 1
   var choice_array = ['Won', 'Discarded', 'Lost'];
 
   var timeline = [];
   var startTime;
+  var pair_type;
 
 
   /* Set up welcome and pause messages. */
@@ -29,54 +30,65 @@
     var welcome_message = {
         type: 'instructions',
         pages: ['Welcome to the Taboo Experiment. Press \"Next\" to begin session.'],
-        data: {'trial_category': 'pause'},
+        data: {'trial_category': 'welcome'},
         show_clickable_nav: true
     }
 
     var pause_message_blue = {
-        type: 'instructions',
-        pages: ['Next Turn is the <b>Blue</b> deck. Press \"Next\" to proceed.'],
-        data: {'trial_category': 'pause'},
+        type: 'html-button-response',
+        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
+          pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
           startTime=new Date();
         }
     }
 
     var pause_message_red = {
-        type: 'instructions',
-        pages: ['Next Turn is the <b>Red</b> deck. Press \"Next\" to proceed.'],
-        data: {'trial_category': 'pause'},
+      type: 'html-button-response',
+        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
+          pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
           startTime=new Date();
         }
     }
 
     var pause_message_purple= {
-        type: 'instructions',
-        pages: ['Next Turn is the <b>Purple</b> deck. Press \"Next\" to proceed.'],
-        data: {'trial_category': 'pause'},
+      type: 'html-button-response',
+        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
+          pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
           startTime=new Date();
         }
     }
 
     var pause_message_yellow= {
-        type: 'instructions',
-        pages: ['Next Turn is the <b>Yellow</b> deck. Press \"Next\" to proceed.'],
-        data: {'trial_category': 'pause'},
+      type: 'html-button-response',
+        stimulus: 'Next Turn is the <b>Blue</b> deck. Press <b>Friend</b> or <b>Stranger</b> to continue.<br> ',
+        choices: ['Friend', 'Stranger'],
         show_clickable_nav: true,
         on_finish: function(){
+          pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
           startTime=new Date();
         }
     }
 
 
 /* Functions. */
-    var trial_timer = function() {
+    var trial_timer = function(trial) {
+
       endTime = new Date();
+      trial.data.trial_start_time = new Date(); 
+      if (pair_type == "0") {
+        trial.data.pair_type = "Friend";  // maybe use addDataToLastTrial instead?
+      } else if (pair_type == "1") {
+        trial.data.pair_type = "Stranger"
+      }
       var timer = setInterval(function () {
         endTime = new Date()
         if(endTime - startTime >= TURN_LENGTH){
@@ -88,7 +100,15 @@
       }, 1000);
     }
 
-    var test_for_turn_end = function() {
+    var test_for_turn_end = function(trial) {
+      trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
+      if (trial_outcome == "0") {
+        jsPsych.data.addDataToLastTrial({'trial_outcome': 'Won'})
+      } else if (trial_outcome == "1") {
+        jsPsych.data.addDataToLastTrial({'trial_outcome': 'Discard'})
+      } else if (trial_outcome == "2") {
+        jsPsych.data.addDataToLastTrial({'trial_outcome': 'Lost'})
+      }
       if(endTime - startTime >= TURN_LENGTH){
           jsPsych.endCurrentTimeline();
         }
@@ -1124,7 +1144,7 @@ yellow_card1 = {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
-/* SET UP TIMELINE. */
+/* SET UP TURNS. */
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
@@ -1168,6 +1188,7 @@ yellow_card1 = {
                 on_start: trial_timer,
                 on_finish: test_for_turn_end
               }
+      
       red_turns.push(new_red_turn)
     } 
 
@@ -1209,11 +1230,39 @@ yellow_card1 = {
       purple_turns.push(new_purple_turn)
     } 
 
-  timeline = [welcome_message, 
-              pause_message_blue, blue_turns[0], 
-              pause_message_red, red_turns[0],
-              pause_message_purple, purple_turns[0],
-              pause_message_yellow, yellow_turns[0]]
+  //////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+/* SET UP TIMELINE. */
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+timeline.push(welcome_message)
+
+    for (i = 0; i < NUMBER_OF_TURNS; i++) {
+      timeline.push(pause_message_blue)
+      timeline.push(blue_turns[i])
+
+      timeline.push(pause_message_red)
+      timeline.push(red_turns[i])
+
+      timeline.push(pause_message_purple)
+      timeline.push(purple_turns[i])
+
+      timeline.push(pause_message_yellow)
+      timeline.push(yellow_turns[i])
+    }
+
+
+
+
 
   jsPsych.init({
     timeline: timeline,
