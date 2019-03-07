@@ -26,6 +26,7 @@
   var startTime;
   var pair_type;
   var responses;
+  var timer;
 
 
   /* Save data .*/
@@ -114,25 +115,26 @@
 /* Functions. */
     var trial_timer = function(trial) {
 
-      endTime = new Date();
-      trial.data.trial_start_time = new Date(); 
+      trial_start = new Date(); 
+      trial.data.trial_start_time = trial_start
       if (pair_type == "0") {
         trial.data.pair_type = "Friend";  // maybe use addDataToLastTrial instead?
       } else if (pair_type == "1") {
         trial.data.pair_type = "Stranger"
       }
-      var timer = setInterval(function () {
+      timer = setInterval(function () {
         console.log("here")
         endTime = new Date()
         if(endTime - startTime > TURN_LENGTH){
           alert("Time is up!")
           clearInterval(timer);
           jsPsych.finishTrial()
-        }
+        } 
       }, 2000);
     }
 
     var test_for_turn_end = function(trial) {
+      clearInterval(timer)
       trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
       console.log("there")
       var response_json = JSON.parse(responses)
