@@ -24,6 +24,7 @@
 
   var timeline = [];
   var startTime;
+  var endTime;
   var pair_type;
   var responses;
   var timer;
@@ -123,20 +124,23 @@
         trial.data.pair_type = "Stranger"
       }
       timer = setInterval(function () {
-        console.log("here")
         endTime = new Date()
         if(endTime - startTime > TURN_LENGTH){
-          alert("Time is up!")
+          alert("Time is up! Press 'Lost' to end the turn.")
           clearInterval(timer);
-          jsPsych.finishTrial()
+          //jsPsych.finishTrial()
         } 
-      }, 2000);
+      }, 1000);
     }
 
     var test_for_turn_end = function(trial) {
+
+      // clear current timer to make sure multiple aren't set at once
+      console.log("Ending current timer")
       clearInterval(timer)
+
+      // get information about trial outcomes, e.g. won/lost/discard
       trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
-      console.log("there")
       var response_json = JSON.parse(responses)
       jsPsych.data.addDataToLastTrial({'speaker_id': response_json['Q0'],
                                        'guesser_id': response_json['Q1']})
