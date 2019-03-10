@@ -4,6 +4,7 @@
         <script src="jspsych-6.0.5/jspsych.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-audio-button-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-call-function.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-instructions.js"></script>
@@ -16,8 +17,8 @@
 
 
   /* High-level variables */
-  var TURN_LENGTH = 60 * 1000  
-  var TRIAL_LENGTH = 20 * 1000
+  var TURN_LENGTH = 5 * 1000 //90 * 1000 
+  var TRIAL_LENGTH = 30 * 1000
   var CARDS_PER_TURN = 8 // change to reflect total number of turns
   var NUMBER_OF_TURNS = 10
   var choice_array = ['<h3>Won', '<h3>Discarded', '<h3>Lost'];
@@ -109,6 +110,18 @@
         show_clickable_nav: true,
         on_finish: function(){
           pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
+        }
+    }
+
+    var turn_beginning_sound = {
+      type: 'audio-button-response',
+      trial_ends_after_audio: true,
+      choices: [],
+      prompt: "Turn beginning now!",
+      stimulus: 'materials/door_chime.wav',
+      on_finish: function(){
+          //responses = jsPsych.data.get().last(1).values()[0].responses
+          startTime=new Date();
         }
     }
 
@@ -220,7 +233,7 @@ blue_card42= {stimulus: "<p><h4><b>Crutches</b></h4></p><br>Broken<br>Leg<br>Can
 blue_card43= {stimulus: "<p><h4><b>Dip</b></h4></p><br>Vegetable<br>Chip<br>Swim<br>Stick<br>Oil", data:{card: 'Dip', critical_trial: 'yes', color:'Blue'}};
 blue_card44= {stimulus: "<p><h4><b>Ladybug</b></h4></p><br>Insect<br>Beetle<br>Spotted<br>Red<br>Good Luck", data:{card: 'Ladybug', critical_trial: 'yes', color:'Blue'}};
 blue_card45= {stimulus: "<p><h4><b>Bridge</b></h4></p><br>Brooklyn<br>Golden Gate<br>Water<br>Over<br>Cross", data:{card: 'Bridge', critical_trial: 'yes', color:'Blue'}};
-blue_card46= {stimulus: "<p><h4><b>Fame</b></h4></p><br>Celebrity<br>Fleeting<br>Fame<br>Hall<br>Glory", data:{card: 'Fame', critical_trial: 'yes', color:'Blue'}};
+blue_card46= {stimulus: "<p><h4><b>Fame</b></h4></p><br>Celebrity<br>Fleeting<br>Fortune<br>Hall<br>Glory", data:{card: 'Fame', critical_trial: 'yes', color:'Blue'}};
 blue_card47= {stimulus: "<p><h4><b>Freshen</b></h4></p><br>Up<br>Renew<br>Revive<br>Clean<br>Cleanse", data:{card: 'Freshen', critical_trial: 'yes', color:'Blue'}};
 blue_card48= {stimulus: "<p><h4><b>Immortal</b></h4></p><br>Die<br>Live<br>Forever<br>Eternity<br>Youth", data:{card: 'Immortal', critical_trial: 'yes', color:'Blue'}};
 blue_card49= {stimulus: "<p><h4><b>Batter</b></h4></p><br>Baseball<br>Hitter<br>Pitcher<br>Cake<br>Mix", data:{card: 'Batter', critical_trial: 'yes', color:'Blue'}};
@@ -1069,7 +1082,7 @@ yellow_card1 = {
    };
 
    yellow_card98 = {
-     stimulus: '<p><h4><b>Invitation</b></h4></p> <p>Wedding<br>RSVP<br>Mail<br>Pary<br>Friend</p>',
+     stimulus: '<p><h4><b>Invitation</b></h4></p> <p>Wedding<br>RSVP<br>Mail<br>Party<br>Friend</p>',
      data: {card: 'Invitation', critical_trial: 'yes', color: 'Yellow'}
    };
 
@@ -1283,24 +1296,28 @@ timeline.push(welcome_message)
 
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
 
-      if (i == NUMBER_OF_TURNS / 2) {
+      if ((i+1) == NUMBER_OF_TURNS / 2) {
         timeline.push(rotate_message)
       }
       
       timeline.push(pause_message_blue)
       timeline.push(data_collection_screen)
+      timeline.push(turn_beginning_sound)
       timeline.push(blue_turns[i])
       
       timeline.push(pause_message_red)
       timeline.push(data_collection_screen)
+      timeline.push(turn_beginning_sound)
       timeline.push(red_turns[i])
 
       timeline.push(pause_message_purple)
       timeline.push(data_collection_screen)
+      timeline.push(turn_beginning_sound)
       timeline.push(purple_turns[i])
 
       timeline.push(pause_message_yellow)
       timeline.push(data_collection_screen)
+      timeline.push(turn_beginning_sound)
       timeline.push(yellow_turns[i])
       
     }
