@@ -17,11 +17,11 @@
 
 
   /* High-level variables */
-  var TURN_LENGTH =  90 * 1000 //90 * 1000 5 * 1000
+  var TURN_LENGTH =  120 * 1000 //90 * 1000 5 * 1000
   var TRIAL_LENGTH = 30 * 1000
   var CARDS_PER_TURN = 8 // change to reflect total number of turns
   var NUMBER_OF_TURNS = 10
-  var choice_array = ['<h3>Won', '<h3>Discarded', '<h3>Lost'];
+  var choice_array = ['<h3>Won', '<h3>Lost'];
 
   var timeline = [];
   var startTime;
@@ -153,10 +153,12 @@
       clearInterval(timer)
 
       // get information about trial outcomes, e.g. won/lost/discard
-      trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
+      
       var response_json = JSON.parse(responses)
       jsPsych.data.addDataToLastTrial({'speaker_id': response_json['Q0'],
                                        'guesser_id': response_json['Q1']})
+
+      trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
       if (trial_outcome == "0") {
         jsPsych.data.addDataToLastTrial({'trial_outcome': 'Won'})
       } else if (trial_outcome == "1") {
