@@ -129,7 +129,7 @@
 /* Functions. */
     var trial_timer = function(trial) {
 
-      trial_start = new Date(); 
+      trial_start = new Date();
       trial.data.trial_start_time = trial_start
       if (pair_type == "0") {
         trial.data.pair_type = "Friend";  // maybe use addDataToLastTrial instead?
@@ -142,7 +142,7 @@
           alert("Time is up! Press 'Lost' to end the turn.")
           clearInterval(timer);
           //jsPsych.finishTrial()
-        } 
+        }
       }, 1000);
     }
 
@@ -153,7 +153,7 @@
       clearInterval(timer)
 
       // get information about trial outcomes, e.g. won/lost/discard
-      
+
       var response_json = JSON.parse(responses)
       jsPsych.data.addDataToLastTrial({'speaker_id': response_json['Q0'],
                                        'guesser_id': response_json['Q1']})
@@ -1226,7 +1226,7 @@ yellow_card1 = {
                 on_finish: test_for_turn_end
               }
       blue_turns.push(new_blue_turn)
-    } 
+    }
 
     var red_turns = []
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
@@ -1242,14 +1242,14 @@ yellow_card1 = {
                 on_start: trial_timer,
                 on_finish: test_for_turn_end
               }
-      
+
       red_turns.push(new_red_turn)
-    } 
+    }
 
     var yellow_turns = []
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
       yellow_cards = getRandom(yellow_deck, CARDS_PER_TURN);
-      yellow_deck = red_deck.filter(function(val){
+      yellow_deck = yellow_deck.filter(function(val){
         return yellow_cards.indexOf(val) == -1;
       });
       var new_yellow_turn = {
@@ -1261,7 +1261,7 @@ yellow_card1 = {
                 on_finish: test_for_turn_end
               }
       yellow_turns.push(new_yellow_turn)
-    } 
+    }
 
     var purple_turns = []
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
@@ -1278,7 +1278,7 @@ yellow_card1 = {
                 on_finish: test_for_turn_end
               }
       purple_turns.push(new_purple_turn)
-    } 
+    }
 
   //////////////////////////////////////////////////
 //////////////////////////////////////////////////
@@ -1301,12 +1301,12 @@ timeline.push(welcome_message)
       if ((i+1) == NUMBER_OF_TURNS / 2) {
         timeline.push(rotate_message)
       }
-      
+
       timeline.push(pause_message_blue)
       timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(blue_turns[i])
-      
+
       timeline.push(pause_message_red)
       timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
@@ -1321,7 +1321,7 @@ timeline.push(welcome_message)
       timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(yellow_turns[i])
-      
+
     }
 
 
@@ -1335,7 +1335,7 @@ timeline.push(welcome_message)
       var filename = session_id + "_pilot.csv";
       saveData(filename, jsPsych.data.get().csv());
       console.log(jsPsych.data.get().csv());
-      
+
       $.ajax({
         type:'post',
         cache: false,
@@ -1349,7 +1349,7 @@ timeline.push(welcome_message)
         data: {filename: session_id + "_pilot.json", filedata: jsPsych.data.get().json()}
       });
       $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the session ID: <b>" + session_id + "</b>");
-      
+
     }
 
   }
