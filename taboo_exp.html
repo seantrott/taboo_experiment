@@ -19,7 +19,7 @@
   /* High-level variables */
   var TURN_LENGTH =  120 * 1000 //90 * 1000 5 * 1000
   var TRIAL_LENGTH = 30 * 1000
-  var CARDS_PER_TURN = 9 // change to reflect total number of turns
+  var CARDS_PER_TURN = 12 // change to reflect total number of turns
   var NUMBER_OF_TURNS = 8
   var choice_array = ['<h3>Won', '<h3>Lost'];
 
@@ -162,10 +162,8 @@
       if (trial_outcome == "0") {
         jsPsych.data.addDataToLastTrial({'trial_outcome': 'Won'})
       } else if (trial_outcome == "1") {
-        jsPsych.data.addDataToLastTrial({'trial_outcome': 'Discard'})
-      } else if (trial_outcome == "2") {
         jsPsych.data.addDataToLastTrial({'trial_outcome': 'Lost'})
-      }
+      } 
       if(endTime - startTime > TURN_LENGTH){
         console.log("ending turn")
         jsPsych.endCurrentTimeline();
@@ -173,6 +171,11 @@
     }
 
     function getRandom(arr, n) {
+      if (n > arr.length) {
+      throw new RangeError("getRandom: more elements taken than available");
+    }
+      return arr.splice(0, n)
+      /*
       var result = new Array(n),
       len = arr.length,
       taken = new Array(len);
@@ -184,6 +187,7 @@
       taken[x] = --len in taken ? taken[len] : len;
       }
       return result;
+      */
     }
 
 
@@ -350,7 +354,6 @@ red_card23= {stimulus: "<p><h4><b>Shake</b></h4></p><br>Ice Cream<br>Frappe<br>M
 red_card24= {stimulus: "<p><h4><b>Vitamin C</b></h4></p><br>Nutrition<br>Colds<br>Oranges<br>Citrus<br>Immunity", data:{card: 'Vitamin C', critical_trial: 'yes', color:'Red'}};
 red_card25= {stimulus: "<p><h4><b>Valet</b></h4></p><br>Parking<br>Drive<br>Tip<br>Car<br>Restaurant", data:{card: 'Valet', critical_trial: 'yes', color:'Red'}};
 red_card26= {stimulus: "<p><h4><b>Marble</b></h4></p><br>Ball<br>Game<br>Collection<br>Cake<br>Swirl", data:{card: 'Marble', critical_trial: 'yes', color:'Red'}};
-red_card27= {stimulus: "<p><h4><b>Zebra</b></h4></p><br>Black<br>White<br>Stripes<br>Horse<br>Zoo", data:{card: 'Zebra', critical_trial: 'yes', color:'Red'}};
 red_card28= {stimulus: "<p><h4><b>Marriage</b></h4></p><br>Wedding<br>Husband<br>Wife<br>Ceremony<br>Vows", data:{card: 'Marriage', critical_trial: 'yes', color:'Red'}};
 red_card29= {stimulus: "<p><h4><b>Wishing Well</b></h4></p><br>Magic<br>Coin<br>Fairytale<br>Water<br>Grant", data:{card: 'Wishing Well', critical_trial: 'yes', color:'Red'}};
 red_card30= {stimulus: "<p><h4><b>Keys</b></h4></p><br>House<br>Car<br>Heart<br>Lost<br>Florida", data:{card: 'Keys', critical_trial: 'yes', color:'Red'}};
@@ -446,7 +449,7 @@ red_card119= {stimulus: "<p><h4><b>Stunt</b></h4></p><br>Extreme<br>Car<br>Risk<
 red_deck = [red_card1, red_card2, red_card3, red_card4, red_card5, red_card6, red_card7, red_card8,red_card9,
 red_card10,red_card11,red_card12,red_card13,red_card14,red_card15,red_card16,red_card17,
 red_card18,red_card19,red_card20,red_card21,red_card22,red_card23,red_card24,red_card25,
-red_card26,red_card27,red_card28,red_card29,red_card30,red_card31,red_card32,red_card33,
+red_card26,red_card28,red_card29,red_card30,red_card31,red_card32,red_card33,
 red_card34,red_card35,red_card36,red_card37,red_card38,red_card39,red_card40,red_card41,
 red_card42,red_card43,red_card44,red_card45,red_card46,red_card47,red_card48,red_card49,
 red_card50,red_card51,red_card52,red_card53,red_card54,red_card55,red_card56,red_card57,
@@ -554,7 +557,6 @@ purple_card90= {stimulus: "<p><h4><b>Dummy</b></h4></p><br>Stupid<br>Fake<br>Ven
 purple_card91= {stimulus: "<p><h4><b>Job</b></h4></p><br>Paycheck<br>Employment<br>Career<br>Interview<br>Work", data:{card: 'Job', critical_trial: 'yes', color:'Purple'}};
 purple_card92= {stimulus: "<p><h4><b>Lemon</b></h4></p><br>Citrus<br>Sour<br>Lime<br>Fruit<br>Defective", data:{card: 'Lemon', critical_trial: 'yes', color:'Purple'}};
 purple_card93= {stimulus: "<p><h4><b>Lily</b></h4></p><br>Flower<br>Easter<br>White<br>Garden<br>Scent", data:{card: 'Lily', critical_trial: 'yes', color:'Purple'}};
-purple_card94= {stimulus: "<p><h4><b>Tickle</b></h4></p><br>Giggle<br>Smile<br>Laugh<br>Kids<br>Pink", data:{card: 'Tickle', critical_trial: 'yes', color:'Purple'}};
 purple_card95= {stimulus: "<p><h4><b>Intelligent</b></h4></p><br>Dumb<br>Smart<br>Education<br>Brilliant<br>Stupid", data:{card: 'Intelligent', critical_trial: 'yes', color:'Purple'}};
 purple_card96= {stimulus: "<p><h4><b>Nail</b></h4></p><br>Polish<br>Manicure<br>Toe<br>Hammer<br>Finger", data:{card: 'Nail', critical_trial: 'yes', color:'Purple'}};
 purple_card97= {stimulus: "<p><h4><b>Picnic</b></h4></p><br>Basket<br>Food<br>Outside<br>Eat<br>Ants", data:{card: 'Picnic', critical_trial: 'yes', color:'Purple'}};
@@ -591,7 +593,7 @@ purple_card58,purple_card59,purple_card60,purple_card61,purple_card62,purple_car
 purple_card66,purple_card67,purple_card68,purple_card69,purple_card70,purple_card71,purple_card72,purple_card73,
 purple_card74,purple_card75,purple_card76,purple_card77,purple_card78,purple_card79,purple_card80,purple_card81,
 purple_card82,purple_card83,purple_card84,purple_card85,purple_card86,purple_card87,purple_card88,purple_card89,
-purple_card90,purple_card91,purple_card92,purple_card93,purple_card94,purple_card95,purple_card96,purple_card97,
+purple_card90,purple_card91,purple_card92,purple_card93,purple_card95,purple_card96,purple_card97,
 purple_card98,purple_card99,purple_card100,purple_card101,purple_card102,purple_card103,purple_card104,purple_card105,
 purple_card106,purple_card107,purple_card108,purple_card109,purple_card110,purple_card111,purple_card112,purple_card113,
 purple_card114,purple_card115,purple_card116,purple_card117, purple_card118, purple_card119];
@@ -1212,6 +1214,7 @@ yellow_card1 = {
 
     /* Set up turns. */
     var blue_turns = []
+    blue_deck = jsPsych.randomization.shuffle(blue_deck)
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
       blue_cards = getRandom(blue_deck, CARDS_PER_TURN);
       blue_deck = blue_deck.filter(function(val){
@@ -1229,11 +1232,15 @@ yellow_card1 = {
     }
 
     var red_turns = []
+    red_deck = jsPsych.randomization.shuffle(red_deck)
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
       red_cards = getRandom(red_deck, CARDS_PER_TURN);
-      red_deck = red_deck.filter(function(val){
-        return red_cards.indexOf(val) == -1;
-      });
+      red_deck = red_deck.filter(
+        function(val) {
+          return red_cards.indexOf(val) == -1;
+          }
+      );
+
       var new_red_turn = {
                 type: 'html-button-response',
                 choices: choice_array,
@@ -1246,7 +1253,9 @@ yellow_card1 = {
       red_turns.push(new_red_turn)
     }
 
+
     var yellow_turns = []
+    yellow_deck = jsPsych.randomization.shuffle(yellow_deck)
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
       yellow_cards = getRandom(yellow_deck, CARDS_PER_TURN);
       yellow_deck = yellow_deck.filter(function(val){
@@ -1264,7 +1273,9 @@ yellow_card1 = {
     }
 
     var purple_turns = []
+    purple_deck = jsPsych.randomization.shuffle(purple_deck)
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
+      
       purple_cards = getRandom(purple_deck, CARDS_PER_TURN);
       purple_deck = purple_deck.filter(function(val){
         return purple_cards.indexOf(val) == -1;
@@ -1293,6 +1304,19 @@ yellow_card1 = {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
+
+  var str_cards = 'Word,Color\n'
+    for (i in red_turns) {
+      for (j in red_turns[i].timeline) {
+        //console.log(red_turns[i].timeline[j])
+        //console.log(red_turns[i].timeline[j].data['card'])
+        str_cards += red_turns[i].timeline[j].data['card'] + ",Red\n"
+        str_cards += blue_turns[i].timeline[j].data['card'] + ",Blue\n"
+        str_cards += purple_turns[i].timeline[j].data['card'] + ",Purple\n"
+        str_cards += yellow_turns[i].timeline[j].data['card'] + ",Yellow\n"
+      }
+    }
+    console.log(str_cards)
 
 timeline.push(welcome_message)
 
