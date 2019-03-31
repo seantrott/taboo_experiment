@@ -18,8 +18,8 @@
 
   /* High-level variables */
   var TURN_LENGTH =  120 * 1000 //90 * 1000 5 * 1000
-  var TRIAL_LENGTH = 30 * 1000
-  var CARDS_PER_TURN = 12 // change to reflect total number of turns
+  var TRIAL_LENGTH = 3*1000 //30 * 1000
+  var CARDS_PER_TURN = 14 // change to reflect total number of turns
   var NUMBER_OF_TURNS = 8
   var choice_array = ['<h3>Won', '<h3>Lost'];
 
@@ -64,7 +64,6 @@
         questions: [{prompt: 'Participant ID for the <b>speaker</b>'}, {prompt: 'Participant ID for the <b>guesser</b>'}],
         button_label: 'Start round!',
         on_finish: function(){
-          responses = jsPsych.data.get().last(1).values()[0].responses
           startTime=new Date();
         }
     }
@@ -77,6 +76,7 @@
         show_clickable_nav: true,
         on_finish: function(){
           pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
+          startTime=new Date();
         }
     }
 
@@ -88,6 +88,7 @@
         show_clickable_nav: true,
         on_finish: function(){
           pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
+          startTime=new Date();
         }
     }
 
@@ -99,6 +100,7 @@
         show_clickable_nav: true,
         on_finish: function(){
           pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
+          startTime=new Date();
         }
     }
 
@@ -110,6 +112,7 @@
         show_clickable_nav: true,
         on_finish: function(){
           pair_type = jsPsych.data.get().last(1).values()[0].button_pressed
+          startTime=new Date();
         }
     }
 
@@ -146,18 +149,13 @@
       }, 1000);
     }
 
-    var test_for_turn_end = function(trial) {
+    var test_for_turn_end = function(trial) {      
 
       // clear current timer to make sure multiple aren't set at once
       console.log("Ending current timer")
       clearInterval(timer)
 
       // get information about trial outcomes, e.g. won/lost/discard
-      
-      var response_json = JSON.parse(responses)
-      jsPsych.data.addDataToLastTrial({'speaker_id': response_json['Q0'],
-                                       'guesser_id': response_json['Q1']})
-
       trial_outcome = jsPsych.data.get().last(1).values()[0].button_pressed
       if (trial_outcome == "0") {
         jsPsych.data.addDataToLastTrial({'trial_outcome': 'Won'})
@@ -194,123 +192,123 @@
 /* Set up blue deck. */
 
 ///// BLUE CARDS
-blue_card1= {stimulus: "<p><h4><b>Extreme</b></h4></p><br>Sports<br>Athlete<br>Temperature<br>Radical<br>Difficulty", data:{card: 'Extreme', critical_trial: 'yes', color:'Blue'}};
-blue_card2= {stimulus: "<p><h4><b>Ambassador</b></h4></p><br>Diplomat<br>United Nations<br>Country<br>Embassy<br>Foreign", data:{card: 'Ambassador', critical_trial: 'yes', color:'Blue'}};
-blue_card3= {stimulus: "<p><h4><b>Brain</b></h4></p><br>Smart<br>Head<br>Mind<br>Skull<br>Cranium", data:{card: 'Brain', critical_trial: 'yes', color:'Blue'}};
-blue_card4= {stimulus: "<p><h4><b>Farm</b></h4></p><br>Land<br>Cow<br>Milk<br>Stand<br>Vegetable", data:{card: 'Farm', critical_trial: 'yes', color:'Blue'}};
-blue_card5= {stimulus: "<p><h4><b>Camp</b></h4></p><br>Fire<br>Woods<br>Summer<br>Tent<br>Backpack", data:{card: 'Camp', critical_trial: 'yes', color:'Blue'}};
-blue_card6= {stimulus: "<p><h4><b>Lifeguard</b></h4></p><br>Pool<br>Beach<br>Sim<br>Drown<br>Save", data:{card: 'Lifeguard', critical_trial: 'yes', color:'Blue'}};
-blue_card7= {stimulus: "<p><h4><b>Luggage</b></h4></p><br>Baggage<br>Suitcase<br>Travel<br>Vacation<br>Pack", data:{card: 'Luggage', critical_trial: 'yes', color:'Blue'}};
-blue_card8= {stimulus: "<p><h4><b>Hose</b></h4></p><br>Water<br>Rubber<br>Stockings<br>Pant<br>Sprinkler", data:{card: 'Hose', critical_trial: 'yes', color:'Blue'}};
-blue_card9= {stimulus: "<p><h4><b>Aspirin</b></h4></p><br>Pill<br>Headache<br>Medicine<br>Dosage<br>Pharmacy", data:{card: 'Aspirin', critical_trial: 'yes', color:'Blue'}};
-blue_card10= {stimulus: "<p><h4><b>Dead End</b></h4></p><br>Street<br>Exit<br>Road<br>Job<br>Cul-De-Sac", data:{card: 'Dead End', critical_trial: 'yes', color:'Blue'}};
-blue_card11= {stimulus: "<p><h4><b>Dove</b></h4></p><br>Bird<br>Peace<br>Pigeon<br>White<br>Soap", data:{card: 'Dove', critical_trial: 'yes', color:'Blue'}};
-blue_card12= {stimulus: "<p><h4><b>Dare</b></h4></p><br>Truth<br>Challenge<br>Courage<br>Bold<br>Provoke", data:{card: 'Dare', critical_trial: 'yes', color:'Blue'}};
-blue_card13= {stimulus: "<p><h4><b>Amnesia</b></h4></p><br>Forget<br>Memory<br>Remember<br>Head<br>Bump", data:{card: 'Amnesia', critical_trial: 'yes', color:'Blue'}};
-blue_card14= {stimulus: "<p><h4><b>Caricature</b></h4></p><br>Cartoon<br>Drawing<br>Artist<br>Portrait<br>Distort", data:{card: 'Caricature', critical_trial: 'yes', color:'Blue'}};
-blue_card15= {stimulus: "<p><h4><b>Call</b></h4></p><br>Phone<br>Dial<br>Back<br>Answer<br>Talk", data:{card: 'Call', critical_trial: 'yes', color:'Blue'}};
-blue_card16= {stimulus: "<p><h4><b>Dribble</b></h4></p><br>Drool<br>Saliva<br>Spit<br>Basketball<br>Bounce", data:{card: 'Dribble', critical_trial: 'yes', color:'Blue'}};
-blue_card17= {stimulus: "<p><h4><b>Blush</b></h4></p><br>Red<br>Cheeks<br>Makeup<br>Embarrass<br>Face", data:{card: 'Blush', critical_trial: 'yes', color:'Blue'}};
-blue_card18= {stimulus: "<p><h4><b>Dust</b></h4></p><br>Dirt<br>Vacuum<br>Collect<br>Clean<br>Bunnies", data:{card: 'Dust', critical_trial: 'yes', color:'Blue'}};
-blue_card19= {stimulus: "<p><h4><b>Flashlight</b></h4></p><br>Batteries<br>Beam<br>Shine<br>Dark<br>Hand", data:{card: 'Flashlight', critical_trial: 'yes', color:'Blue'}};
-blue_card20= {stimulus: "<p><h4><b>Blister</b></h4></p><br>Sunburn<br>Bubble<br>Shoes<br>Skin<br>Rub", data:{card: 'Blister', critical_trial: 'yes', color:'Blue'}};
-blue_card21= {stimulus: "<p><h4><b>Battery</b></h4></p><br>Car<br>Charge<br>Size<br>Jump<br>Cell", data:{card: 'Battery', critical_trial: 'yes', color:'Blue'}};
-blue_card22= {stimulus: "<p><h4><b>Bowling Alley</b></h4></p><br>Pins<br>Shoes<br>Spare<br>Strike<br>Balls", data:{card: 'Bowling Alley', critical_trial: 'yes', color:'Blue'}};
-blue_card23= {stimulus: "<p><h4><b>Bald</b></h4></p><br>Head<br>Hair<br>Spot<br>Rug<br>Toupee", data:{card: 'Bald', critical_trial: 'yes', color:'Blue'}};
-blue_card24= {stimulus: "<p><h4><b>Boardwalk</b></h4></p><br>Atlantic City<br>Beach<br>Pier<br>Monopoly<br>Park Place", data:{card: 'Boardwalk', critical_trial: 'yes', color:'Blue'}};
-blue_card25= {stimulus: "<p><h4><b>Blast</b></h4></p><br>Dynamite<br>Explosion<br>Party<br>Loud<br>Off", data:{card: 'Blast', critical_trial: 'yes', color:'Blue'}};
-blue_card26= {stimulus: "<p><h4><b>Pyramid</b></h4></p><br>Egypt<br>Tombs<br>Pharaohs<br>King Tut<br>Buried", data:{card: 'Pyramid', critical_trial: 'yes', color:'Blue'}};
-blue_card27= {stimulus: "<p><h4><b>Applause</b></h4></p><br>Cheers<br>Clapping<br>Ovation<br>Perform<br>Hand", data:{card: 'Applause', critical_trial: 'yes', color:'Blue'}};
-blue_card28= {stimulus: "<p><h4><b>Deal</b></h4></p><br>Sale<br>Day<br>Cards<br>Breaker<br>Bargain", data:{card: 'Deal', critical_trial: 'yes', color:'Blue'}};
-blue_card29= {stimulus: "<p><h4><b>Champagne</b></h4></p><br>Wine<br>Bubbles<br>Cork<br>Toast<br>Celebrate", data:{card: 'Champagne', critical_trial: 'yes', color:'Blue'}};
-blue_card30= {stimulus: "<p><h4><b>Doctor</b></h4></p><br>Scrubs<br>Medical<br>Hospital<br>Nurse<br>Surgeon", data:{card: 'Doctor', critical_trial: 'yes', color:'Blue'}};
-blue_card31= {stimulus: "<p><h4><b>Mansion</b></h4></p><br>Haunted<br>Celebrity<br>Estate<br>Live<br>Rich", data:{card: 'Mansion', critical_trial: 'yes', color:'Blue'}};
-blue_card32= {stimulus: "<p><h4><b>Bunny</b></h4></p><br>Rabbit<br>Pet<br>Ears<br>Animal<br>Easter", data:{card: 'Bunny', critical_trial: 'yes', color:'Blue'}};
-blue_card33= {stimulus: "<p><h4><b>Oil</b></h4></p><br>Price<br>Well<br>Drill<br>Car<br>Olive", data:{card: 'Oil', critical_trial: 'yes', color:'Blue'}};
-blue_card34= {stimulus: "<p><h4><b>Book</b></h4></p><br>Paperback<br>Pages<br>Novel<br>Library<br>Read", data:{card: 'Book', critical_trial: 'yes', color:'Blue'}};
-blue_card35= {stimulus: "<p><h4><b>Army</b></h4></p><br>Navy<br>Soldier<br>Draft<br>Service<br>Military", data:{card: 'Army', critical_trial: 'yes', color:'Blue'}};
-blue_card36= {stimulus: "<p><h4><b>Bayou</b></h4></p><br>Water<br>Swamp<br>Louisiana<br>Delta<br>South", data:{card: 'Bayou', critical_trial: 'yes', color:'Blue'}};
-blue_card37= {stimulus: "<p><h4><b>Drive</b></h4></p><br>Car<br>Highway<br>License<br>Scenic<br>Way", data:{card: 'Drive', critical_trial: 'yes', color:'Blue'}};
-blue_card38= {stimulus: "<p><h4><b>Basement</b></h4></p><br>Cellar<br>Apartment<br>House<br>Finished<br>Downstairs", data:{card: 'Basement', critical_trial: 'yes', color:'Blue'}};
-blue_card39= {stimulus: "<p><h4><b>Daydream</b></h4></p><br>Think<br>Sleep<br>Fantasize<br>Bored<br>Mind", data:{card: 'Daydream', critical_trial: 'yes', color:'Blue'}};
-blue_card40= {stimulus: "<p><h4><b>Polar Bear</b></h4></p><br>White<br>Zoo<br>Snow<br>Cold<br>Brown", data:{card: 'Polar Bear', critical_trial: 'yes', color:'Blue'}};
-blue_card41= {stimulus: "<p><h4><b>Balloon</b></h4></p><br>Helium<br>Blow<br>Candles<br>Pop<br>Birthday", data:{card: 'Balloon', critical_trial: 'yes', color:'Blue'}};
-blue_card42= {stimulus: "<p><h4><b>Crutches</b></h4></p><br>Broken<br>Leg<br>Cane<br>Cast<br>Walk", data:{card: 'Crutches', critical_trial: 'yes', color:'Blue'}};
-blue_card43= {stimulus: "<p><h4><b>Dip</b></h4></p><br>Vegetable<br>Chip<br>Swim<br>Stick<br>Oil", data:{card: 'Dip', critical_trial: 'yes', color:'Blue'}};
-blue_card44= {stimulus: "<p><h4><b>Ladybug</b></h4></p><br>Insect<br>Beetle<br>Spotted<br>Red<br>Good Luck", data:{card: 'Ladybug', critical_trial: 'yes', color:'Blue'}};
-blue_card45= {stimulus: "<p><h4><b>Bridge</b></h4></p><br>Brooklyn<br>Golden Gate<br>Water<br>Over<br>Cross", data:{card: 'Bridge', critical_trial: 'yes', color:'Blue'}};
-blue_card46= {stimulus: "<p><h4><b>Fame</b></h4></p><br>Celebrity<br>Fleeting<br>Fortune<br>Hall<br>Glory", data:{card: 'Fame', critical_trial: 'yes', color:'Blue'}};
-blue_card47= {stimulus: "<p><h4><b>Freshen</b></h4></p><br>Up<br>Renew<br>Revive<br>Clean<br>Cleanse", data:{card: 'Freshen', critical_trial: 'yes', color:'Blue'}};
-blue_card48= {stimulus: "<p><h4><b>Immortal</b></h4></p><br>Die<br>Live<br>Forever<br>Eternity<br>Youth", data:{card: 'Immortal', critical_trial: 'yes', color:'Blue'}};
-blue_card49= {stimulus: "<p><h4><b>Batter</b></h4></p><br>Baseball<br>Hitter<br>Pitcher<br>Cake<br>Mix", data:{card: 'Batter', critical_trial: 'yes', color:'Blue'}};
-blue_card50= {stimulus: "<p><h4><b>Shadow</b></h4></p><br>Sunlight<br>Shade<br>Eye<br>Casts<br>Meat", data:{card: 'Shadow', critical_trial: 'yes', color:'Blue'}};
-blue_card51= {stimulus: "<p><h4><b>Design</b></h4></p><br>Interior<br>Graphic<br>Artist<br>Fashion<br>Trends", data:{card: 'Design', critical_trial: 'yes', color:'Blue'}};
-blue_card52= {stimulus: "<p><h4><b>Acne</b></h4></p><br>Zits<br>Teenager<br>Pimple<br>Face<br>Clearasil", data:{card: 'Acne', critical_trial: 'yes', color:'Blue'}};
-blue_card53= {stimulus: "<p><h4><b>Cologne</b></h4></p><br>Perfume<br>Scent<br>Smell<br>Aftershave<br>Fragrance", data:{card: 'Cologne', critical_trial: 'yes', color:'Blue'}};
-blue_card54= {stimulus: "<p><h4><b>Adhesive</b></h4></p><br>Glue<br>Sticky<br>Paste<br>Tape<br>Together", data:{card: 'Adhesive', critical_trial: 'yes', color:'Blue'}};
-blue_card55= {stimulus: "<p><h4><b>Chef</b></h4></p><br>Kitchen<br>Cook<br>Top<br>Restaurant<br>Celebrity", data:{card: 'Chef', critical_trial: 'yes', color:'Blue'}};
-blue_card56= {stimulus: "<p><h4><b>Headline</b></h4></p><br>News<br>Act<br>Performer<br>Title<br>Star", data:{card: 'Headline', critical_trial: 'yes', color:'Blue'}};
-blue_card57= {stimulus: "<p><h4><b>Flames</b></h4></p><br>Fire<br>Red<br>Orange<br>Down<br>Calgary", data:{card: 'Flames', critical_trial: 'yes', color:'Blue'}};
-blue_card58= {stimulus: "<p><h4><b>Defrost</b></h4></p><br>Ice<br>Freezer<br>Thaw<br>Melt<br>Refrigerator", data:{card: 'Defrost', critical_trial: 'yes', color:'Blue'}};
-blue_card59= {stimulus: "<p><h4><b>Career</b></h4></p><br>Profession<br>Job<br>Vocation<br>Living<br>Work", data:{card: 'Career', critical_trial: 'yes', color:'Blue'}};
-blue_card60= {stimulus: "<p><h4><b>Gallon</b></h4></p><br>Measurement<br>Quart<br>Gasoline<br>Pint<br>Milk", data:{card: 'Gallon', critical_trial: 'yes', color:'Blue'}};
-blue_card61= {stimulus: "<p><h4><b>Burp</b></h4></p><br>Belch<br>Baby<br>Gas<br>Air<br>Eat", data:{card: 'Burp', critical_trial: 'yes', color:'Blue'}};
-blue_card62= {stimulus: "<p><h4><b>Claustrophobia</b></h4></p><br>Fear<br>Close<br>Feeling<br>Trapped<br>Panic", data:{card: 'Claustrophobia', critical_trial: 'yes', color:'Blue'}};
-blue_card63= {stimulus: "<p><h4><b>Chocolate</b></h4></p><br>Cocoa<br>Bar<br>Vanilla<br>Candy Bar<br>Chip", data:{card: 'Chocolate', critical_trial: 'yes', color:'Blue'}};
-blue_card64= {stimulus: "<p><h4><b>Beret</b></h4></p><br>Hat<br>French<br>Cap<br>Green<br>Artist", data:{card: 'Beret', critical_trial: 'yes', color:'Blue'}};
-blue_card65= {stimulus: "<p><h4><b>Elf</b></h4></p><br>Fairy<br>Will Ferrell<br>Little<br>Santa<br>Keebler", data:{card: 'Elf', critical_trial: 'yes', color:'Blue'}};
-blue_card66= {stimulus: "<p><h4><b>Clown</b></h4></p><br>Circus<br>Jester<br>Birthday Party<br>Funny<br>Costume", data:{card: 'Clown', critical_trial: 'yes', color:'Blue'}};
-blue_card67= {stimulus: "<p><h4><b>Motorcycle</b></h4></p><br>Leather<br>Helmet<br>Bike<br>Ride<br>Harley-Davidson", data:{card: 'Motorcycle', critical_trial: 'yes', color:'Blue'}};
-blue_card68= {stimulus: "<p><h4><b>Breeze</b></h4></p><br>Ocean<br>Warm<br>Island<br>Easy<br>Sweater", data:{card: 'Breeze', critical_trial: 'yes', color:'Blue'}};
-blue_card69= {stimulus: "<p><h4><b>Cheat</b></h4></p><br>Scam<br>Fraud<br>Swindle<br>Dupe<br>Games", data:{card: 'Cheat', critical_trial: 'yes', color:'Blue'}};
-blue_card70= {stimulus: "<p><h4><b>Cartoon</b></h4></p><br>Comics<br>Animated<br>Draw<br>Television<br>Character", data:{card: 'Cartoon', critical_trial: 'yes', color:'Blue'}};
-blue_card71= {stimulus: "<p><h4><b>Bath</b></h4></p><br>Tub<br>Water<br>Relax<br>Shower<br>Bubble", data:{card: 'Bath', critical_trial: 'yes', color:'Blue'}};
-blue_card72= {stimulus: "<p><h4><b>Academy</b></h4></p><br>Naval<br>Awards<br>School<br>Police<br>Oscars", data:{card: 'Academy', critical_trial: 'yes', color:'Blue'}};
-blue_card73= {stimulus: "<p><h4><b>Airport</b></h4></p><br>Travel<br>Planes<br>Security<br>Takeoff<br>Fly", data:{card: 'Airport', critical_trial: 'yes', color:'Blue'}};
-blue_card74= {stimulus: "<p><h4><b>Blink</b></h4></p><br>Eye<br>Lid<br>Flash<br>Red<br>Light", data:{card: 'Blink', critical_trial: 'yes', color:'Blue'}};
-blue_card75= {stimulus: "<p><h4><b>Postcard</b></h4></p><br>Mail<br>Picture<br>Stamp<br>Vacation<br>Send", data:{card: 'Postcard', critical_trial: 'yes', color:'Blue'}};
-blue_card76= {stimulus: "<p><h4><b>Cheer</b></h4></p><br>Yell<br>Support<br>Toast<br>Fans<br>Hurrah", data:{card: 'Cheer', critical_trial: 'yes', color:'Blue'}};
-blue_card77= {stimulus: "<p><h4><b>Downtown</b></h4></p><br>Go<br>City<br>Shopping<br>Urban<br>Main Street", data:{card: 'Downtown', critical_trial: 'yes', color:'Blue'}};
-blue_card78= {stimulus: "<p><h4><b>Carpet</b></h4></p><br>Floor<br>Rug<br>Hardwood<br>Vacuum<br>Shag", data:{card: 'Carpet', critical_trial: 'yes', color:'Blue'}};
-blue_card79= {stimulus: "<p><h4><b>Beach</b></h4></p><br>Seashore<br>Sand<br>Waves<br>Shells<br>Ocean", data:{card: 'Beach', critical_trial: 'yes', color:'Blue'}};
-blue_card80= {stimulus: "<p><h4><b>Cowboy</b></h4></p><br>Hat<br>Horse<br>West<br>Cattle<br>Dallas", data:{card: 'Cowboy', critical_trial: 'yes', color:'Blue'}};
-blue_card81= {stimulus: "<p><h4><b>Honeymoon</b></h4></p><br>Marriage<br>Newlyweds<br>Niagara Falls<br>Trip<br>Vacation", data:{card: 'Honeymoon', critical_trial: 'yes', color:'Blue'}};
-blue_card82= {stimulus: "<p><h4><b>Handcuffs</b></h4></p><br>Wrist<br>Police<br>Jail<br>Arrest<br>Criminal", data:{card: 'Handcuffs', critical_trial: 'yes', color:'Blue'}};
-blue_card83= {stimulus: "<p><h4><b>Crawl</b></h4></p><br>Baby<br>Walk<br>Learn<br>Knees<br>Spider", data:{card: 'Crawl', critical_trial: 'yes', color:'Blue'}};
-blue_card84= {stimulus: "<p><h4><b>Bargain</b></h4></p><br>Price<br>Deal<br>Wholesale<br>Shops<br>Haggle", data:{card: 'Bargain', critical_trial: 'yes', color:'Blue'}};
-blue_card85= {stimulus: "<p><h4><b>Barn</b></h4></p><br>Farm<br>Horse<br>Animals<br>Door<br>Hay", data:{card: 'Barn', critical_trial: 'yes', color:'Blue'}};
-blue_card86= {stimulus: "<p><h4><b>Fingerprint</b></h4></p><br>Hand<br>Unique<br>Evidence<br>Crime<br>Dust", data:{card: 'Fingerprint', critical_trial: 'yes', color:'Blue'}};
-blue_card87= {stimulus: "<p><h4><b>Bench</b></h4></p><br>Sit<br>Play<br>Judge<br>Seat<br>Park", data:{card: 'Bench', critical_trial: 'yes', color:'Blue'}};
-blue_card88= {stimulus: "<p><h4><b>Gasp</b></h4></p><br>Sound<br>Shock<br>Surprise<br>Breath<br>Noise", data:{card: 'Gasp', critical_trial: 'yes', color:'Blue'}};
-blue_card89= {stimulus: "<p><h4><b>Cactus</b></h4></p><br>Grow<br>Needles<br>Desert<br>Plant<br>Sharp", data:{card: 'Cactus', critical_trial: 'yes', color:'Blue'}};
-blue_card90= {stimulus: "<p><h4><b>Antique</b></h4></p><br>Old<br>Ancient<br>Dated<br>Collector<br>Furniture", data:{card: 'Antique', critical_trial: 'yes', color:'Blue'}};
-blue_card91= {stimulus: "<p><h4><b>Battle</b></h4></p><br>War<br>Fight<br>Combat<br>Army<br>Conflict", data:{card: 'Battle', critical_trial: 'yes', color:'Blue'}};
-blue_card92= {stimulus: "<p><h4><b>Bikini</b></h4></p><br>Swimsuit<br>Two-Piece<br>Beach<br>Wear<br>Bathing", data:{card: 'Bikini', critical_trial: 'yes', color:'Blue'}};
-blue_card93= {stimulus: "<p><h4><b>Bacon</b></h4></p><br>Pig<br>Eat<br>Breakfast<br>Sausage<br>Eggs", data:{card: 'Bacon', critical_trial: 'yes', color:'Blue'}};
-blue_card94= {stimulus: "<p><h4><b>Bag</b></h4></p><br>Paper<br>Garbage<br>Brown<br>Purse<br>Plastic", data:{card: 'Bag', critical_trial: 'yes', color:'Blue'}};
-blue_card95= {stimulus: "<p><h4><b>Pitch</b></h4></p><br>Toss<br>Throw<br>Baseball<br>Sales<br>Horseshoes", data:{card: 'Pitch', critical_trial: 'yes', color:'Blue'}};
-blue_card96= {stimulus: "<p><h4><b>Bartender</b></h4></p><br>Drinks<br>Restaurant<br>Alcohol<br>Mixes<br>Cocktail", data:{card: 'Bartender', critical_trial: 'yes', color:'Blue'}};
-blue_card97= {stimulus: "<p><h4><b>Calories</b></h4></p><br>Count<br>Burn<br>Low<br>Food<br>Weight", data:{card: 'Calories', critical_trial: 'yes', color:'Blue'}};
-blue_card98= {stimulus: "<p><h4><b>Dorm</b></h4></p><br>College<br>Student<br>Home<br>Campus<br>Room", data:{card: 'Dorm', critical_trial: 'yes', color:'Blue'}};
-blue_card99= {stimulus: "<p><h4><b>Atlas</b></h4></p><br>Map<br>Book<br>Chart<br>World<br>Globe", data:{card: 'Atlas', critical_trial: 'yes', color:'Blue'}};
-blue_card100= {stimulus: "<p><h4><b>Cotton</b></h4></p><br>White<br>Ball<br>Clothes<br>Material<br>Organic", data:{card: 'Cotton', critical_trial: 'yes', color:'Blue'}};
-blue_card101= {stimulus: "<p><h4><b>Busboy</b></h4></p><br>Restaurant<br>Waiter<br>Dishes<br>Clears<br>Tables", data:{card: 'Busboy', critical_trial: 'yes', color:'Blue'}};
-blue_card102= {stimulus: "<p><h4><b>Bakery</b></h4></p><br>Bread<br>Cake<br>Pastry<br>Rolls<br>Fresh", data:{card: 'Bakery', critical_trial: 'yes', color:'Blue'}};
-blue_card103= {stimulus: "<p><h4><b>Appendix</b></h4></p><br>Index<br>Book<br>Emergency<br>Scar<br>Stomach", data:{card: 'Appendix', critical_trial: 'yes', color:'Blue'}};
-blue_card104= {stimulus: "<p><h4><b>Eyelash</b></h4></p><br>Hair<br>Mascara<br>Lid<br>Curler<br>Comb", data:{card: 'Eyelash', critical_trial: 'yes', color:'Blue'}};
-blue_card105= {stimulus: "<p><h4><b>Ache</b></h4></p><br>Tooth<br>Head<br>Pain<br>Sore<br>Back", data:{card: 'Ache', critical_trial: 'yes', color:'Blue'}};
-blue_card106= {stimulus: "<p><h4><b>Cottage</b></h4></p><br>Country<br>Cheese<br>House<br>Cabin<br>Little", data:{card: 'Cottage', critical_trial: 'yes', color:'Blue'}};
-blue_card107= {stimulus: "<p><h4><b>Bait</b></h4></p><br>Worms<br>Fishing<br>Hook<br>Lure<br>Catch", data:{card: 'Bait', critical_trial: 'yes', color:'Blue'}};
-blue_card108= {stimulus: "<p><h4><b>Cherry</b></h4></p><br>Fruit<br>Red<br>Tree<br>Blossoms<br>Sundae", data:{card: 'Cherry', critical_trial: 'yes', color:'Blue'}};
-blue_card109= {stimulus: "<p><h4><b>Backpack</b></h4></p><br>School<br>Student<br>Books<br>Hike<br>Bag", data:{card: 'Backpack', critical_trial: 'yes', color:'Blue'}};
-blue_card110= {stimulus: "<p><h4><b>Angel</b></h4></p><br>Heaven<br>Devil<br>Halo<br>Wings<br>Sweet", data:{card: 'Angel', critical_trial: 'yes', color:'Blue'}};
-blue_card111= {stimulus: "<p><h4><b>Cockroach</b></h4></p><br>Bug<br>City<br>Pest<br>Kitchen<br>Insect", data:{card: 'Cockroach', critical_trial: 'yes', color:'Blue'}};
-blue_card112= {stimulus: "<p><h4><b>Bloom</b></h4></p><br>Flowers<br>Spring<br>Annual<br>Plant<br>Flourish", data:{card: 'Bloom', critical_trial: 'yes', color:'Blue'}};
-blue_card113= {stimulus: "<p><h4><b>Fidget</b></h4></p><br>Move<br>Restless<br>Sit Still<br> Impatient<br>Hair", data:{card: 'Fidget', critical_trial: 'yes', color:'Blue'}};
-blue_card114= {stimulus: "<p><h4><b>Grease</b></h4></p><br>Fat<br>Oil<br>Fry<br>Lubricate<br>John Travolta", data:{card: 'Grease', critical_trial: 'yes', color:'Blue'}};
-blue_card115= {stimulus: "<p><h4><b>Guess</b></h4></p><br>Know<br>Answer<br>Question<br>What<br>Who", data:{card: 'Guess', critical_trial: 'yes', color:'Blue'}};
-blue_card116= {stimulus: "<p><h4><b>Boomerang</b></h4></p><br>Return<br>Throw<br>Australia<br>Air<br>Back", data:{card: 'Boomerang', critical_trial: 'yes', color:'Blue'}};
-blue_card117= {stimulus: "<p><h4><b>Bonfire</b></h4></p><br>Burn<br>Camp<br>Beach<br>Rally<br>Wood", data:{card: 'Bonfire', critical_trial: 'yes', color:'Blue'}};
+blue_card1= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Extreme</b></h4></p><br>Sports<br>Athlete<br>Temperature<br>Radical<br>Difficulty", data:{card: 'Extreme', critical_trial: 'yes', color:'Blue'}};
+blue_card2= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Ambassador</b></h4></p><br>Diplomat<br>United Nations<br>Country<br>Embassy<br>Foreign", data:{card: 'Ambassador', critical_trial: 'yes', color:'Blue'}};
+blue_card3= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Brain</b></h4></p><br>Smart<br>Head<br>Mind<br>Skull<br>Cranium", data:{card: 'Brain', critical_trial: 'yes', color:'Blue'}};
+blue_card4= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Farm</b></h4></p><br>Land<br>Cow<br>Milk<br>Stand<br>Vegetable", data:{card: 'Farm', critical_trial: 'yes', color:'Blue'}};
+blue_card5= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Camp</b></h4></p><br>Fire<br>Woods<br>Summer<br>Tent<br>Backpack", data:{card: 'Camp', critical_trial: 'yes', color:'Blue'}};
+blue_card6= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lifeguard</b></h4></p><br>Pool<br>Beach<br>Sim<br>Drown<br>Save", data:{card: 'Lifeguard', critical_trial: 'yes', color:'Blue'}};
+blue_card7= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Luggage</b></h4></p><br>Baggage<br>Suitcase<br>Travel<br>Vacation<br>Pack", data:{card: 'Luggage', critical_trial: 'yes', color:'Blue'}};
+blue_card8= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Hose</b></h4></p><br>Water<br>Rubber<br>Stockings<br>Pant<br>Sprinkler", data:{card: 'Hose', critical_trial: 'yes', color:'Blue'}};
+blue_card9= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Aspirin</b></h4></p><br>Pill<br>Headache<br>Medicine<br>Dosage<br>Pharmacy", data:{card: 'Aspirin', critical_trial: 'yes', color:'Blue'}};
+blue_card10= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dead End</b></h4></p><br>Street<br>Exit<br>Road<br>Job<br>Cul-De-Sac", data:{card: 'Dead End', critical_trial: 'yes', color:'Blue'}};
+blue_card11= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dove</b></h4></p><br>Bird<br>Peace<br>Pigeon<br>White<br>Soap", data:{card: 'Dove', critical_trial: 'yes', color:'Blue'}};
+blue_card12= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dare</b></h4></p><br>Truth<br>Challenge<br>Courage<br>Bold<br>Provoke", data:{card: 'Dare', critical_trial: 'yes', color:'Blue'}};
+blue_card13= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Amnesia</b></h4></p><br>Forget<br>Memory<br>Remember<br>Head<br>Bump", data:{card: 'Amnesia', critical_trial: 'yes', color:'Blue'}};
+blue_card14= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Caricature</b></h4></p><br>Cartoon<br>Drawing<br>Artist<br>Portrait<br>Distort", data:{card: 'Caricature', critical_trial: 'yes', color:'Blue'}};
+blue_card15= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Call</b></h4></p><br>Phone<br>Dial<br>Back<br>Answer<br>Talk", data:{card: 'Call', critical_trial: 'yes', color:'Blue'}};
+blue_card16= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dribble</b></h4></p><br>Drool<br>Saliva<br>Spit<br>Basketball<br>Bounce", data:{card: 'Dribble', critical_trial: 'yes', color:'Blue'}};
+blue_card17= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Blush</b></h4></p><br>Red<br>Cheeks<br>Makeup<br>Embarrass<br>Face", data:{card: 'Blush', critical_trial: 'yes', color:'Blue'}};
+blue_card18= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dust</b></h4></p><br>Dirt<br>Vacuum<br>Collect<br>Clean<br>Bunnies", data:{card: 'Dust', critical_trial: 'yes', color:'Blue'}};
+blue_card19= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Flashlight</b></h4></p><br>Batteries<br>Beam<br>Shine<br>Dark<br>Hand", data:{card: 'Flashlight', critical_trial: 'yes', color:'Blue'}};
+blue_card20= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Blister</b></h4></p><br>Sunburn<br>Bubble<br>Shoes<br>Skin<br>Rub", data:{card: 'Blister', critical_trial: 'yes', color:'Blue'}};
+blue_card21= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Battery</b></h4></p><br>Car<br>Charge<br>Size<br>Jump<br>Cell", data:{card: 'Battery', critical_trial: 'yes', color:'Blue'}};
+blue_card22= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bowling Alley</b></h4></p><br>Pins<br>Shoes<br>Spare<br>Strike<br>Balls", data:{card: 'Bowling Alley', critical_trial: 'yes', color:'Blue'}};
+blue_card23= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bald</b></h4></p><br>Head<br>Hair<br>Spot<br>Rug<br>Toupee", data:{card: 'Bald', critical_trial: 'yes', color:'Blue'}};
+blue_card24= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Boardwalk</b></h4></p><br>Atlantic City<br>Beach<br>Pier<br>Monopoly<br>Park Place", data:{card: 'Boardwalk', critical_trial: 'yes', color:'Blue'}};
+blue_card25= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Blast</b></h4></p><br>Dynamite<br>Explosion<br>Party<br>Loud<br>Off", data:{card: 'Blast', critical_trial: 'yes', color:'Blue'}};
+blue_card26= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pyramid</b></h4></p><br>Egypt<br>Tombs<br>Pharaohs<br>King Tut<br>Buried", data:{card: 'Pyramid', critical_trial: 'yes', color:'Blue'}};
+blue_card27= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Applause</b></h4></p><br>Cheers<br>Clapping<br>Ovation<br>Perform<br>Hand", data:{card: 'Applause', critical_trial: 'yes', color:'Blue'}};
+blue_card28= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Deal</b></h4></p><br>Sale<br>Day<br>Cards<br>Breaker<br>Bargain", data:{card: 'Deal', critical_trial: 'yes', color:'Blue'}};
+blue_card29= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Champagne</b></h4></p><br>Wine<br>Bubbles<br>Cork<br>Toast<br>Celebrate", data:{card: 'Champagne', critical_trial: 'yes', color:'Blue'}};
+blue_card30= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Doctor</b></h4></p><br>Scrubs<br>Medical<br>Hospital<br>Nurse<br>Surgeon", data:{card: 'Doctor', critical_trial: 'yes', color:'Blue'}};
+blue_card31= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mansion</b></h4></p><br>Haunted<br>Celebrity<br>Estate<br>Live<br>Rich", data:{card: 'Mansion', critical_trial: 'yes', color:'Blue'}};
+blue_card32= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bunny</b></h4></p><br>Rabbit<br>Pet<br>Ears<br>Animal<br>Easter", data:{card: 'Bunny', critical_trial: 'yes', color:'Blue'}};
+blue_card33= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Oil</b></h4></p><br>Price<br>Well<br>Drill<br>Car<br>Olive", data:{card: 'Oil', critical_trial: 'yes', color:'Blue'}};
+blue_card34= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Book</b></h4></p><br>Paperback<br>Pages<br>Novel<br>Library<br>Read", data:{card: 'Book', critical_trial: 'yes', color:'Blue'}};
+blue_card35= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Army</b></h4></p><br>Navy<br>Soldier<br>Draft<br>Service<br>Military", data:{card: 'Army', critical_trial: 'yes', color:'Blue'}};
+blue_card36= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bayou</b></h4></p><br>Water<br>Swamp<br>Louisiana<br>Delta<br>South", data:{card: 'Bayou', critical_trial: 'yes', color:'Blue'}};
+blue_card37= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Drive</b></h4></p><br>Car<br>Highway<br>License<br>Scenic<br>Way", data:{card: 'Drive', critical_trial: 'yes', color:'Blue'}};
+blue_card38= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Basement</b></h4></p><br>Cellar<br>Apartment<br>House<br>Finished<br>Downstairs", data:{card: 'Basement', critical_trial: 'yes', color:'Blue'}};
+blue_card39= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Daydream</b></h4></p><br>Think<br>Sleep<br>Fantasize<br>Bored<br>Mind", data:{card: 'Daydream', critical_trial: 'yes', color:'Blue'}};
+blue_card40= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Polar Bear</b></h4></p><br>White<br>Zoo<br>Snow<br>Cold<br>Brown", data:{card: 'Polar Bear', critical_trial: 'yes', color:'Blue'}};
+blue_card41= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Balloon</b></h4></p><br>Helium<br>Blow<br>Candles<br>Pop<br>Birthday", data:{card: 'Balloon', critical_trial: 'yes', color:'Blue'}};
+blue_card42= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Crutches</b></h4></p><br>Broken<br>Leg<br>Cane<br>Cast<br>Walk", data:{card: 'Crutches', critical_trial: 'yes', color:'Blue'}};
+blue_card43= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dip</b></h4></p><br>Vegetable<br>Chip<br>Swim<br>Stick<br>Oil", data:{card: 'Dip', critical_trial: 'yes', color:'Blue'}};
+blue_card44= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Ladybug</b></h4></p><br>Insect<br>Beetle<br>Spotted<br>Red<br>Good Luck", data:{card: 'Ladybug', critical_trial: 'yes', color:'Blue'}};
+blue_card45= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bridge</b></h4></p><br>Brooklyn<br>Golden Gate<br>Water<br>Over<br>Cross", data:{card: 'Bridge', critical_trial: 'yes', color:'Blue'}};
+blue_card46= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fame</b></h4></p><br>Celebrity<br>Fleeting<br>Fortune<br>Hall<br>Glory", data:{card: 'Fame', critical_trial: 'yes', color:'Blue'}};
+blue_card47= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Freshen</b></h4></p><br>Up<br>Renew<br>Revive<br>Clean<br>Cleanse", data:{card: 'Freshen', critical_trial: 'yes', color:'Blue'}};
+blue_card48= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Immortal</b></h4></p><br>Die<br>Live<br>Forever<br>Eternity<br>Youth", data:{card: 'Immortal', critical_trial: 'yes', color:'Blue'}};
+blue_card49= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Batter</b></h4></p><br>Baseball<br>Hitter<br>Pitcher<br>Cake<br>Mix", data:{card: 'Batter', critical_trial: 'yes', color:'Blue'}};
+blue_card50= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Shadow</b></h4></p><br>Sunlight<br>Shade<br>Eye<br>Casts<br>Meat", data:{card: 'Shadow', critical_trial: 'yes', color:'Blue'}};
+blue_card51= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Design</b></h4></p><br>Interior<br>Graphic<br>Artist<br>Fashion<br>Trends", data:{card: 'Design', critical_trial: 'yes', color:'Blue'}};
+blue_card52= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Acne</b></h4></p><br>Zits<br>Teenager<br>Pimple<br>Face<br>Clearasil", data:{card: 'Acne', critical_trial: 'yes', color:'Blue'}};
+blue_card53= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cologne</b></h4></p><br>Perfume<br>Scent<br>Smell<br>Aftershave<br>Fragrance", data:{card: 'Cologne', critical_trial: 'yes', color:'Blue'}};
+blue_card54= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Adhesive</b></h4></p><br>Glue<br>Sticky<br>Paste<br>Tape<br>Together", data:{card: 'Adhesive', critical_trial: 'yes', color:'Blue'}};
+blue_card55= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Chef</b></h4></p><br>Kitchen<br>Cook<br>Top<br>Restaurant<br>Celebrity", data:{card: 'Chef', critical_trial: 'yes', color:'Blue'}};
+blue_card56= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Headline</b></h4></p><br>News<br>Act<br>Performer<br>Title<br>Star", data:{card: 'Headline', critical_trial: 'yes', color:'Blue'}};
+blue_card57= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Flames</b></h4></p><br>Fire<br>Red<br>Orange<br>Down<br>Calgary", data:{card: 'Flames', critical_trial: 'yes', color:'Blue'}};
+blue_card58= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Defrost</b></h4></p><br>Ice<br>Freezer<br>Thaw<br>Melt<br>Refrigerator", data:{card: 'Defrost', critical_trial: 'yes', color:'Blue'}};
+blue_card59= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Career</b></h4></p><br>Profession<br>Job<br>Vocation<br>Living<br>Work", data:{card: 'Career', critical_trial: 'yes', color:'Blue'}};
+blue_card60= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Gallon</b></h4></p><br>Measurement<br>Quart<br>Gasoline<br>Pint<br>Milk", data:{card: 'Gallon', critical_trial: 'yes', color:'Blue'}};
+blue_card61= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Burp</b></h4></p><br>Belch<br>Baby<br>Gas<br>Air<br>Eat", data:{card: 'Burp', critical_trial: 'yes', color:'Blue'}};
+blue_card62= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Claustrophobia</b></h4></p><br>Fear<br>Close<br>Feeling<br>Trapped<br>Panic", data:{card: 'Claustrophobia', critical_trial: 'yes', color:'Blue'}};
+blue_card63= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Chocolate</b></h4></p><br>Cocoa<br>Bar<br>Vanilla<br>Candy Bar<br>Chip", data:{card: 'Chocolate', critical_trial: 'yes', color:'Blue'}};
+blue_card64= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Beret</b></h4></p><br>Hat<br>French<br>Cap<br>Green<br>Artist", data:{card: 'Beret', critical_trial: 'yes', color:'Blue'}};
+blue_card65= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Elf</b></h4></p><br>Fairy<br>Will Ferrell<br>Little<br>Santa<br>Keebler", data:{card: 'Elf', critical_trial: 'yes', color:'Blue'}};
+blue_card66= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Clown</b></h4></p><br>Circus<br>Jester<br>Birthday Party<br>Funny<br>Costume", data:{card: 'Clown', critical_trial: 'yes', color:'Blue'}};
+blue_card67= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Motorcycle</b></h4></p><br>Leather<br>Helmet<br>Bike<br>Ride<br>Harley-Davidson", data:{card: 'Motorcycle', critical_trial: 'yes', color:'Blue'}};
+blue_card68= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Breeze</b></h4></p><br>Ocean<br>Warm<br>Island<br>Easy<br>Sweater", data:{card: 'Breeze', critical_trial: 'yes', color:'Blue'}};
+blue_card69= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cheat</b></h4></p><br>Scam<br>Fraud<br>Swindle<br>Dupe<br>Games", data:{card: 'Cheat', critical_trial: 'yes', color:'Blue'}};
+blue_card70= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cartoon</b></h4></p><br>Comics<br>Animated<br>Draw<br>Television<br>Character", data:{card: 'Cartoon', critical_trial: 'yes', color:'Blue'}};
+blue_card71= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bath</b></h4></p><br>Tub<br>Water<br>Relax<br>Shower<br>Bubble", data:{card: 'Bath', critical_trial: 'yes', color:'Blue'}};
+blue_card72= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Academy</b></h4></p><br>Naval<br>Awards<br>School<br>Police<br>Oscars", data:{card: 'Academy', critical_trial: 'yes', color:'Blue'}};
+blue_card73= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Airport</b></h4></p><br>Travel<br>Planes<br>Security<br>Takeoff<br>Fly", data:{card: 'Airport', critical_trial: 'yes', color:'Blue'}};
+blue_card74= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Blink</b></h4></p><br>Eye<br>Lid<br>Flash<br>Red<br>Light", data:{card: 'Blink', critical_trial: 'yes', color:'Blue'}};
+blue_card75= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Postcard</b></h4></p><br>Mail<br>Picture<br>Stamp<br>Vacation<br>Send", data:{card: 'Postcard', critical_trial: 'yes', color:'Blue'}};
+blue_card76= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cheer</b></h4></p><br>Yell<br>Support<br>Toast<br>Fans<br>Hurrah", data:{card: 'Cheer', critical_trial: 'yes', color:'Blue'}};
+blue_card77= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Downtown</b></h4></p><br>Go<br>City<br>Shopping<br>Urban<br>Main Street", data:{card: 'Downtown', critical_trial: 'yes', color:'Blue'}};
+blue_card78= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Carpet</b></h4></p><br>Floor<br>Rug<br>Hardwood<br>Vacuum<br>Shag", data:{card: 'Carpet', critical_trial: 'yes', color:'Blue'}};
+blue_card79= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Beach</b></h4></p><br>Seashore<br>Sand<br>Waves<br>Shells<br>Ocean", data:{card: 'Beach', critical_trial: 'yes', color:'Blue'}};
+blue_card80= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cowboy</b></h4></p><br>Hat<br>Horse<br>West<br>Cattle<br>Dallas", data:{card: 'Cowboy', critical_trial: 'yes', color:'Blue'}};
+blue_card81= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Honeymoon</b></h4></p><br>Marriage<br>Newlyweds<br>Niagara Falls<br>Trip<br>Vacation", data:{card: 'Honeymoon', critical_trial: 'yes', color:'Blue'}};
+blue_card82= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Handcuffs</b></h4></p><br>Wrist<br>Police<br>Jail<br>Arrest<br>Criminal", data:{card: 'Handcuffs', critical_trial: 'yes', color:'Blue'}};
+blue_card83= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Crawl</b></h4></p><br>Baby<br>Walk<br>Learn<br>Knees<br>Spider", data:{card: 'Crawl', critical_trial: 'yes', color:'Blue'}};
+blue_card84= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bargain</b></h4></p><br>Price<br>Deal<br>Wholesale<br>Shops<br>Haggle", data:{card: 'Bargain', critical_trial: 'yes', color:'Blue'}};
+blue_card85= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Barn</b></h4></p><br>Farm<br>Horse<br>Animals<br>Door<br>Hay", data:{card: 'Barn', critical_trial: 'yes', color:'Blue'}};
+blue_card86= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fingerprint</b></h4></p><br>Hand<br>Unique<br>Evidence<br>Crime<br>Dust", data:{card: 'Fingerprint', critical_trial: 'yes', color:'Blue'}};
+blue_card87= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bench</b></h4></p><br>Sit<br>Play<br>Judge<br>Seat<br>Park", data:{card: 'Bench', critical_trial: 'yes', color:'Blue'}};
+blue_card88= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Gasp</b></h4></p><br>Sound<br>Shock<br>Surprise<br>Breath<br>Noise", data:{card: 'Gasp', critical_trial: 'yes', color:'Blue'}};
+blue_card89= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cactus</b></h4></p><br>Grow<br>Needles<br>Desert<br>Plant<br>Sharp", data:{card: 'Cactus', critical_trial: 'yes', color:'Blue'}};
+blue_card90= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Antique</b></h4></p><br>Old<br>Ancient<br>Dated<br>Collector<br>Furniture", data:{card: 'Antique', critical_trial: 'yes', color:'Blue'}};
+blue_card91= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Battle</b></h4></p><br>War<br>Fight<br>Combat<br>Army<br>Conflict", data:{card: 'Battle', critical_trial: 'yes', color:'Blue'}};
+blue_card92= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bikini</b></h4></p><br>Swimsuit<br>Two-Piece<br>Beach<br>Wear<br>Bathing", data:{card: 'Bikini', critical_trial: 'yes', color:'Blue'}};
+blue_card93= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bacon</b></h4></p><br>Pig<br>Eat<br>Breakfast<br>Sausage<br>Eggs", data:{card: 'Bacon', critical_trial: 'yes', color:'Blue'}};
+blue_card94= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bag</b></h4></p><br>Paper<br>Garbage<br>Brown<br>Purse<br>Plastic", data:{card: 'Bag', critical_trial: 'yes', color:'Blue'}};
+blue_card95= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pitch</b></h4></p><br>Toss<br>Throw<br>Baseball<br>Sales<br>Horseshoes", data:{card: 'Pitch', critical_trial: 'yes', color:'Blue'}};
+blue_card96= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bartender</b></h4></p><br>Drinks<br>Restaurant<br>Alcohol<br>Mixes<br>Cocktail", data:{card: 'Bartender', critical_trial: 'yes', color:'Blue'}};
+blue_card97= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Calories</b></h4></p><br>Count<br>Burn<br>Low<br>Food<br>Weight", data:{card: 'Calories', critical_trial: 'yes', color:'Blue'}};
+blue_card98= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dorm</b></h4></p><br>College<br>Student<br>Home<br>Campus<br>Room", data:{card: 'Dorm', critical_trial: 'yes', color:'Blue'}};
+blue_card99= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Atlas</b></h4></p><br>Map<br>Book<br>Chart<br>World<br>Globe", data:{card: 'Atlas', critical_trial: 'yes', color:'Blue'}};
+blue_card100= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cotton</b></h4></p><br>White<br>Ball<br>Clothes<br>Material<br>Organic", data:{card: 'Cotton', critical_trial: 'yes', color:'Blue'}};
+blue_card101= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Busboy</b></h4></p><br>Restaurant<br>Waiter<br>Dishes<br>Clears<br>Tables", data:{card: 'Busboy', critical_trial: 'yes', color:'Blue'}};
+blue_card102= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bakery</b></h4></p><br>Bread<br>Cake<br>Pastry<br>Rolls<br>Fresh", data:{card: 'Bakery', critical_trial: 'yes', color:'Blue'}};
+blue_card103= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Appendix</b></h4></p><br>Index<br>Book<br>Emergency<br>Scar<br>Stomach", data:{card: 'Appendix', critical_trial: 'yes', color:'Blue'}};
+blue_card104= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Eyelash</b></h4></p><br>Hair<br>Mascara<br>Lid<br>Curler<br>Comb", data:{card: 'Eyelash', critical_trial: 'yes', color:'Blue'}};
+blue_card105= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Ache</b></h4></p><br>Tooth<br>Head<br>Pain<br>Sore<br>Back", data:{card: 'Ache', critical_trial: 'yes', color:'Blue'}};
+blue_card106= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cottage</b></h4></p><br>Country<br>Cheese<br>House<br>Cabin<br>Little", data:{card: 'Cottage', critical_trial: 'yes', color:'Blue'}};
+blue_card107= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bait</b></h4></p><br>Worms<br>Fishing<br>Hook<br>Lure<br>Catch", data:{card: 'Bait', critical_trial: 'yes', color:'Blue'}};
+blue_card108= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cherry</b></h4></p><br>Fruit<br>Red<br>Tree<br>Blossoms<br>Sundae", data:{card: 'Cherry', critical_trial: 'yes', color:'Blue'}};
+blue_card109= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Backpack</b></h4></p><br>School<br>Student<br>Books<br>Hike<br>Bag", data:{card: 'Backpack', critical_trial: 'yes', color:'Blue'}};
+blue_card110= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Angel</b></h4></p><br>Heaven<br>Devil<br>Halo<br>Wings<br>Sweet", data:{card: 'Angel', critical_trial: 'yes', color:'Blue'}};
+blue_card111= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Cockroach</b></h4></p><br>Bug<br>City<br>Pest<br>Kitchen<br>Insect", data:{card: 'Cockroach', critical_trial: 'yes', color:'Blue'}};
+blue_card112= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bloom</b></h4></p><br>Flowers<br>Spring<br>Annual<br>Plant<br>Flourish", data:{card: 'Bloom', critical_trial: 'yes', color:'Blue'}};
+blue_card113= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fidget</b></h4></p><br>Move<br>Restless<br>Sit Still<br> Impatient<br>Hair", data:{card: 'Fidget', critical_trial: 'yes', color:'Blue'}};
+blue_card114= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Grease</b></h4></p><br>Fat<br>Oil<br>Fry<br>Lubricate<br>John Travolta", data:{card: 'Grease', critical_trial: 'yes', color:'Blue'}};
+blue_card115= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Guess</b></h4></p><br>Know<br>Answer<br>Question<br>What<br>Who", data:{card: 'Guess', critical_trial: 'yes', color:'Blue'}};
+blue_card116= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Boomerang</b></h4></p><br>Return<br>Throw<br>Australia<br>Air<br>Back", data:{card: 'Boomerang', critical_trial: 'yes', color:'Blue'}};
+blue_card117= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Bonfire</b></h4></p><br>Burn<br>Camp<br>Beach<br>Rally<br>Wood", data:{card: 'Bonfire', critical_trial: 'yes', color:'Blue'}};
 blue_deck = [blue_card1,blue_card2,blue_card3,blue_card4,blue_card5,blue_card6,blue_card7,blue_card8,blue_card9,
 blue_card10,blue_card11,blue_card12,blue_card13,blue_card14,blue_card15,blue_card16,blue_card17,
 blue_card18,blue_card19,blue_card20,blue_card21,blue_card22,blue_card23,blue_card24,blue_card25,
@@ -328,124 +326,124 @@ blue_card106,blue_card107,blue_card108,blue_card109,blue_card110,blue_card111,bl
 blue_card114,blue_card115,blue_card116,blue_card117];
 
 ///// RED CARDS
-red_card1= {stimulus: "<p><h4><b>Zebra</b></h4></p><br>Black<br>White<br>Stripes<br>Horse<br>Zoo", data:{card: 'Zebra', critical_trial: 'yes', color:'Red'}};
-red_card2= {stimulus: "<p><h4><b>Smear</b></h4></p><br>Lipstick<br>Campaign<br>Smudge<br>Wipe<br>Ink", data:{card: 'Smear', critical_trial: 'yes', color:'Red'}};
-red_card3= {stimulus: "<p><h4><b>Thug</b></h4></p><br>Brute<br>Criminal<br>Gang<br>Violent<br>Jail", data:{card: 'Thug', critical_trial: 'yes', color:'Red'}};
-red_card4= {stimulus: "<p><h4><b>Static</b></h4></p><br>Cling<br>Electricity<br>Tradition<br>Stationary<br>Constant", data:{card: 'Static', critical_trial: 'yes', color:'Red'}};
-red_card5= {stimulus: "<p><h4><b>Tweezers</b></h4></p><br>Pluck<br>Pull<br>Eyebrow<br>Splinter<br>Squeeze", data:{card: 'Tweezers', critical_trial: 'yes', color:'Red'}};
-red_card6= {stimulus: "<p><h4><b>Trolley Car</b></h4></p><br>Tracks<br>San Francisco<br>Cable<br>Train<br>Street", data:{card: 'Trolley Car', critical_trial: 'yes', color:'Red'}};
-red_card7= {stimulus: "<p><h4><b>Sword</b></h4></p><br>Knife<br>Weapon<br>Fencing<br>Steel<br>Blade", data:{card: 'Sword', critical_trial: 'yes', color:'Red'}};
-red_card8= {stimulus: "<p><h4><b>Tip</b></h4></p><br>Gratuity<br>Restaurant<br>Meal<br>Bill<br>Off", data:{card: 'Tip', critical_trial: 'yes', color:'Red'}};
-red_card9= {stimulus: "<p><h4><b>Outhouse</b></h4></p><br>Toilet<br>John<br>Half-Moon<br>Bathroom<br>Latrine", data:{card: 'Outhouse', critical_trial: 'yes', color:'Red'}};
-red_card10= {stimulus: "<p><h4><b>Suds</b></h4></p><br>Soap<br>Foam<br>Wash<br>Bathroom<br>Bubbles", data:{card: 'Suds', critical_trial: 'yes', color:'Red'}};
-red_card11= {stimulus: "<p><h4><b>Teapot</b></h4></p><br>Boil<br>Water<br>Coffee<br>Kettle<br>Whistle", data:{card: 'Teapot', critical_trial: 'yes', color:'Red'}};
-red_card12= {stimulus: "<p><h4><b>Piano</b></h4></p><br>Keys<br>Lesson<br>Instrument<br>Grand<br>Music", data:{card: 'Piano', critical_trial: 'yes', color:'Red'}};
-red_card13= {stimulus: "<p><h4><b>Hamster</b></h4></p><br>Animal<br>Rodent<br>Cage<br>Gerbil<br>Wheel", data:{card: 'Hamster', critical_trial: 'yes', color:'Red'}};
-red_card14= {stimulus: "<p><h4><b>Fudge</b></h4></p><br>Chocolate<br>Ice Cream<br>Candy<br>Hot<br>Sundae", data:{card: 'Fudge', critical_trial: 'yes', color:'Red'}};
-red_card15= {stimulus: "<p><h4><b>Tweet</b></h4></p><br>Bird<br>Chirp<br>Twitter<br>140<br>News", data:{card: 'Tweet', critical_trial: 'yes', color:'Red'}};
-red_card16= {stimulus: "<p><h4><b>Touch</b></h4></p><br>Hands<br>Don't<br>Feel<br>Reach<br>Down", data:{card: 'Touch', critical_trial: 'yes', color:'Red'}};
-red_card17= {stimulus: "<p><h4><b>Ransom</b></h4></p><br>Kidnap<br>Money<br>Hostage<br>Pay<br>Take", data:{card: 'Ransom', critical_trial: 'yes', color:'Red'}};
-red_card18= {stimulus: "<p><h4><b>Volcano</b></h4></p><br>Eruption<br>Lava<br>Iceland<br>Hawaii<br>Flow", data:{card: 'Volcano', critical_trial: 'yes', color:'Red'}};
-red_card19= {stimulus: "<p><h4><b>Smoke</b></h4></p><br>Detector<br>Fire<br>Stack<br>Cigarette<br>Light", data:{card: 'Smoke', critical_trial: 'yes', color:'Red'}};
-red_card20= {stimulus: "<p><h4><b>Sunflower</b></h4></p><br>Yellow<br>Oil<br>Seeds<br>Bloom<br>Tall", data:{card: 'Sunflower', critical_trial: 'yes', color:'Red'}};
-red_card21= {stimulus: "<p><h4><b>Lighthouse</b></h4></p><br>Building<br>Warning<br>Coast<br>Ships<br>Fog", data:{card: 'Lighthouse', critical_trial: 'yes', color:'Red'}};
-red_card22= {stimulus: "<p><h4><b>Vineyard</b></h4></p><br>Wine<br>Tour<br>Grapes<br>Tasting<br>Napa Valley", data:{card: 'Vineyard', critical_trial: 'yes', color:'Red'}};
-red_card23= {stimulus: "<p><h4><b>Shake</b></h4></p><br>Ice Cream<br>Frappe<br>Move<br>Rattle<br>Roll", data:{card: 'Shake', critical_trial: 'yes', color:'Red'}};
-red_card24= {stimulus: "<p><h4><b>Vitamin C</b></h4></p><br>Nutrition<br>Colds<br>Oranges<br>Citrus<br>Immunity", data:{card: 'Vitamin C', critical_trial: 'yes', color:'Red'}};
-red_card25= {stimulus: "<p><h4><b>Valet</b></h4></p><br>Parking<br>Drive<br>Tip<br>Car<br>Restaurant", data:{card: 'Valet', critical_trial: 'yes', color:'Red'}};
-red_card26= {stimulus: "<p><h4><b>Marble</b></h4></p><br>Ball<br>Game<br>Collection<br>Cake<br>Swirl", data:{card: 'Marble', critical_trial: 'yes', color:'Red'}};
-red_card28= {stimulus: "<p><h4><b>Marriage</b></h4></p><br>Wedding<br>Husband<br>Wife<br>Ceremony<br>Vows", data:{card: 'Marriage', critical_trial: 'yes', color:'Red'}};
-red_card29= {stimulus: "<p><h4><b>Wishing Well</b></h4></p><br>Magic<br>Coin<br>Fairytale<br>Water<br>Grant", data:{card: 'Wishing Well', critical_trial: 'yes', color:'Red'}};
-red_card30= {stimulus: "<p><h4><b>Keys</b></h4></p><br>House<br>Car<br>Heart<br>Lost<br>Florida", data:{card: 'Keys', critical_trial: 'yes', color:'Red'}};
-red_card31= {stimulus: "<p><h4><b>Poem</b></h4></p><br>Limerick<br>Rhyme<br>Verse<br>Write<br>Words", data:{card: 'Poem', critical_trial: 'yes', color:'Red'}};
-red_card32= {stimulus: "<p><h4><b>Pen</b></h4></p><br>Write<br>Ball-Point<br>Felt-Tip<br>Pal<br>Ink", data:{card: 'Pen', critical_trial: 'yes', color:'Red'}};
-red_card33= {stimulus: "<p><h4><b>Straw</b></h4></p><br>Sip<br>Camel<br>Hay<br>Berry<br>Scarecrow", data:{card: 'Straw', critical_trial: 'yes', color:'Red'}};
-red_card34= {stimulus: "<p><h4><b>Scarecrow</b></h4></p><br>Straw<br>The Wizard Of Oz<br>Garden<br>Field<br>Birds", data:{card: 'Scarecrow', critical_trial: 'yes', color:'Red'}};
-red_card35= {stimulus: "<p><h4><b>Snorkel</b></h4></p><br>Swim<br>Fins<br>Underwater<br>Ocean<br>Scuba", data:{card: 'Snorkel', critical_trial: 'yes', color:'Red'}};
-red_card36= {stimulus: "<p><h4><b>Salt</b></h4></p><br>Sea<br>Water<br>Pepper<br>Table<br>Food", data:{card: 'Salt', critical_trial: 'yes', color:'Red'}};
-red_card37= {stimulus: "<p><h4><b>Wet</b></h4></p><br>Damp<br>Dry<br>Water<br>Rain<br>Drenched", data:{card: 'Wet', critical_trial: 'yes', color:'Red'}};
-red_card38= {stimulus: "<p><h4><b>Welcome</b></h4></p><br>You're<br>Thank You<br>Greeting<br>Warm<br>Mat", data:{card: 'Welcome', critical_trial: 'yes', color:'Red'}};
-red_card39= {stimulus: "<p><h4><b>Trophy</b></h4></p><br>Cup<br>Prize<br>Award<br>Win<br>Sports", data:{card: 'Trophy', critical_trial: 'yes', color:'Red'}};
-red_card40= {stimulus: "<p><h4><b>Tired</b></h4></p><br>Fatigue<br>Sleep<br>Deprived<br>Worn Out<br>Newborn", data:{card: 'Tired', critical_trial: 'yes', color:'Red'}};
-red_card41= {stimulus: "<p><h4><b>Tombstone</b></h4></p><br>Grave<br>Marker<br>Funeral<br>Cemetery<br>Bury", data:{card: 'Tombstone', critical_trial: 'yes', color:'Red'}};
-red_card42= {stimulus: "<p><h4><b>Stars</b></h4></p><br>Sky<br>Night<br>Twinkle<br>Celebrity<br>Dancing", data:{card: 'Stars', critical_trial: 'yes', color:'Red'}};
-red_card43= {stimulus: "<p><h4><b>Pool</b></h4></p><br>Billiards<br>Swimming<br>Ground<br>Water<br>Dive", data:{card: 'Pool', critical_trial: 'yes', color:'Red'}};
-red_card44= {stimulus: "<p><h4><b>Stomach</b></h4></p><br>Belly<br>Gut<br>Flat<br>Muscles<br>Tummy", data:{card: 'Stomach', critical_trial: 'yes', color:'Red'}};
-red_card45= {stimulus: "<p><h4><b>Hunk</b></h4></p><br>Attractive<br>Gorgeous<br>Handsome<br>Guy<br>Meat", data:{card: 'Hunk', critical_trial: 'yes', color:'Red'}};
-red_card46= {stimulus: "<p><h4><b>Manicure</b></h4></p><br>Fingernail<br>Polish<br>File<br>Hand<br>Women", data:{card: 'Manicure', critical_trial: 'yes', color:'Red'}};
-red_card47= {stimulus: "<p><h4><b>Snowflake</b></h4></p><br>Winter<br>White<br>Ice<br>Big<br>Catch", data:{card: 'Snowflake', critical_trial: 'yes', color:'Red'}};
-red_card48= {stimulus: "<p><h4><b>Trigger</b></h4></p><br>Gun<br>Blast<br>Horse<br>Pull<br>Shoot", data:{card: 'Trigger', critical_trial: 'yes', color:'Red'}};
-red_card49= {stimulus: "<p><h4><b>Yesterday</b></h4></p><br>Past<br>Before<br>Hours<br>Time<br>Tomorrow", data:{card: 'Yesterday', critical_trial: 'yes', color:'Red'}};
-red_card50= {stimulus: "<p><h4><b>Shrimp</b></h4></p><br>Seafood<br>Prawn<br>Jumbo<br>Shellfish<br>Scampi", data:{card: 'Shrimp', critical_trial: 'yes', color:'Red'}};
-red_card51= {stimulus: "<p><h4><b>Shampoo</b></h4></p><br>Wash<br>Hair<br>Lather<br>Suds<br>Conditioner", data:{card: 'Shampoo', critical_trial: 'yes', color:'Red'}};
-red_card52= {stimulus: "<p><h4><b>Whisper</b></h4></p><br>Speak<br>Soft<br>Ear<br>Secret<br>Loud", data:{card: 'Whisper', critical_trial: 'yes', color:'Red'}};
-red_card53= {stimulus: "<p><h4><b>Strapless</b></h4></p><br>Gown<br>Shoulders<br>Bathing Suit<br>Bare<br>Dress", data:{card: 'Strapless', critical_trial: 'yes', color:'Red'}};
-red_card54= {stimulus: "<p><h4><b>Simple</b></h4></p><br>Plain<br>Easy<br>Difficult<br>Hard<br>Stupid", data:{card: 'Simple', critical_trial: 'yes', color:'Red'}};
-red_card55= {stimulus: "<p><h4><b>Secret</b></h4></p><br>Agent<br>Top<br>Classified<br>Tell<br>Keep", data:{card: 'Secret', critical_trial: 'yes', color:'Red'}};
-red_card56= {stimulus: "<p><h4><b>Tape</b></h4></p><br>Duct<br>Masking<br>Cassette<br>Video<br>Scotch", data:{card: 'Tape', critical_trial: 'yes', color:'Red'}};
-red_card57= {stimulus: "<p><h4><b>Vote</b></h4></p><br>Elect<br>Ballot<br>Cast<br>November<br>Candidate", data:{card: 'Vote', critical_trial: 'yes', color:'Red'}};
-red_card58= {stimulus: "<p><h4><b>Windmill</b></h4></p><br>Holland<br>Dutch<br>Building<br>Blades<br>Energy", data:{card: 'Windmill', critical_trial: 'yes', color:'Red'}};
-red_card59= {stimulus: "<p><h4><b>Mad</b></h4></p><br>Insane<br>Crazy<br>Angry<br>Furious<br>Mood", data:{card: 'Mad', critical_trial: 'yes', color:'Red'}};
-red_card60= {stimulus: "<p><h4><b>Yellow</b></h4></p><br>Color<br>Red<br>Banana<br>Lemon<br>Sundae", data:{card: 'Yellow', critical_trial: 'yes', color:'Red'}};
-red_card61= {stimulus: "<p><h4><b>Parsley</b></h4></p><br>Garnish<br>Food<br>Green<br>Herb<br>Spice", data:{card: 'Parsley', critical_trial: 'yes', color:'Red'}};
-red_card62= {stimulus: "<p><h4><b>Snowman</b></h4></p><br>Frosty<br>Abominable<br>Build<br>Winter<br>Make", data:{card: 'Snowman', critical_trial: 'yes', color:'Red'}};
-red_card63= {stimulus: "<p><h4><b>Helmet</b></h4></p><br>Head<br>Bicycle<br>Protect<br>Safety<br>Injuries", data:{card: 'Helmet', critical_trial: 'yes', color:'Red'}};
-red_card64= {stimulus: "<p><h4><b>Scoop</b></h4></p><br>Ice Cream<br>Cone<br>Reporter<br>Newspaper<br>Story", data:{card: 'Scoop', critical_trial: 'yes', color:'Red'}};
-red_card65= {stimulus: "<p><h4><b>Hiccup</b></h4></p><br>Bout<br>Eat<br>Drink<br>Breath<br>Air", data:{card: 'Hiccup', critical_trial: 'yes', color:'Red'}};
-red_card66= {stimulus: "<p><h4><b>Stiff</b></h4></p><br>Rigid<br>Corpse<br>Dead<br>Drink<br>Board", data:{card: 'Stiff', critical_trial: 'yes', color:'Red'}};
-red_card67= {stimulus: "<p><h4><b>Sleepwalk</b></h4></p><br>Awake<br>Move<br>Wander<br>Pajamas<br>Night", data:{card: 'Sleepwalk', critical_trial: 'yes', color:'Red'}};
-red_card68= {stimulus: "<p><h4><b>Yawn</b></h4></p><br>Tired<br>Sleep<br>Snooze<br>Open<br>Mouth", data:{card: 'Yawn', critical_trial: 'yes', color:'Red'}};
-red_card69= {stimulus: "<p><h4><b>Surprise</b></h4></p><br>Astonish<br>Party<br>Expect<br>Birthday<br>Off-Guard", data:{card: 'Surprise', critical_trial: 'yes', color:'Red'}};
-red_card70= {stimulus: "<p><h4><b>Spy</b></h4></p><br>CIA<br>Traitor<br>Secret<br>James Bond<br>Undercover", data:{card: 'Spy', critical_trial: 'yes', color:'Red'}};
-red_card71= {stimulus: "<p><h4><b>Queen</b></h4></p><br>Elizabeth<br>King<br>Woman<br>Royal<br>England", data:{card: 'Queen', critical_trial: 'yes', color:'Red'}};
-red_card72= {stimulus: "<p><h4><b>Teacher</b></h4></p><br>School<br>Learn<br>Grade<br>Student<br>Professor", data:{card: 'Teacher', critical_trial: 'yes', color:'Red'}};
-red_card73= {stimulus: "<p><h4><b>Tuxedo</b></h4></p><br>Formal<br>Prom<br>Jacket<br>Black Tie<br>Wedding", data:{card: 'Tuxedo', critical_trial: 'yes', color:'Red'}};
-red_card74= {stimulus: "<p><h4><b>Snore</b></h4></p><br>Sleep<br>Disrupt<br>Night<br>Nose<br>Noise", data:{card: 'Snore', critical_trial: 'yes', color:'Red'}};
-red_card75= {stimulus: "<p><h4><b>Stop</b></h4></p><br>Light<br>Sign<br>It<br>By<br>Red", data:{card: 'Stop', critical_trial: 'yes', color:'Red'}};
-red_card76= {stimulus: "<p><h4><b>Street</b></h4></p><br>Road<br>Avenue<br>Way<br>Drive<br>Cross", data:{card: 'Street', critical_trial: 'yes', color:'Red'}};
-red_card77= {stimulus: "<p><h4><b>Stagger</b></h4></p><br>Sway<br>Hesitate<br>Walk<br>Unsteady<br>Straight", data:{card: 'Stagger', critical_trial: 'yes', color:'Red'}};
-red_card78= {stimulus: "<p><h4><b>Yo-Yo</b></h4></p><br>Toy<br>String<br>Up<br>Down<br>Spin", data:{card: 'Yo-Yo', critical_trial: 'yes', color:'Red'}};
-red_card79= {stimulus: "<p><h4><b>Plumber</b></h4></p><br>Leak<br>Pipes<br>Toilet<br>Sink<br>Fix", data:{card: 'Plumber', critical_trial: 'yes', color:'Red'}};
-red_card80= {stimulus: "<p><h4><b>Waiter</b></h4></p><br>Restaurant<br>Waitress<br>Serve<br>Tip<br>Eat", data:{card: 'Waiter', critical_trial: 'yes', color:'Red'}};
-red_card81= {stimulus: "<p><h4><b>Sunburn</b></h4></p><br>Red<br>Skin<br>Lotion<br>Tan<br>Vacation", data:{card: 'Sunburn', critical_trial: 'yes', color:'Red'}};
-red_card82= {stimulus: "<p><h4><b>Pin</b></h4></p><br>Needle<br>Point<br>Down<br>Safety<br>Brooch", data:{card: 'Pin', critical_trial: 'yes', color:'Red'}};
-red_card83= {stimulus: "<p><h4><b>Twins</b></h4></p><br>Babies<br>Two<br>Identical<br>Fraternal<br>Minnesota", data:{card: 'Twins', critical_trial: 'yes', color:'Red'}};
-red_card84= {stimulus: "<p><h4><b>Karaoke</b></h4></p><br>Sing<br>Along<br>Words<br>Duet<br>Pub", data:{card: 'Karaoke', critical_trial: 'yes', color:'Red'}};
-red_card85= {stimulus: "<p><h4><b>Watch</b></h4></p><br>Wrist<br>Clock<br>Time<br>Wear<br>Look", data:{card: 'Watch', critical_trial: 'yes', color:'Red'}};
-red_card86= {stimulus: "<p><h4><b>Midnight</b></h4></p><br>Twelve O' Clock<br>Curfew<br>Noon<br>Time<br>Strike", data:{card: 'Midnight', critical_trial: 'yes', color:'Red'}};
-red_card87= {stimulus: "<p><h4><b>Wrinkle</b></h4></p><br>Crease<br>Line<br>Old<br>Skin<br>Face", data:{card: 'Wrinkle', critical_trial: 'yes', color:'Red'}};
-red_card88= {stimulus: "<p><h4><b>Wine</b></h4></p><br>Red<br>White<br>Cocktail<br>Glass<br>Cheese", data:{card: 'Wine', critical_trial: 'yes', color:'Red'}};
-red_card89= {stimulus: "<p><h4><b>Sweat</b></h4></p><br>Perspire<br>Hot<br>Exercise<br>Wet<br>Water", data:{card: 'Sweat', critical_trial: 'yes', color:'Red'}};
-red_card90= {stimulus: "<p><h4><b>Truffle</b></h4></p><br>Chocolate<br>Mushroom<br>White<br>Black<br>Oil", data:{card: 'Truffle', critical_trial: 'yes', color:'Red'}};
-red_card91= {stimulus: "<p><h4><b>Quintuplets</b></h4></p><br>Babies<br>Five<br>Birth<br>Twins<br>Multiple", data:{card: 'Quintuplets', critical_trial: 'yes', color:'Red'}};
-red_card92= {stimulus: "<p><h4><b>Tag</b></h4></p><br>Price<br>Hash<br>Sale<br>Label<br>Along", data:{card: 'Tag', critical_trial: 'yes', color:'Red'}};
-red_card93= {stimulus: "<p><h4><b>Pound</b></h4></p><br>Weight<br>Currency<br>Ounce<br>Dog<br>Calories", data:{card: 'Pound', critical_trial: 'yes', color:'Red'}};
-red_card94= {stimulus: "<p><h4><b>Watermelon</b></h4></p><br>Fruit<br>Seeds<br>Picnics<br>Pink<br>Green", data:{card: 'Watermelon', critical_trial: 'yes', color:'Red'}};
-red_card95= {stimulus: "<p><h4><b>Skateboard</b></h4></p><br>Wheels<br>Roll<br>Park<br>Trucks<br>Tony Hawk", data:{card: 'Skateboard', critical_trial: 'yes', color:'Red'}};
-red_card96= {stimulus: "<p><h4><b>Pose</b></h4></p><br>Photograph<br>Model<br>Picture<br>Stand<br>Still", data:{card: 'Pose', critical_trial: 'yes', color:'Red'}};
-red_card97= {stimulus: "<p><h4><b>Knife</b></h4></p><br>Cutlery<br>Sharp<br>Spoon<br>Fork<br>Set", data:{card: 'Knife', critical_trial: 'yes', color:'Red'}};
-red_card98= {stimulus: "<p><h4><b>Snowboard</b></h4></p><br>Ski<br>Snow<br>Winter<br>Shaun White<br>Halfpipe", data:{card: 'Snowboard', critical_trial: 'yes', color:'Red'}};
-red_card99= {stimulus: "<p><h4><b>Tent</b></h4></p><br>Camping<br>Woods<br>Sleep<br>Outside<br>Circus", data:{card: 'Tent', critical_trial: 'yes', color:'Red'}};
-red_card100= {stimulus: "<p><h4><b>Jersey</b></h4></p><br>New<br>State<br>Shirt<br>Wear<br>Shore", data:{card: 'Jersey', critical_trial: 'yes', color:'Red'}};
-red_card101= {stimulus: "<p><h4><b>Peak</b></h4></p><br>Summit<br>Mountain<br>Point<br>Career<br>Shape", data:{card: 'Peak', critical_trial: 'yes', color:'Red'}};
-red_card102= {stimulus: "<p><h4><b>Oatmeal</b></h4></p><br>Cereal<br>Breakfast<br>Cookies<br>Quaker<br>Hot", data:{card: 'Oatmeal', critical_trial: 'yes', color:'Red'}};
-red_card103= {stimulus: "<p><h4><b>Polo</b></h4></p><br>Sport<br>Horses<br>Mallet<br>Shirt<br>Royalty", data:{card: 'Polo', critical_trial: 'yes', color:'Red'}};
-red_card104= {stimulus: "<p><h4><b>Sweet</b></h4></p><br>Sugary<br>Tea<br>Nice<br>Sour<br>Sixteen", data:{card: 'Sweet', critical_trial: 'yes', color:'Red'}};
-red_card105= {stimulus: "<p><h4><b>Waterfall</b></h4></p><br>Niagara<br>Cliff<br>River<br>Over<br>Bridge", data:{card: 'Waterfall', critical_trial: 'yes', color:'Red'}};
-red_card106= {stimulus: "<p><h4><b>Theme Park</b></h4></p><br>Rides<br>Entertainment<br>Family<br>Roller Coaster<br>Disney", data:{card: 'Theme Park', critical_trial: 'yes', color:'Red'}};
-red_card107= {stimulus: "<p><h4><b>Mirror</b></h4></p><br>Wall<br>See<br>Reflection<br>Looking-Glass<br>Rear View", data:{card: 'Mirror', critical_trial: 'yes', color:'Red'}};
-red_card108= {stimulus: "<p><h4><b>Jockey</b></h4></p><br>Ride<br>Horse<br>Race<br>Saddle<br>Track", data:{card: 'Jockey', critical_trial: 'yes', color:'Red'}};
-red_card109= {stimulus: "<p><h4><b>Stress</b></h4></p><br>Nervous<br>Tense<br>Pressure<br>Anxiety<br>Work", data:{card: 'Stress', critical_trial: 'yes', color:'Red'}};
-red_card110= {stimulus: "<p><h4><b>Tropical</b></h4></p><br>Climate<br>Weather<br>Storm<br>Vacation<br>Flowers", data:{card: 'Tropical', critical_trial: 'yes', color:'Red'}};
-red_card111= {stimulus: "<p><h4><b>Spatula</b></h4></p><br>Cook<br>Kitchen<br>Flip<br>Food<br>Utensil", data:{card: 'Spatula', critical_trial: 'yes', color:'Red'}};
-red_card112= {stimulus: "<p><h4><b>Wallet</b></h4></p><br>Billfold<br>Purse<br>Money<br>Credit Card<br>Pocket", data:{card: 'Wallet', critical_trial: 'yes', color:'Red'}};
-red_card113= {stimulus: "<p><h4><b>Waffle</b></h4></p><br>Belgian<br>Iron<br>Strawberries<br>Breakfast<br>Syrup", data:{card: 'Waffle', critical_trial: 'yes', color:'Red'}};
-red_card114= {stimulus: "<p><h4><b>Snack</b></h4></p><br>Hungry<br>Food<br>Fruit<br>Time<br>Healthy", data:{card: 'Snack', critical_trial: 'yes', color:'Red'}};
-red_card115= {stimulus: "<p><h4><b>Strategy</b></h4></p><br>Plan<br>Business<br>Tactics<br>Think<br>Plot", data:{card: 'Strategy', critical_trial: 'yes', color:'Red'}};
-red_card116= {stimulus: "<p><h4><b>Turkey</b></h4></p><br>Gobble<br>Thanksgiving<br>Stuffing<br>Drumstick<br>Bird", data:{card: 'Turkey', critical_trial: 'yes', color:'Red'}};
-red_card117= {stimulus: "<p><h4><b>Trunk</b></h4></p><br>Elephant<br>Car<br>Suitcase<br>Tree<br>Spare Tire", data:{card: 'Trunk', critical_trial: 'yes', color:'Red'}};
-red_card118= {stimulus: "<p><h4><b>Violin</b></h4></p><br>Music<br>Instrument<br>String<br>Bow<br>Chin", data:{card: 'Violin', critical_trial: 'yes', color:'Red'}};
-red_card119= {stimulus: "<p><h4><b>Stunt</b></h4></p><br>Extreme<br>Car<br>Risk<br>Man<br>Danger", data:{card: 'Stunt', critical_trial: 'yes', color:'Red'}};
+red_card1= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Zebra</b></h4></p><br>Black<br>White<br>Stripes<br>Horse<br>Zoo", data:{card: 'Zebra', critical_trial: 'yes', color:'Red'}};
+red_card2= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Smear</b></h4></p><br>Lipstick<br>Campaign<br>Smudge<br>Wipe<br>Ink", data:{card: 'Smear', critical_trial: 'yes', color:'Red'}};
+red_card3= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Thug</b></h4></p><br>Brute<br>Criminal<br>Gang<br>Violent<br>Jail", data:{card: 'Thug', critical_trial: 'yes', color:'Red'}};
+red_card4= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Static</b></h4></p><br>Cling<br>Electricity<br>Tradition<br>Stationary<br>Constant", data:{card: 'Static', critical_trial: 'yes', color:'Red'}};
+red_card5= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tweezers</b></h4></p><br>Pluck<br>Pull<br>Eyebrow<br>Splinter<br>Squeeze", data:{card: 'Tweezers', critical_trial: 'yes', color:'Red'}};
+red_card6= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Trolley Car</b></h4></p><br>Tracks<br>San Francisco<br>Cable<br>Train<br>Street", data:{card: 'Trolley Car', critical_trial: 'yes', color:'Red'}};
+red_card7= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sword</b></h4></p><br>Knife<br>Weapon<br>Fencing<br>Steel<br>Blade", data:{card: 'Sword', critical_trial: 'yes', color:'Red'}};
+red_card8= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tip</b></h4></p><br>Gratuity<br>Restaurant<br>Meal<br>Bill<br>Off", data:{card: 'Tip', critical_trial: 'yes', color:'Red'}};
+red_card9= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Outhouse</b></h4></p><br>Toilet<br>John<br>Half-Moon<br>Bathroom<br>Latrine", data:{card: 'Outhouse', critical_trial: 'yes', color:'Red'}};
+red_card10= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Suds</b></h4></p><br>Soap<br>Foam<br>Wash<br>Bathroom<br>Bubbles", data:{card: 'Suds', critical_trial: 'yes', color:'Red'}};
+red_card11= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Teapot</b></h4></p><br>Boil<br>Water<br>Coffee<br>Kettle<br>Whistle", data:{card: 'Teapot', critical_trial: 'yes', color:'Red'}};
+red_card12= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Piano</b></h4></p><br>Keys<br>Lesson<br>Instrument<br>Grand<br>Music", data:{card: 'Piano', critical_trial: 'yes', color:'Red'}};
+red_card13= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Hamster</b></h4></p><br>Animal<br>Rodent<br>Cage<br>Gerbil<br>Wheel", data:{card: 'Hamster', critical_trial: 'yes', color:'Red'}};
+red_card14= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fudge</b></h4></p><br>Chocolate<br>Ice Cream<br>Candy<br>Hot<br>Sundae", data:{card: 'Fudge', critical_trial: 'yes', color:'Red'}};
+red_card15= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tweet</b></h4></p><br>Bird<br>Chirp<br>Twitter<br>140<br>News", data:{card: 'Tweet', critical_trial: 'yes', color:'Red'}};
+red_card16= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Touch</b></h4></p><br>Hands<br>Don't<br>Feel<br>Reach<br>Down", data:{card: 'Touch', critical_trial: 'yes', color:'Red'}};
+red_card17= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Ransom</b></h4></p><br>Kidnap<br>Money<br>Hostage<br>Pay<br>Take", data:{card: 'Ransom', critical_trial: 'yes', color:'Red'}};
+red_card18= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Volcano</b></h4></p><br>Eruption<br>Lava<br>Iceland<br>Hawaii<br>Flow", data:{card: 'Volcano', critical_trial: 'yes', color:'Red'}};
+red_card19= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Smoke</b></h4></p><br>Detector<br>Fire<br>Stack<br>Cigarette<br>Light", data:{card: 'Smoke', critical_trial: 'yes', color:'Red'}};
+red_card20= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sunflower</b></h4></p><br>Yellow<br>Oil<br>Seeds<br>Bloom<br>Tall", data:{card: 'Sunflower', critical_trial: 'yes', color:'Red'}};
+red_card21= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lighthouse</b></h4></p><br>Building<br>Warning<br>Coast<br>Ships<br>Fog", data:{card: 'Lighthouse', critical_trial: 'yes', color:'Red'}};
+red_card22= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Vineyard</b></h4></p><br>Wine<br>Tour<br>Grapes<br>Tasting<br>Napa Valley", data:{card: 'Vineyard', critical_trial: 'yes', color:'Red'}};
+red_card23= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Shake</b></h4></p><br>Ice Cream<br>Frappe<br>Move<br>Rattle<br>Roll", data:{card: 'Shake', critical_trial: 'yes', color:'Red'}};
+red_card24= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Vitamin C</b></h4></p><br>Nutrition<br>Colds<br>Oranges<br>Citrus<br>Immunity", data:{card: 'Vitamin C', critical_trial: 'yes', color:'Red'}};
+red_card25= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Valet</b></h4></p><br>Parking<br>Drive<br>Tip<br>Car<br>Restaurant", data:{card: 'Valet', critical_trial: 'yes', color:'Red'}};
+red_card26= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Marble</b></h4></p><br>Ball<br>Game<br>Collection<br>Cake<br>Swirl", data:{card: 'Marble', critical_trial: 'yes', color:'Red'}};
+red_card28= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Marriage</b></h4></p><br>Wedding<br>Husband<br>Wife<br>Ceremony<br>Vows", data:{card: 'Marriage', critical_trial: 'yes', color:'Red'}};
+red_card29= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Wishing Well</b></h4></p><br>Magic<br>Coin<br>Fairytale<br>Water<br>Grant", data:{card: 'Wishing Well', critical_trial: 'yes', color:'Red'}};
+red_card30= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Keys</b></h4></p><br>House<br>Car<br>Heart<br>Lost<br>Florida", data:{card: 'Keys', critical_trial: 'yes', color:'Red'}};
+red_card31= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Poem</b></h4></p><br>Limerick<br>Rhyme<br>Verse<br>Write<br>Words", data:{card: 'Poem', critical_trial: 'yes', color:'Red'}};
+red_card32= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pen</b></h4></p><br>Write<br>Ball-Point<br>Felt-Tip<br>Pal<br>Ink", data:{card: 'Pen', critical_trial: 'yes', color:'Red'}};
+red_card33= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Straw</b></h4></p><br>Sip<br>Camel<br>Hay<br>Berry<br>Scarecrow", data:{card: 'Straw', critical_trial: 'yes', color:'Red'}};
+red_card34= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Scarecrow</b></h4></p><br>Straw<br>The Wizard Of Oz<br>Garden<br>Field<br>Birds", data:{card: 'Scarecrow', critical_trial: 'yes', color:'Red'}};
+red_card35= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snorkel</b></h4></p><br>Swim<br>Fins<br>Underwater<br>Ocean<br>Scuba", data:{card: 'Snorkel', critical_trial: 'yes', color:'Red'}};
+red_card36= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Salt</b></h4></p><br>Sea<br>Water<br>Pepper<br>Table<br>Food", data:{card: 'Salt', critical_trial: 'yes', color:'Red'}};
+red_card37= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Wet</b></h4></p><br>Damp<br>Dry<br>Water<br>Rain<br>Drenched", data:{card: 'Wet', critical_trial: 'yes', color:'Red'}};
+red_card38= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Welcome</b></h4></p><br>You're<br>Thank You<br>Greeting<br>Warm<br>Mat", data:{card: 'Welcome', critical_trial: 'yes', color:'Red'}};
+red_card39= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Trophy</b></h4></p><br>Cup<br>Prize<br>Award<br>Win<br>Sports", data:{card: 'Trophy', critical_trial: 'yes', color:'Red'}};
+red_card40= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tired</b></h4></p><br>Fatigue<br>Sleep<br>Deprived<br>Worn Out<br>Newborn", data:{card: 'Tired', critical_trial: 'yes', color:'Red'}};
+red_card41= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tombstone</b></h4></p><br>Grave<br>Marker<br>Funeral<br>Cemetery<br>Bury", data:{card: 'Tombstone', critical_trial: 'yes', color:'Red'}};
+red_card42= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stars</b></h4></p><br>Sky<br>Night<br>Twinkle<br>Celebrity<br>Dancing", data:{card: 'Stars', critical_trial: 'yes', color:'Red'}};
+red_card43= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pool</b></h4></p><br>Billiards<br>Swimming<br>Ground<br>Water<br>Dive", data:{card: 'Pool', critical_trial: 'yes', color:'Red'}};
+red_card44= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stomach</b></h4></p><br>Belly<br>Gut<br>Flat<br>Muscles<br>Tummy", data:{card: 'Stomach', critical_trial: 'yes', color:'Red'}};
+red_card45= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Hunk</b></h4></p><br>Attractive<br>Gorgeous<br>Handsome<br>Guy<br>Meat", data:{card: 'Hunk', critical_trial: 'yes', color:'Red'}};
+red_card46= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Manicure</b></h4></p><br>Fingernail<br>Polish<br>File<br>Hand<br>Women", data:{card: 'Manicure', critical_trial: 'yes', color:'Red'}};
+red_card47= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snowflake</b></h4></p><br>Winter<br>White<br>Ice<br>Big<br>Catch", data:{card: 'Snowflake', critical_trial: 'yes', color:'Red'}};
+red_card48= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Trigger</b></h4></p><br>Gun<br>Blast<br>Horse<br>Pull<br>Shoot", data:{card: 'Trigger', critical_trial: 'yes', color:'Red'}};
+red_card49= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Yesterday</b></h4></p><br>Past<br>Before<br>Hours<br>Time<br>Tomorrow", data:{card: 'Yesterday', critical_trial: 'yes', color:'Red'}};
+red_card50= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Shrimp</b></h4></p><br>Seafood<br>Prawn<br>Jumbo<br>Shellfish<br>Scampi", data:{card: 'Shrimp', critical_trial: 'yes', color:'Red'}};
+red_card51= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Shampoo</b></h4></p><br>Wash<br>Hair<br>Lather<br>Suds<br>Conditioner", data:{card: 'Shampoo', critical_trial: 'yes', color:'Red'}};
+red_card52= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Whisper</b></h4></p><br>Speak<br>Soft<br>Ear<br>Secret<br>Loud", data:{card: 'Whisper', critical_trial: 'yes', color:'Red'}};
+red_card53= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Strapless</b></h4></p><br>Gown<br>Shoulders<br>Bathing Suit<br>Bare<br>Dress", data:{card: 'Strapless', critical_trial: 'yes', color:'Red'}};
+red_card54= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Simple</b></h4></p><br>Plain<br>Easy<br>Difficult<br>Hard<br>Stupid", data:{card: 'Simple', critical_trial: 'yes', color:'Red'}};
+red_card55= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Secret</b></h4></p><br>Agent<br>Top<br>Classified<br>Tell<br>Keep", data:{card: 'Secret', critical_trial: 'yes', color:'Red'}};
+red_card56= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tape</b></h4></p><br>Duct<br>Masking<br>Cassette<br>Video<br>Scotch", data:{card: 'Tape', critical_trial: 'yes', color:'Red'}};
+red_card57= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Vote</b></h4></p><br>Elect<br>Ballot<br>Cast<br>November<br>Candidate", data:{card: 'Vote', critical_trial: 'yes', color:'Red'}};
+red_card58= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Windmill</b></h4></p><br>Holland<br>Dutch<br>Building<br>Blades<br>Energy", data:{card: 'Windmill', critical_trial: 'yes', color:'Red'}};
+red_card59= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mad</b></h4></p><br>Insane<br>Crazy<br>Angry<br>Furious<br>Mood", data:{card: 'Mad', critical_trial: 'yes', color:'Red'}};
+red_card60= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Yellow</b></h4></p><br>Color<br>Red<br>Banana<br>Lemon<br>Sundae", data:{card: 'Yellow', critical_trial: 'yes', color:'Red'}};
+red_card61= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Parsley</b></h4></p><br>Garnish<br>Food<br>Green<br>Herb<br>Spice", data:{card: 'Parsley', critical_trial: 'yes', color:'Red'}};
+red_card62= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snowman</b></h4></p><br>Frosty<br>Abominable<br>Build<br>Winter<br>Make", data:{card: 'Snowman', critical_trial: 'yes', color:'Red'}};
+red_card63= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Helmet</b></h4></p><br>Head<br>Bicycle<br>Protect<br>Safety<br>Injuries", data:{card: 'Helmet', critical_trial: 'yes', color:'Red'}};
+red_card64= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Scoop</b></h4></p><br>Ice Cream<br>Cone<br>Reporter<br>Newspaper<br>Story", data:{card: 'Scoop', critical_trial: 'yes', color:'Red'}};
+red_card65= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Hiccup</b></h4></p><br>Bout<br>Eat<br>Drink<br>Breath<br>Air", data:{card: 'Hiccup', critical_trial: 'yes', color:'Red'}};
+red_card66= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stiff</b></h4></p><br>Rigid<br>Corpse<br>Dead<br>Drink<br>Board", data:{card: 'Stiff', critical_trial: 'yes', color:'Red'}};
+red_card67= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sleepwalk</b></h4></p><br>Awake<br>Move<br>Wander<br>Pajamas<br>Night", data:{card: 'Sleepwalk', critical_trial: 'yes', color:'Red'}};
+red_card68= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Yawn</b></h4></p><br>Tired<br>Sleep<br>Snooze<br>Open<br>Mouth", data:{card: 'Yawn', critical_trial: 'yes', color:'Red'}};
+red_card69= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Surprise</b></h4></p><br>Astonish<br>Party<br>Expect<br>Birthday<br>Off-Guard", data:{card: 'Surprise', critical_trial: 'yes', color:'Red'}};
+red_card70= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Spy</b></h4></p><br>CIA<br>Traitor<br>Secret<br>James Bond<br>Undercover", data:{card: 'Spy', critical_trial: 'yes', color:'Red'}};
+red_card71= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Queen</b></h4></p><br>Elizabeth<br>King<br>Woman<br>Royal<br>England", data:{card: 'Queen', critical_trial: 'yes', color:'Red'}};
+red_card72= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Teacher</b></h4></p><br>School<br>Learn<br>Grade<br>Student<br>Professor", data:{card: 'Teacher', critical_trial: 'yes', color:'Red'}};
+red_card73= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tuxedo</b></h4></p><br>Formal<br>Prom<br>Jacket<br>Black Tie<br>Wedding", data:{card: 'Tuxedo', critical_trial: 'yes', color:'Red'}};
+red_card74= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snore</b></h4></p><br>Sleep<br>Disrupt<br>Night<br>Nose<br>Noise", data:{card: 'Snore', critical_trial: 'yes', color:'Red'}};
+red_card75= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stop</b></h4></p><br>Light<br>Sign<br>It<br>By<br>Red", data:{card: 'Stop', critical_trial: 'yes', color:'Red'}};
+red_card76= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Street</b></h4></p><br>Road<br>Avenue<br>Way<br>Drive<br>Cross", data:{card: 'Street', critical_trial: 'yes', color:'Red'}};
+red_card77= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stagger</b></h4></p><br>Sway<br>Hesitate<br>Walk<br>Unsteady<br>Straight", data:{card: 'Stagger', critical_trial: 'yes', color:'Red'}};
+red_card78= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Yo-Yo</b></h4></p><br>Toy<br>String<br>Up<br>Down<br>Spin", data:{card: 'Yo-Yo', critical_trial: 'yes', color:'Red'}};
+red_card79= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Plumber</b></h4></p><br>Leak<br>Pipes<br>Toilet<br>Sink<br>Fix", data:{card: 'Plumber', critical_trial: 'yes', color:'Red'}};
+red_card80= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Waiter</b></h4></p><br>Restaurant<br>Waitress<br>Serve<br>Tip<br>Eat", data:{card: 'Waiter', critical_trial: 'yes', color:'Red'}};
+red_card81= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sunburn</b></h4></p><br>Red<br>Skin<br>Lotion<br>Tan<br>Vacation", data:{card: 'Sunburn', critical_trial: 'yes', color:'Red'}};
+red_card82= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pin</b></h4></p><br>Needle<br>Point<br>Down<br>Safety<br>Brooch", data:{card: 'Pin', critical_trial: 'yes', color:'Red'}};
+red_card83= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Twins</b></h4></p><br>Babies<br>Two<br>Identical<br>Fraternal<br>Minnesota", data:{card: 'Twins', critical_trial: 'yes', color:'Red'}};
+red_card84= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Karaoke</b></h4></p><br>Sing<br>Along<br>Words<br>Duet<br>Pub", data:{card: 'Karaoke', critical_trial: 'yes', color:'Red'}};
+red_card85= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Watch</b></h4></p><br>Wrist<br>Clock<br>Time<br>Wear<br>Look", data:{card: 'Watch', critical_trial: 'yes', color:'Red'}};
+red_card86= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Midnight</b></h4></p><br>Twelve O' Clock<br>Curfew<br>Noon<br>Time<br>Strike", data:{card: 'Midnight', critical_trial: 'yes', color:'Red'}};
+red_card87= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Wrinkle</b></h4></p><br>Crease<br>Line<br>Old<br>Skin<br>Face", data:{card: 'Wrinkle', critical_trial: 'yes', color:'Red'}};
+red_card88= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Wine</b></h4></p><br>Red<br>White<br>Cocktail<br>Glass<br>Cheese", data:{card: 'Wine', critical_trial: 'yes', color:'Red'}};
+red_card89= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sweat</b></h4></p><br>Perspire<br>Hot<br>Exercise<br>Wet<br>Water", data:{card: 'Sweat', critical_trial: 'yes', color:'Red'}};
+red_card90= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Truffle</b></h4></p><br>Chocolate<br>Mushroom<br>White<br>Black<br>Oil", data:{card: 'Truffle', critical_trial: 'yes', color:'Red'}};
+red_card91= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Quintuplets</b></h4></p><br>Babies<br>Five<br>Birth<br>Twins<br>Multiple", data:{card: 'Quintuplets', critical_trial: 'yes', color:'Red'}};
+red_card92= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tag</b></h4></p><br>Price<br>Hash<br>Sale<br>Label<br>Along", data:{card: 'Tag', critical_trial: 'yes', color:'Red'}};
+red_card93= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pound</b></h4></p><br>Weight<br>Currency<br>Ounce<br>Dog<br>Calories", data:{card: 'Pound', critical_trial: 'yes', color:'Red'}};
+red_card94= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Watermelon</b></h4></p><br>Fruit<br>Seeds<br>Picnics<br>Pink<br>Green", data:{card: 'Watermelon', critical_trial: 'yes', color:'Red'}};
+red_card95= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Skateboard</b></h4></p><br>Wheels<br>Roll<br>Park<br>Trucks<br>Tony Hawk", data:{card: 'Skateboard', critical_trial: 'yes', color:'Red'}};
+red_card96= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pose</b></h4></p><br>Photograph<br>Model<br>Picture<br>Stand<br>Still", data:{card: 'Pose', critical_trial: 'yes', color:'Red'}};
+red_card97= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Knife</b></h4></p><br>Cutlery<br>Sharp<br>Spoon<br>Fork<br>Set", data:{card: 'Knife', critical_trial: 'yes', color:'Red'}};
+red_card98= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snowboard</b></h4></p><br>Ski<br>Snow<br>Winter<br>Shaun White<br>Halfpipe", data:{card: 'Snowboard', critical_trial: 'yes', color:'Red'}};
+red_card99= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tent</b></h4></p><br>Camping<br>Woods<br>Sleep<br>Outside<br>Circus", data:{card: 'Tent', critical_trial: 'yes', color:'Red'}};
+red_card100= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Jersey</b></h4></p><br>New<br>State<br>Shirt<br>Wear<br>Shore", data:{card: 'Jersey', critical_trial: 'yes', color:'Red'}};
+red_card101= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Peak</b></h4></p><br>Summit<br>Mountain<br>Point<br>Career<br>Shape", data:{card: 'Peak', critical_trial: 'yes', color:'Red'}};
+red_card102= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Oatmeal</b></h4></p><br>Cereal<br>Breakfast<br>Cookies<br>Quaker<br>Hot", data:{card: 'Oatmeal', critical_trial: 'yes', color:'Red'}};
+red_card103= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Polo</b></h4></p><br>Sport<br>Horses<br>Mallet<br>Shirt<br>Royalty", data:{card: 'Polo', critical_trial: 'yes', color:'Red'}};
+red_card104= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sweet</b></h4></p><br>Sugary<br>Tea<br>Nice<br>Sour<br>Sixteen", data:{card: 'Sweet', critical_trial: 'yes', color:'Red'}};
+red_card105= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Waterfall</b></h4></p><br>Niagara<br>Cliff<br>River<br>Over<br>Bridge", data:{card: 'Waterfall', critical_trial: 'yes', color:'Red'}};
+red_card106= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Theme Park</b></h4></p><br>Rides<br>Entertainment<br>Family<br>Roller Coaster<br>Disney", data:{card: 'Theme Park', critical_trial: 'yes', color:'Red'}};
+red_card107= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mirror</b></h4></p><br>Wall<br>See<br>Reflection<br>Looking-Glass<br>Rear View", data:{card: 'Mirror', critical_trial: 'yes', color:'Red'}};
+red_card108= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Jockey</b></h4></p><br>Ride<br>Horse<br>Race<br>Saddle<br>Track", data:{card: 'Jockey', critical_trial: 'yes', color:'Red'}};
+red_card109= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stress</b></h4></p><br>Nervous<br>Tense<br>Pressure<br>Anxiety<br>Work", data:{card: 'Stress', critical_trial: 'yes', color:'Red'}};
+red_card110= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tropical</b></h4></p><br>Climate<br>Weather<br>Storm<br>Vacation<br>Flowers", data:{card: 'Tropical', critical_trial: 'yes', color:'Red'}};
+red_card111= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Spatula</b></h4></p><br>Cook<br>Kitchen<br>Flip<br>Food<br>Utensil", data:{card: 'Spatula', critical_trial: 'yes', color:'Red'}};
+red_card112= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Wallet</b></h4></p><br>Billfold<br>Purse<br>Money<br>Credit Card<br>Pocket", data:{card: 'Wallet', critical_trial: 'yes', color:'Red'}};
+red_card113= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Waffle</b></h4></p><br>Belgian<br>Iron<br>Strawberries<br>Breakfast<br>Syrup", data:{card: 'Waffle', critical_trial: 'yes', color:'Red'}};
+red_card114= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snack</b></h4></p><br>Hungry<br>Food<br>Fruit<br>Time<br>Healthy", data:{card: 'Snack', critical_trial: 'yes', color:'Red'}};
+red_card115= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Strategy</b></h4></p><br>Plan<br>Business<br>Tactics<br>Think<br>Plot", data:{card: 'Strategy', critical_trial: 'yes', color:'Red'}};
+red_card116= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Turkey</b></h4></p><br>Gobble<br>Thanksgiving<br>Stuffing<br>Drumstick<br>Bird", data:{card: 'Turkey', critical_trial: 'yes', color:'Red'}};
+red_card117= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Trunk</b></h4></p><br>Elephant<br>Car<br>Suitcase<br>Tree<br>Spare Tire", data:{card: 'Trunk', critical_trial: 'yes', color:'Red'}};
+red_card118= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Violin</b></h4></p><br>Music<br>Instrument<br>String<br>Bow<br>Chin", data:{card: 'Violin', critical_trial: 'yes', color:'Red'}};
+red_card119= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stunt</b></h4></p><br>Extreme<br>Car<br>Risk<br>Man<br>Danger", data:{card: 'Stunt', critical_trial: 'yes', color:'Red'}};
 red_deck = [red_card1, red_card2, red_card3, red_card4, red_card5, red_card6, red_card7, red_card8,red_card9,
 red_card10,red_card11,red_card12,red_card13,red_card14,red_card15,red_card16,red_card17,
 red_card18,red_card19,red_card20,red_card21,red_card22,red_card23,red_card24,red_card25,
@@ -464,124 +462,124 @@ red_card114,red_card115,red_card116,red_card117,red_card118,red_card119];
 
 ///// PURPLE CARDS
 
-purple_card1= {stimulus: "<p><h4><b>Tickle</b></h4></p><br>Giggle<br>Smile<br>Laugh<br>Kids<br>Pink", data:{card: 'Tickle', critical_trial: 'yes', color:'Purple'}};
-purple_card2= {stimulus: "<p><h4><b>Pickpocket</b></h4></p><br>Thief<br>Wallet<br>Crowds<br>Steal<br>Crime", data:{card: 'Pickpocket', critical_trial: 'yes', color:'Purple'}};
-purple_card3= {stimulus: "<p><h4><b>Thirst</b></h4></p><br>Drink<br>Dry<br>Water<br>Quench<br>Liquid", data:{card: 'Thirst', critical_trial: 'yes', color:'Purple'}};
-purple_card4= {stimulus: "<p><h4><b>Teddy Bear</b></h4></p><br>Toy<br>Kids<br>Cuddle<br>Sleep<br>President", data:{card: 'Teddy Bear', critical_trial: 'yes', color:'Purple'}};
-purple_card5= {stimulus: "<p><h4><b>Sunny</b></h4></p><br>Bright<br>Warm<br>Summer<br>Cloudy<br>Weather", data:{card: 'Sunny', critical_trial: 'yes', color:'Purple'}};
-purple_card6= {stimulus: "<p><h4><b>Scorpion</b></h4></p><br>Desert<br>Sting<br>Tail<br>Poison<br>Crawl", data:{card: 'Scorpion', critical_trial: 'yes', color:'Purple'}};
-purple_card7= {stimulus: "<p><h4><b>Panda</b></h4></p><br>Bear<br>Giant<br>Zoo<br>Bamboo<br>Express", data:{card: 'Panda', critical_trial: 'yes', color:'Purple'}};
-purple_card8= {stimulus: "<p><h4><b>Skunk</b></h4></p><br>Animal<br>Stripe<br>Stink<br>Spray<br>Smell", data:{card: 'Skunk', critical_trial: 'yes', color:'Purple'}};
-purple_card9= {stimulus: "<p><h4><b>Mountain</b></h4></p><br>Climb<br>Range<br>Molehill<br>Skin<br>Rockies", data:{card: 'Mountain', critical_trial: 'yes', color:'Purple'}};
-purple_card10= {stimulus: "<p><h4><b>Pedicure</b></h4></p><br>Feet<br>Toenails<br>File<br>Polish<br>Spa", data:{card: 'Pedicure', critical_trial: 'yes', color:'Purple'}};
-purple_card11= {stimulus: "<p><h4><b>Surgery</b></h4></p><br>Hospital<br>Doctor<br>Operation<br>Cut<br>Scalpel", data:{card: 'Surgery', critical_trial: 'yes', color:'Purple'}};
-purple_card12= {stimulus: "<p><h4><b>Peacock</b></h4></p><br>Bird<br>Tail<br>Proud<br>NBC<br>Feather", data:{card: 'Peacock', critical_trial: 'yes', color:'Purple'}};
-purple_card13= {stimulus: "<p><h4><b>Gossip</b></h4></p><br>Dirt<br>Talk<br>Office<br>Rumors<br>Grapevine", data:{card: 'Gossip', critical_trial: 'yes', color:'Purple'}};
-purple_card14= {stimulus: "<p><h4><b>In-Law</b></h4></p><br>Marriage<br>Family<br>Relative<br>Spouse<br>Parents", data:{card: 'In-Law', critical_trial: 'yes', color:'Purple'}};
-purple_card15= {stimulus: "<p><h4><b>Hiking</b></h4></p><br>Mountain<br>Boots<br>Gear<br>Trip<br>Trail", data:{card: 'Hiking', critical_trial: 'yes', color:'Purple'}};
-purple_card16= {stimulus: "<p><h4><b>Test</b></h4></p><br>Exam<br>Quiz<br>SAT<br>School<br>Standardized", data:{card: 'Test', critical_trial: 'yes', color:'Purple'}};
-purple_card17= {stimulus: "<p><h4><b>Mistake</b></h4></p><br>Error<br>Blunder<br>Make<br>Wrong<br>Right", data:{card: 'Mistake', critical_trial: 'yes', color:'Purple'}};
-purple_card18= {stimulus: "<p><h4><b>Lake</b></h4></p><br>Water<br>Ocean<br>Stream<br>Great<br>Front", data:{card: 'Lake', critical_trial: 'yes', color:'Purple'}};
-purple_card19= {stimulus: "<p><h4><b>Ivory</b></h4></p><br>White<br>Tower<br>Color<br>Elephant<br>Soap", data:{card: 'Ivory', critical_trial: 'yes', color:'Purple'}};
-purple_card20= {stimulus: "<p><h4><b>Navy</b></h4></p><br>Ships<br>Ocean<br>Seals<br>Sailor<br>Military", data:{card: 'Navy', critical_trial: 'yes', color:'Purple'}};
-purple_card21= {stimulus: "<p><h4><b>Dance</b></h4></p><br>Lessons<br>Recital<br>Ballet<br>Class<br>High School", data:{card: 'Dance', critical_trial: 'yes', color:'Purple'}};
-purple_card22= {stimulus: "<p><h4><b>Snooze</b></h4></p><br>Nap<br>Doze<br>Sleep<br>Tired<br>Alarm", data:{card: 'Snooze', critical_trial: 'yes', color:'Purple'}};
-purple_card23= {stimulus: "<p><h4><b>Skyline</b></h4></p><br>Horizon<br>New York<br>City<br>Buildings<br>Nissan", data:{card: 'Skyline', critical_trial: 'yes', color:'Purple'}};
-purple_card24= {stimulus: "<p><h4><b>Jury</b></h4></p><br>Trial<br>Court<br>Verdict<br>Twelve<br>Duty", data:{card: 'Jury', critical_trial: 'yes', color:'Purple'}};
-purple_card25= {stimulus: "<p><h4><b>Luau</b></h4></p><br>Hawaiian<br>Party<br>Feast<br>Food<br>Hula", data:{card: 'Luau', critical_trial: 'yes', color:'Purple'}};
-purple_card26= {stimulus: "<p><h4><b>Pigeon</b></h4></p><br>City<br>Bird<br>Park<br>Messages<br>Window", data:{card: 'Pigeon', critical_trial: 'yes', color:'Purple'}};
-purple_card27= {stimulus: "<p><h4><b>Survive</b></h4></p><br>Alive<br>Die<br>Succeed<br>Persevere<br>Endure", data:{card: 'Survive', critical_trial: 'yes', color:'Purple'}};
-purple_card28= {stimulus: "<p><h4><b>Ping-Pong</b></h4></p><br>Game<br>Ball<br>Paddle<br>Table<br>Tennis", data:{card: 'Ping-Pong', critical_trial: 'yes', color:'Purple'}};
-purple_card29= {stimulus: "<p><h4><b>Studio</b></h4></p><br>Art<br>Music<br>Dance<br>Apartment<br>Loft", data:{card: 'Studio', critical_trial: 'yes', color:'Purple'}};
-purple_card30= {stimulus: "<p><h4><b>Mascara</b></h4></p><br>Eyelash<br>Makeup<br>Cosmetic<br>Brush<br>Apply", data:{card: 'Mascara', critical_trial: 'yes', color:'Purple'}};
-purple_card31= {stimulus: "<p><h4><b>Sneeze</b></h4></p><br>Dust<br>Bless<br>Cold<br>Pepper<br>Nose", data:{card: 'Sneeze', critical_trial: 'yes', color:'Purple'}};
-purple_card32= {stimulus: "<p><h4><b>Question Mark</b></h4></p><br>Punctuation<br>Sentence<br>Exclamation<br>Period<br>Ask", data:{card: 'Question Mark', critical_trial: 'yes', color:'Purple'}};
-purple_card33= {stimulus: "<p><h4><b>Stale</b></h4></p><br>Old<br>Moldy<br>Dry<br>Bread<br>Fresh", data:{card: 'Stale', critical_trial: 'yes', color:'Purple'}};
-purple_card34= {stimulus: "<p><h4><b>Underdog</b></h4></p><br>Longshot<br>Favorite<br>Odds<br>Win<br>Dark Horse", data:{card: 'Underdog', critical_trial: 'yes', color:'Purple'}};
-purple_card35= {stimulus: "<p><h4><b>Lottery</b></h4></p><br>Ticket<br>Money<br>Numbers<br>Win<br>Buy", data:{card: 'Lottery', critical_trial: 'yes', color:'Purple'}};
-purple_card36= {stimulus: "<p><h4><b>Race Horse</b></h4></p><br>Thoroughbred<br>Kentucky Derby<br>Bet<br>Track<br>Jockey", data:{card: 'Race Horse', critical_trial: 'yes', color:'Purple'}};
-purple_card37= {stimulus: "<p><h4><b>Jogging</b></h4></p><br>Running<br>Exercise<br>Workout<br>Sneakers<br>Marathon", data:{card: 'Jogging', critical_trial: 'yes', color:'Purple'}};
-purple_card38= {stimulus: "<p><h4><b>Slow</b></h4></p><br>Down<br>Fast<br>Move<br>Snail<br>Speed", data:{card: 'Slow', critical_trial: 'yes', color:'Purple'}};
-purple_card39= {stimulus: "<p><h4><b>Pastry</b></h4></p><br>Danish<br>Chef<br>Donuts<br>Dessert<br>Eat", data:{card: 'Pastry', critical_trial: 'yes', color:'Purple'}};
-purple_card40= {stimulus: "<p><h4><b>Stew</b></h4></p><br>Food<br>Crockpot<br>Beef<br>Flavor<br>Mad", data:{card: 'Stew', critical_trial: 'yes', color:'Purple'}};
-purple_card41= {stimulus: "<p><h4><b>Oyster</b></h4></p><br>Eat<br>Pearl<br>Shellfish<br>Clam<br>Raw", data:{card: 'Oyster', critical_trial: 'yes', color:'Purple'}};
-purple_card42= {stimulus: "<p><h4><b>Marshmallow</b></h4></p><br>White<br>S'mores<br>Toasted<br>Peanut Butter<br>Fluffy", data:{card: 'Marshmallow', critical_trial: 'yes', color:'Purple'}};
-purple_card43= {stimulus: "<p><h4><b>Spring Break</b></h4></p><br>College<br>Vacation<br>Party<br>Travel<br>Florida", data:{card: 'Spring Break', critical_trial: 'yes', color:'Purple'}};
-purple_card44= {stimulus: "<p><h4><b>Plant</b></h4></p><br>Pot<br>Water<br>Vs. Zombies<br>Leaves<br>Grow", data:{card: 'Plant', critical_trial: 'yes', color:'Purple'}};
-purple_card45= {stimulus: "<p><h4><b>Fly</b></h4></p><br>Trap<br>Swat<br>Bug<br>Sky<br>Bird", data:{card: 'Fly', critical_trial: 'yes', color:'Purple'}};
-purple_card46= {stimulus: "<p><h4><b>Paycheck</b></h4></p><br>Salary<br>Wages<br>Direct Deposit<br>Work<br>Money", data:{card: 'Paycheck', critical_trial: 'yes', color:'Purple'}};
-purple_card47= {stimulus: "<p><h4><b>Quack</b></h4></p><br>Doctor<br>Duck<br>Medicine<br>Sound<br>Noise", data:{card: 'Quack', critical_trial: 'yes', color:'Purple'}};
-purple_card48= {stimulus: "<p><h4><b>Recipe</b></h4></p><br>Card<br>Cook<br>Instructions<br>Food<br>Ingredients", data:{card: 'Recipe', critical_trial: 'yes', color:'Purple'}};
-purple_card49= {stimulus: "<p><h4><b>Rainbow</b></h4></p><br>Over<br>Colors<br>Gold<br>Sky<br>Sundae", data:{card: 'Rainbow', critical_trial: 'yes', color:'Purple'}};
-purple_card50= {stimulus: "<p><h4><b>Mud</b></h4></p><br>Dirt<br>Sling<br>Wet<br>Puddle<br>Rain", data:{card: 'Mud', critical_trial: 'yes', color:'Purple'}};
-purple_card51= {stimulus: "<p><h4><b>Giraffe</b></h4></p><br>Animal<br>Neck<br>Tail<br>Long<br>Spotted", data:{card: 'Giraffe', critical_trial: 'yes', color:'Purple'}};
-purple_card52= {stimulus: "<p><h4><b>Scientist</b></h4></p><br>Study<br>Laboratory<br>Experiments<br>Discovery<br>Mad", data:{card: 'Scientist', critical_trial: 'yes', color:'Purple'}};
-purple_card53= {stimulus: "<p><h4><b>Sushi</b></h4></p><br>Fish<br>Raw<br>Japan<br>Bar<br>Roll", data:{card: 'Sushi', critical_trial: 'yes', color:'Purple'}};
-purple_card54= {stimulus: "<p><h4><b>Scenery</b></h4></p><br>View<br>Beautiful<br>Look<br>Landscape<br>Change", data:{card: 'Scenery', critical_trial: 'yes', color:'Purple'}};
-purple_card55= {stimulus: "<p><h4><b>Puppy</b></h4></p><br>Young<br>Dog<br>Playful<br>Furry<br>Kitten", data:{card: 'Puppy', critical_trial: 'yes', color:'Purple'}};
-purple_card56= {stimulus: "<p><h4><b>Dream</b></h4></p><br>Nightmare<br>Sleep<br>Goal<br>Job<br>Team", data:{card: 'Dream', critical_trial: 'yes', color:'Purple'}};
-purple_card57= {stimulus: "<p><h4><b>Mix</b></h4></p><br>Blend<br>Stir<br>Combine<br>Batter<br>Together", data:{card: 'Mix', critical_trial: 'yes', color:'Purple'}};
-purple_card58= {stimulus: "<p><h4><b>Buffalo</b></h4></p><br>Bison<br>Animal<br>Bill<br>West<br>Sauce", data:{card: 'Buffalo', critical_trial: 'yes', color:'Purple'}};
-purple_card59= {stimulus: "<p><h4><b>Mouse</b></h4></p><br>Computer<br>Rodent<br>Wireless<br>Pad<br>Mickey", data:{card: 'Mouse', critical_trial: 'yes', color:'Purple'}};
-purple_card60= {stimulus: "<p><h4><b>Fireplace</b></h4></p><br>Logs<br>Chimney<br>Brick<br>Burn<br>Wood", data:{card: 'Fireplace', critical_trial: 'yes', color:'Purple'}};
-purple_card61= {stimulus: "<p><h4><b>Tavern</b></h4></p><br>Drink<br>Inn<br>Bar<br>Pub<br>England", data:{card: 'Tavern', critical_trial: 'yes', color:'Purple'}};
-purple_card62= {stimulus: "<p><h4><b>Kangaroo</b></h4></p><br>Pouch<br>Hop<br>Animal<br>Australia<br>Joey", data:{card: 'Kangaroo', critical_trial: 'yes', color:'Purple'}};
-purple_card63= {stimulus: "<p><h4><b>Rock</b></h4></p><br>Roll<br>Band<br>Music<br>Diamond<br>Stone", data:{card: 'Rock', critical_trial: 'yes', color:'Purple'}};
-purple_card64= {stimulus: "<p><h4><b>Turnover</b></h4></p><br>Apple<br>Car<br>Flip<br>Worker<br>Change", data:{card: 'Turnover', critical_trial: 'yes', color:'Purple'}};
-purple_card65= {stimulus: "<p><h4><b>Fog</b></h4></p><br>Weather<br>Rain<br>Day<br>Drive<br>See", data:{card: 'Fog', critical_trial: 'yes', color:'Purple'}};
-purple_card66= {stimulus: "<p><h4><b>Paw</b></h4></p><br>Foot<br>Dog<br>Claw<br>Toes<br>Leg", data:{card: 'Paw', critical_trial: 'yes', color:'Purple'}};
-purple_card67= {stimulus: "<p><h4><b>Shovel</b></h4></p><br>Tool<br>Hole<br>Dig<br>Snow<br>Dirt", data:{card: 'Shovel', critical_trial: 'yes', color:'Purple'}};
-purple_card68= {stimulus: "<p><h4><b>Raisin</b></h4></p><br>Grape<br>California<br>Dried<br>Snack<br>Nuts", data:{card: 'Raisin', critical_trial: 'yes', color:'Purple'}};
-purple_card69= {stimulus: "<p><h4><b>Pizza</b></h4></p><br>Crust<br>Slice<br>Sauce<br>Cheese<br>Domino's", data:{card: 'Pizza', critical_trial: 'yes', color:'Purple'}};
-purple_card70= {stimulus: "<p><h4><b>Saddle</b></h4></p><br>Horse<br>Stirrups<br>Leather<br>Sit<br>Ride", data:{card: 'Saddle', critical_trial: 'yes', color:'Purple'}};
-purple_card71= {stimulus: "<p><h4><b>Path</b></h4></p><br>Way<br>Road<br>Course<br>Bicycle<br>Career", data:{card: 'Path', critical_trial: 'yes', color:'Purple'}};
-purple_card72= {stimulus: "<p><h4><b>Tonsils</b></h4></p><br>Throat<br>Operation<br>Ice Cream<br>Remove<br>Surgery", data:{card: 'Tonsils', critical_trial: 'yes', color:'Purple'}};
-purple_card73= {stimulus: "<p><h4><b>Owl</b></h4></p><br>Bird<br>Wise<br>Hoot<br>Night<br>Tree", data:{card: 'Owl', critical_trial: 'yes', color:'Purple'}};
-purple_card74= {stimulus: "<p><h4><b>Gingerbread</b></h4></p><br>House<br>Holiday<br>Man<br>Cake<br>Molasses", data:{card: 'Gingerbread', critical_trial: 'yes', color:'Purple'}};
-purple_card75= {stimulus: "<p><h4><b>Lasagna</b></h4></p><br>Italian<br>Noodles<br>Meat<br>Eat<br>Layers", data:{card: 'Lasagna', critical_trial: 'yes', color:'Purple'}};
-purple_card76= {stimulus: "<p><h4><b>Finger</b></h4></p><br>Ring<br>Point<br>Hand<br>Nail<br>Toe", data:{card: 'Finger', critical_trial: 'yes', color:'Purple'}};
-purple_card77= {stimulus: "<p><h4><b>Shaving Cream</b></h4></p><br>Face<br>Razor<br>Foam<br>Beard<br>White", data:{card: 'Shaving Cream', critical_trial: 'yes', color:'Purple'}};
-purple_card78= {stimulus: "<p><h4><b>Hug</b></h4></p><br>Embrace<br>Kiss<br>Hold<br>Warm<br>Arms", data:{card: 'Hug', critical_trial: 'yes', color:'Purple'}};
-purple_card79= {stimulus: "<p><h4><b>Point</b></h4></p><br>Tip<br>Sharp<br>Finger<br>Power<br>End", data:{card: 'Point', critical_trial: 'yes', color:'Purple'}};
-purple_card80= {stimulus: "<p><h4><b>Silk</b></h4></p><br>Fabric<br>Sheets<br>Shirt<br>Soft<br>Worm", data:{card: 'Silk', critical_trial: 'yes', color:'Purple'}};
-purple_card81= {stimulus: "<p><h4><b>Sizzle</b></h4></p><br>Fry<br>Hot<br>Burn<br>Sound<br>Angry", data:{card: 'Sizzle', critical_trial: 'yes', color:'Purple'}};
-purple_card82= {stimulus: "<p><h4><b>Tightrope</b></h4></p><br>Circus<br>Acrobat<br>Balance<br>Walk<br>High Wire", data:{card: 'Tightrope', critical_trial: 'yes', color:'Purple'}};
-purple_card83= {stimulus: "<p><h4><b>Tart</b></h4></p><br>Pop<br>Taste<br>Sour<br>Pastry<br>Fruit", data:{card: 'Tart', critical_trial: 'yes', color:'Purple'}};
-purple_card84= {stimulus: "<p><h4><b>Monster</b></h4></p><br>Frankenstein<br>Horror<br>Movie<br>Creature<br>Scary", data:{card: 'Monster', critical_trial: 'yes', color:'Purple'}};
-purple_card85= {stimulus: "<p><h4><b>Note</b></h4></p><br>Letter<br>Write<br>Thank-You<br>Musical<br>Foot", data:{card: 'Note', critical_trial: 'yes', color:'Purple'}};
-purple_card86= {stimulus: "<p><h4><b>Grape</b></h4></p><br>Purple<br>Wine<br>Vineyard<br>Welch's<br>Fruit", data:{card: 'Grape', critical_trial: 'yes', color:'Purple'}};
-purple_card87= {stimulus: "<p><h4><b>Leftovers</b></h4></p><br>Reheat<br>Yesterday<br>Food<br>Meal<br>Save", data:{card: 'Leftovers', critical_trial: 'yes', color:'Purple'}};
-purple_card88= {stimulus: "<p><h4><b>Recliner</b></h4></p><br>Chair<br>Sofa<br>TV<br>Den<br>La-Z-Boy", data:{card: 'Recliner', critical_trial: 'yes', color:'Purple'}};
-purple_card89= {stimulus: "<p><h4><b>Mattress</b></h4></p><br>Bed<br>Sleep<br>Firm<br>Pillow<br>Sheet", data:{card: 'Mattress', critical_trial: 'yes', color:'Purple'}};
-purple_card90= {stimulus: "<p><h4><b>Dummy</b></h4></p><br>Stupid<br>Fake<br>Ventriloquist<br>Mannequin<br>Wood", data:{card: 'Dummy', critical_trial: 'yes', color:'Purple'}};
-purple_card91= {stimulus: "<p><h4><b>Job</b></h4></p><br>Paycheck<br>Employment<br>Career<br>Interview<br>Work", data:{card: 'Job', critical_trial: 'yes', color:'Purple'}};
-purple_card92= {stimulus: "<p><h4><b>Lemon</b></h4></p><br>Citrus<br>Sour<br>Lime<br>Fruit<br>Defective", data:{card: 'Lemon', critical_trial: 'yes', color:'Purple'}};
-purple_card93= {stimulus: "<p><h4><b>Lily</b></h4></p><br>Flower<br>Easter<br>White<br>Garden<br>Scent", data:{card: 'Lily', critical_trial: 'yes', color:'Purple'}};
-purple_card95= {stimulus: "<p><h4><b>Intelligent</b></h4></p><br>Dumb<br>Smart<br>Education<br>Brilliant<br>Stupid", data:{card: 'Intelligent', critical_trial: 'yes', color:'Purple'}};
-purple_card96= {stimulus: "<p><h4><b>Nail</b></h4></p><br>Polish<br>Manicure<br>Toe<br>Hammer<br>Finger", data:{card: 'Nail', critical_trial: 'yes', color:'Purple'}};
-purple_card97= {stimulus: "<p><h4><b>Picnic</b></h4></p><br>Basket<br>Food<br>Outside<br>Eat<br>Ants", data:{card: 'Picnic', critical_trial: 'yes', color:'Purple'}};
-purple_card98= {stimulus: "<p><h4><b>Boss</b></h4></p><br>Supervisor<br>Manager<br>Report<br>Work<br>Bruce Springsteen", data:{card: 'Boss', critical_trial: 'yes', color:'Purple'}};
-purple_card99= {stimulus: "<p><h4><b>Touchdown</b></h4></p><br>Points<br>Football<br>Score<br>End Zone<br>Super Bowl", data:{card: 'Touchdown', critical_trial: 'yes', color:'Purple'}};
-purple_card100= {stimulus: "<p><h4><b>Fumble</b></h4></p><br>Football<br>Drop<br>Search<br>Catch<br>Hands", data:{card: 'Fumble', critical_trial: 'yes', color:'Purple'}};
-purple_card101= {stimulus: "<p><h4><b>Jail</b></h4></p><br>Prison<br>Cell<br>Sentence<br>Convict<br>Bars", data:{card: 'Jail', critical_trial: 'yes', color:'Purple'}};
-purple_card102= {stimulus: "<p><h4><b>Skill</b></h4></p><br>Talent<br>Craft<br>Aptitude<br>Training<br>Ability", data:{card: 'Skill', critical_trial: 'yes', color:'Purple'}};
-purple_card103= {stimulus: "<p><h4><b>Temperature</b></h4></p><br>Fever<br>Mouth<br>Hot<br>Baby<br>Temperature", data:{card: 'Temperature', critical_trial: 'yes', color:'Purple'}};
-purple_card104= {stimulus: "<p><h4><b>Nozzle</b></h4></p><br>Faucet<br>Shower<br>Hose<br>Water<br>Adjust", data:{card: 'Nozzle', critical_trial: 'yes', color:'Purple'}};
-purple_card105= {stimulus: "<p><h4><b>Negative</b></h4></p><br>Positive<br>Minus<br>Film<br>Picture<br>Attitude", data:{card: 'Negative', critical_trial: 'yes', color:'Purple'}};
-purple_card106= {stimulus: "<p><h4><b>Toll</b></h4></p><br>Bell<br>Highway<br>Booth<br>Fee<br>Pay", data:{card: 'Toll', critical_trial: 'yes', color:'Purple'}};
-purple_card107= {stimulus: "<p><h4><b>Flip Flops</b></h4></p><br>Summer<br>Sandals<br>Beach<br>Casual<br>Reverse", data:{card: 'Flip Flops', critical_trial: 'yes', color:'Purple'}};
-purple_card108= {stimulus: "<p><h4><b>Graduation</b></h4></p><br>Ceremony<br>School<br>Cap<br>Diploma<br>Gown", data:{card: 'Graduation', critical_trial: 'yes', color:'Purple'}};
-purple_card109= {stimulus: "<p><h4><b>Mistletoe</b></h4></p><br>Hang<br>Kiss<br>Christmas<br>Green<br>Under", data:{card: 'Mistletoe', critical_trial: 'yes', color:'Purple'}};
-purple_card110= {stimulus: "<p><h4><b>Panic</b></h4></p><br>Attack<br>Fret<br>Worry<br>Calm<br>Stress", data:{card: 'Panic', critical_trial: 'yes', color:'Purple'}};
-purple_card111= {stimulus: "<p><h4><b>Purple</b></h4></p><br>Color<br>Blue<br>Violet<br>Heart<br>Rain", data:{card: 'Purple', critical_trial: 'yes', color:'Purple'}};
-purple_card112= {stimulus: "<p><h4><b>Huddle</b></h4></p><br>Gather<br>Football<br>Group<br>Play<br>Together", data:{card: 'Huddle', critical_trial: 'yes', color:'Purple'}};
-purple_card113= {stimulus: "<p><h4><b>Prom</b></h4></p><br>Dance<br>Dress<br>Tux<br>Date<br>Queen", data:{card: 'Prom', critical_trial: 'yes', color:'Purple'}};
-purple_card114= {stimulus: "<p><h4><b>Sulk</b></h4></p><br>Pout<br>Mope<br>Frown<br>Kids<br>Silent", data:{card: 'Sulk', critical_trial: 'yes', color:'Purple'}};
-purple_card115= {stimulus: "<p><h4><b>Puke</b></h4></p><br>Vomit<br>Barf<br>Sick<br>Throw Up<br>Nauseous", data:{card: 'Puke', critical_trial: 'yes', color:'Purple'}};
-purple_card116= {stimulus: "<p><h4><b>Taxes</b></h4></p><br>IRS<br>Deduction<br>Extension<br>Credit<br>Pay", data:{card: 'Taxes', critical_trial: 'yes', color:'Purple'}};
-purple_card117= {stimulus: "<p><h4><b>Stable</b></h4></p><br>Horse<br>Relationship<br>Steady<br>Even<br>Farm", data:{card: 'Stable', critical_trial: 'yes', color:'Purple'}};
-purple_card118= {stimulus: "<p><h4><b>Rain Forest</b></h4></p><br>Amazon<br>Tropical<br>River<br>Wildlife<br>Trees", data:{card: 'Rain Forest', critical_trial: 'yes', color:'Purple'}};
-purple_card119= {stimulus: "<p><h4><b>Slap</b></h4></p><br>Strike<br>Hit<br>Smack<br>Face<br>Hand", data:{card: 'Slap', critical_trial: 'yes', color:'Purple'}};
+purple_card1= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tickle</b></h4></p><br>Giggle<br>Smile<br>Laugh<br>Kids<br>Pink", data:{card: 'Tickle', critical_trial: 'yes', color:'Purple'}};
+purple_card2= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pickpocket</b></h4></p><br>Thief<br>Wallet<br>Crowds<br>Steal<br>Crime", data:{card: 'Pickpocket', critical_trial: 'yes', color:'Purple'}};
+purple_card3= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Thirst</b></h4></p><br>Drink<br>Dry<br>Water<br>Quench<br>Liquid", data:{card: 'Thirst', critical_trial: 'yes', color:'Purple'}};
+purple_card4= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Teddy Bear</b></h4></p><br>Toy<br>Kids<br>Cuddle<br>Sleep<br>President", data:{card: 'Teddy Bear', critical_trial: 'yes', color:'Purple'}};
+purple_card5= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sunny</b></h4></p><br>Bright<br>Warm<br>Summer<br>Cloudy<br>Weather", data:{card: 'Sunny', critical_trial: 'yes', color:'Purple'}};
+purple_card6= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Scorpion</b></h4></p><br>Desert<br>Sting<br>Tail<br>Poison<br>Crawl", data:{card: 'Scorpion', critical_trial: 'yes', color:'Purple'}};
+purple_card7= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Panda</b></h4></p><br>Bear<br>Giant<br>Zoo<br>Bamboo<br>Express", data:{card: 'Panda', critical_trial: 'yes', color:'Purple'}};
+purple_card8= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Skunk</b></h4></p><br>Animal<br>Stripe<br>Stink<br>Spray<br>Smell", data:{card: 'Skunk', critical_trial: 'yes', color:'Purple'}};
+purple_card9= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mountain</b></h4></p><br>Climb<br>Range<br>Molehill<br>Skin<br>Rockies", data:{card: 'Mountain', critical_trial: 'yes', color:'Purple'}};
+purple_card10= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pedicure</b></h4></p><br>Feet<br>Toenails<br>File<br>Polish<br>Spa", data:{card: 'Pedicure', critical_trial: 'yes', color:'Purple'}};
+purple_card11= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Surgery</b></h4></p><br>Hospital<br>Doctor<br>Operation<br>Cut<br>Scalpel", data:{card: 'Surgery', critical_trial: 'yes', color:'Purple'}};
+purple_card12= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Peacock</b></h4></p><br>Bird<br>Tail<br>Proud<br>NBC<br>Feather", data:{card: 'Peacock', critical_trial: 'yes', color:'Purple'}};
+purple_card13= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Gossip</b></h4></p><br>Dirt<br>Talk<br>Office<br>Rumors<br>Grapevine", data:{card: 'Gossip', critical_trial: 'yes', color:'Purple'}};
+purple_card14= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>In-Law</b></h4></p><br>Marriage<br>Family<br>Relative<br>Spouse<br>Parents", data:{card: 'In-Law', critical_trial: 'yes', color:'Purple'}};
+purple_card15= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Hiking</b></h4></p><br>Mountain<br>Boots<br>Gear<br>Trip<br>Trail", data:{card: 'Hiking', critical_trial: 'yes', color:'Purple'}};
+purple_card16= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Test</b></h4></p><br>Exam<br>Quiz<br>SAT<br>School<br>Standardized", data:{card: 'Test', critical_trial: 'yes', color:'Purple'}};
+purple_card17= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mistake</b></h4></p><br>Error<br>Blunder<br>Make<br>Wrong<br>Right", data:{card: 'Mistake', critical_trial: 'yes', color:'Purple'}};
+purple_card18= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lake</b></h4></p><br>Water<br>Ocean<br>Stream<br>Great<br>Front", data:{card: 'Lake', critical_trial: 'yes', color:'Purple'}};
+purple_card19= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Ivory</b></h4></p><br>White<br>Tower<br>Color<br>Elephant<br>Soap", data:{card: 'Ivory', critical_trial: 'yes', color:'Purple'}};
+purple_card20= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Navy</b></h4></p><br>Ships<br>Ocean<br>Seals<br>Sailor<br>Military", data:{card: 'Navy', critical_trial: 'yes', color:'Purple'}};
+purple_card21= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dance</b></h4></p><br>Lessons<br>Recital<br>Ballet<br>Class<br>High School", data:{card: 'Dance', critical_trial: 'yes', color:'Purple'}};
+purple_card22= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Snooze</b></h4></p><br>Nap<br>Doze<br>Sleep<br>Tired<br>Alarm", data:{card: 'Snooze', critical_trial: 'yes', color:'Purple'}};
+purple_card23= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Skyline</b></h4></p><br>Horizon<br>New York<br>City<br>Buildings<br>Nissan", data:{card: 'Skyline', critical_trial: 'yes', color:'Purple'}};
+purple_card24= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Jury</b></h4></p><br>Trial<br>Court<br>Verdict<br>Twelve<br>Duty", data:{card: 'Jury', critical_trial: 'yes', color:'Purple'}};
+purple_card25= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Luau</b></h4></p><br>Hawaiian<br>Party<br>Feast<br>Food<br>Hula", data:{card: 'Luau', critical_trial: 'yes', color:'Purple'}};
+purple_card26= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pigeon</b></h4></p><br>City<br>Bird<br>Park<br>Messages<br>Window", data:{card: 'Pigeon', critical_trial: 'yes', color:'Purple'}};
+purple_card27= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Survive</b></h4></p><br>Alive<br>Die<br>Succeed<br>Persevere<br>Endure", data:{card: 'Survive', critical_trial: 'yes', color:'Purple'}};
+purple_card28= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Ping-Pong</b></h4></p><br>Game<br>Ball<br>Paddle<br>Table<br>Tennis", data:{card: 'Ping-Pong', critical_trial: 'yes', color:'Purple'}};
+purple_card29= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Studio</b></h4></p><br>Art<br>Music<br>Dance<br>Apartment<br>Loft", data:{card: 'Studio', critical_trial: 'yes', color:'Purple'}};
+purple_card30= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mascara</b></h4></p><br>Eyelash<br>Makeup<br>Cosmetic<br>Brush<br>Apply", data:{card: 'Mascara', critical_trial: 'yes', color:'Purple'}};
+purple_card31= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sneeze</b></h4></p><br>Dust<br>Bless<br>Cold<br>Pepper<br>Nose", data:{card: 'Sneeze', critical_trial: 'yes', color:'Purple'}};
+purple_card32= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Question Mark</b></h4></p><br>Punctuation<br>Sentence<br>Exclamation<br>Period<br>Ask", data:{card: 'Question Mark', critical_trial: 'yes', color:'Purple'}};
+purple_card33= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stale</b></h4></p><br>Old<br>Moldy<br>Dry<br>Bread<br>Fresh", data:{card: 'Stale', critical_trial: 'yes', color:'Purple'}};
+purple_card34= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Underdog</b></h4></p><br>Longshot<br>Favorite<br>Odds<br>Win<br>Dark Horse", data:{card: 'Underdog', critical_trial: 'yes', color:'Purple'}};
+purple_card35= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lottery</b></h4></p><br>Ticket<br>Money<br>Numbers<br>Win<br>Buy", data:{card: 'Lottery', critical_trial: 'yes', color:'Purple'}};
+purple_card36= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Race Horse</b></h4></p><br>Thoroughbred<br>Kentucky Derby<br>Bet<br>Track<br>Jockey", data:{card: 'Race Horse', critical_trial: 'yes', color:'Purple'}};
+purple_card37= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Jogging</b></h4></p><br>Running<br>Exercise<br>Workout<br>Sneakers<br>Marathon", data:{card: 'Jogging', critical_trial: 'yes', color:'Purple'}};
+purple_card38= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Slow</b></h4></p><br>Down<br>Fast<br>Move<br>Snail<br>Speed", data:{card: 'Slow', critical_trial: 'yes', color:'Purple'}};
+purple_card39= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pastry</b></h4></p><br>Danish<br>Chef<br>Donuts<br>Dessert<br>Eat", data:{card: 'Pastry', critical_trial: 'yes', color:'Purple'}};
+purple_card40= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stew</b></h4></p><br>Food<br>Crockpot<br>Beef<br>Flavor<br>Mad", data:{card: 'Stew', critical_trial: 'yes', color:'Purple'}};
+purple_card41= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Oyster</b></h4></p><br>Eat<br>Pearl<br>Shellfish<br>Clam<br>Raw", data:{card: 'Oyster', critical_trial: 'yes', color:'Purple'}};
+purple_card42= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Marshmallow</b></h4></p><br>White<br>S'mores<br>Toasted<br>Peanut Butter<br>Fluffy", data:{card: 'Marshmallow', critical_trial: 'yes', color:'Purple'}};
+purple_card43= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Spring Break</b></h4></p><br>College<br>Vacation<br>Party<br>Travel<br>Florida", data:{card: 'Spring Break', critical_trial: 'yes', color:'Purple'}};
+purple_card44= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Plant</b></h4></p><br>Pot<br>Water<br>Vs. Zombies<br>Leaves<br>Grow", data:{card: 'Plant', critical_trial: 'yes', color:'Purple'}};
+purple_card45= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fly</b></h4></p><br>Trap<br>Swat<br>Bug<br>Sky<br>Bird", data:{card: 'Fly', critical_trial: 'yes', color:'Purple'}};
+purple_card46= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Paycheck</b></h4></p><br>Salary<br>Wages<br>Direct Deposit<br>Work<br>Money", data:{card: 'Paycheck', critical_trial: 'yes', color:'Purple'}};
+purple_card47= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Quack</b></h4></p><br>Doctor<br>Duck<br>Medicine<br>Sound<br>Noise", data:{card: 'Quack', critical_trial: 'yes', color:'Purple'}};
+purple_card48= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Recipe</b></h4></p><br>Card<br>Cook<br>Instructions<br>Food<br>Ingredients", data:{card: 'Recipe', critical_trial: 'yes', color:'Purple'}};
+purple_card49= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Rainbow</b></h4></p><br>Over<br>Colors<br>Gold<br>Sky<br>Sundae", data:{card: 'Rainbow', critical_trial: 'yes', color:'Purple'}};
+purple_card50= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mud</b></h4></p><br>Dirt<br>Sling<br>Wet<br>Puddle<br>Rain", data:{card: 'Mud', critical_trial: 'yes', color:'Purple'}};
+purple_card51= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Giraffe</b></h4></p><br>Animal<br>Neck<br>Tail<br>Long<br>Spotted", data:{card: 'Giraffe', critical_trial: 'yes', color:'Purple'}};
+purple_card52= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Scientist</b></h4></p><br>Study<br>Laboratory<br>Experiments<br>Discovery<br>Mad", data:{card: 'Scientist', critical_trial: 'yes', color:'Purple'}};
+purple_card53= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sushi</b></h4></p><br>Fish<br>Raw<br>Japan<br>Bar<br>Roll", data:{card: 'Sushi', critical_trial: 'yes', color:'Purple'}};
+purple_card54= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Scenery</b></h4></p><br>View<br>Beautiful<br>Look<br>Landscape<br>Change", data:{card: 'Scenery', critical_trial: 'yes', color:'Purple'}};
+purple_card55= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Puppy</b></h4></p><br>Young<br>Dog<br>Playful<br>Furry<br>Kitten", data:{card: 'Puppy', critical_trial: 'yes', color:'Purple'}};
+purple_card56= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dream</b></h4></p><br>Nightmare<br>Sleep<br>Goal<br>Job<br>Team", data:{card: 'Dream', critical_trial: 'yes', color:'Purple'}};
+purple_card57= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mix</b></h4></p><br>Blend<br>Stir<br>Combine<br>Batter<br>Together", data:{card: 'Mix', critical_trial: 'yes', color:'Purple'}};
+purple_card58= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Buffalo</b></h4></p><br>Bison<br>Animal<br>Bill<br>West<br>Sauce", data:{card: 'Buffalo', critical_trial: 'yes', color:'Purple'}};
+purple_card59= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mouse</b></h4></p><br>Computer<br>Rodent<br>Wireless<br>Pad<br>Mickey", data:{card: 'Mouse', critical_trial: 'yes', color:'Purple'}};
+purple_card60= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fireplace</b></h4></p><br>Logs<br>Chimney<br>Brick<br>Burn<br>Wood", data:{card: 'Fireplace', critical_trial: 'yes', color:'Purple'}};
+purple_card61= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tavern</b></h4></p><br>Drink<br>Inn<br>Bar<br>Pub<br>England", data:{card: 'Tavern', critical_trial: 'yes', color:'Purple'}};
+purple_card62= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Kangaroo</b></h4></p><br>Pouch<br>Hop<br>Animal<br>Australia<br>Joey", data:{card: 'Kangaroo', critical_trial: 'yes', color:'Purple'}};
+purple_card63= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Rock</b></h4></p><br>Roll<br>Band<br>Music<br>Diamond<br>Stone", data:{card: 'Rock', critical_trial: 'yes', color:'Purple'}};
+purple_card64= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Turnover</b></h4></p><br>Apple<br>Car<br>Flip<br>Worker<br>Change", data:{card: 'Turnover', critical_trial: 'yes', color:'Purple'}};
+purple_card65= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fog</b></h4></p><br>Weather<br>Rain<br>Day<br>Drive<br>See", data:{card: 'Fog', critical_trial: 'yes', color:'Purple'}};
+purple_card66= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Paw</b></h4></p><br>Foot<br>Dog<br>Claw<br>Toes<br>Leg", data:{card: 'Paw', critical_trial: 'yes', color:'Purple'}};
+purple_card67= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Shovel</b></h4></p><br>Tool<br>Hole<br>Dig<br>Snow<br>Dirt", data:{card: 'Shovel', critical_trial: 'yes', color:'Purple'}};
+purple_card68= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Raisin</b></h4></p><br>Grape<br>California<br>Dried<br>Snack<br>Nuts", data:{card: 'Raisin', critical_trial: 'yes', color:'Purple'}};
+purple_card69= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Pizza</b></h4></p><br>Crust<br>Slice<br>Sauce<br>Cheese<br>Domino's", data:{card: 'Pizza', critical_trial: 'yes', color:'Purple'}};
+purple_card70= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Saddle</b></h4></p><br>Horse<br>Stirrups<br>Leather<br>Sit<br>Ride", data:{card: 'Saddle', critical_trial: 'yes', color:'Purple'}};
+purple_card71= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Path</b></h4></p><br>Way<br>Road<br>Course<br>Bicycle<br>Career", data:{card: 'Path', critical_trial: 'yes', color:'Purple'}};
+purple_card72= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tonsils</b></h4></p><br>Throat<br>Operation<br>Ice Cream<br>Remove<br>Surgery", data:{card: 'Tonsils', critical_trial: 'yes', color:'Purple'}};
+purple_card73= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Owl</b></h4></p><br>Bird<br>Wise<br>Hoot<br>Night<br>Tree", data:{card: 'Owl', critical_trial: 'yes', color:'Purple'}};
+purple_card74= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Gingerbread</b></h4></p><br>House<br>Holiday<br>Man<br>Cake<br>Molasses", data:{card: 'Gingerbread', critical_trial: 'yes', color:'Purple'}};
+purple_card75= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lasagna</b></h4></p><br>Italian<br>Noodles<br>Meat<br>Eat<br>Layers", data:{card: 'Lasagna', critical_trial: 'yes', color:'Purple'}};
+purple_card76= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Finger</b></h4></p><br>Ring<br>Point<br>Hand<br>Nail<br>Toe", data:{card: 'Finger', critical_trial: 'yes', color:'Purple'}};
+purple_card77= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Shaving Cream</b></h4></p><br>Face<br>Razor<br>Foam<br>Beard<br>White", data:{card: 'Shaving Cream', critical_trial: 'yes', color:'Purple'}};
+purple_card78= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Hug</b></h4></p><br>Embrace<br>Kiss<br>Hold<br>Warm<br>Arms", data:{card: 'Hug', critical_trial: 'yes', color:'Purple'}};
+purple_card79= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Point</b></h4></p><br>Tip<br>Sharp<br>Finger<br>Power<br>End", data:{card: 'Point', critical_trial: 'yes', color:'Purple'}};
+purple_card80= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Silk</b></h4></p><br>Fabric<br>Sheets<br>Shirt<br>Soft<br>Worm", data:{card: 'Silk', critical_trial: 'yes', color:'Purple'}};
+purple_card81= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sizzle</b></h4></p><br>Fry<br>Hot<br>Burn<br>Sound<br>Angry", data:{card: 'Sizzle', critical_trial: 'yes', color:'Purple'}};
+purple_card82= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tightrope</b></h4></p><br>Circus<br>Acrobat<br>Balance<br>Walk<br>High Wire", data:{card: 'Tightrope', critical_trial: 'yes', color:'Purple'}};
+purple_card83= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Tart</b></h4></p><br>Pop<br>Taste<br>Sour<br>Pastry<br>Fruit", data:{card: 'Tart', critical_trial: 'yes', color:'Purple'}};
+purple_card84= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Monster</b></h4></p><br>Frankenstein<br>Horror<br>Movie<br>Creature<br>Scary", data:{card: 'Monster', critical_trial: 'yes', color:'Purple'}};
+purple_card85= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Note</b></h4></p><br>Letter<br>Write<br>Thank-You<br>Musical<br>Foot", data:{card: 'Note', critical_trial: 'yes', color:'Purple'}};
+purple_card86= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Grape</b></h4></p><br>Purple<br>Wine<br>Vineyard<br>Welch's<br>Fruit", data:{card: 'Grape', critical_trial: 'yes', color:'Purple'}};
+purple_card87= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Leftovers</b></h4></p><br>Reheat<br>Yesterday<br>Food<br>Meal<br>Save", data:{card: 'Leftovers', critical_trial: 'yes', color:'Purple'}};
+purple_card88= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Recliner</b></h4></p><br>Chair<br>Sofa<br>TV<br>Den<br>La-Z-Boy", data:{card: 'Recliner', critical_trial: 'yes', color:'Purple'}};
+purple_card89= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mattress</b></h4></p><br>Bed<br>Sleep<br>Firm<br>Pillow<br>Sheet", data:{card: 'Mattress', critical_trial: 'yes', color:'Purple'}};
+purple_card90= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Dummy</b></h4></p><br>Stupid<br>Fake<br>Ventriloquist<br>Mannequin<br>Wood", data:{card: 'Dummy', critical_trial: 'yes', color:'Purple'}};
+purple_card91= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Job</b></h4></p><br>Paycheck<br>Employment<br>Career<br>Interview<br>Work", data:{card: 'Job', critical_trial: 'yes', color:'Purple'}};
+purple_card92= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lemon</b></h4></p><br>Citrus<br>Sour<br>Lime<br>Fruit<br>Defective", data:{card: 'Lemon', critical_trial: 'yes', color:'Purple'}};
+purple_card93= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Lily</b></h4></p><br>Flower<br>Easter<br>White<br>Garden<br>Scent", data:{card: 'Lily', critical_trial: 'yes', color:'Purple'}};
+purple_card95= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Intelligent</b></h4></p><br>Dumb<br>Smart<br>Education<br>Brilliant<br>Stupid", data:{card: 'Intelligent', critical_trial: 'yes', color:'Purple'}};
+purple_card96= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Nail</b></h4></p><br>Polish<br>Manicure<br>Toe<br>Hammer<br>Finger", data:{card: 'Nail', critical_trial: 'yes', color:'Purple'}};
+purple_card97= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Picnic</b></h4></p><br>Basket<br>Food<br>Outside<br>Eat<br>Ants", data:{card: 'Picnic', critical_trial: 'yes', color:'Purple'}};
+purple_card98= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Boss</b></h4></p><br>Supervisor<br>Manager<br>Report<br>Work<br>Bruce Springsteen", data:{card: 'Boss', critical_trial: 'yes', color:'Purple'}};
+purple_card99= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Touchdown</b></h4></p><br>Points<br>Football<br>Score<br>End Zone<br>Super Bowl", data:{card: 'Touchdown', critical_trial: 'yes', color:'Purple'}};
+purple_card100= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Fumble</b></h4></p><br>Football<br>Drop<br>Search<br>Catch<br>Hands", data:{card: 'Fumble', critical_trial: 'yes', color:'Purple'}};
+purple_card101= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Jail</b></h4></p><br>Prison<br>Cell<br>Sentence<br>Convict<br>Bars", data:{card: 'Jail', critical_trial: 'yes', color:'Purple'}};
+purple_card102= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Skill</b></h4></p><br>Talent<br>Craft<br>Aptitude<br>Training<br>Ability", data:{card: 'Skill', critical_trial: 'yes', color:'Purple'}};
+purple_card103= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Temperature</b></h4></p><br>Fever<br>Mouth<br>Hot<br>Baby<br>Temperature", data:{card: 'Temperature', critical_trial: 'yes', color:'Purple'}};
+purple_card104= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Nozzle</b></h4></p><br>Faucet<br>Shower<br>Hose<br>Water<br>Adjust", data:{card: 'Nozzle', critical_trial: 'yes', color:'Purple'}};
+purple_card105= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Negative</b></h4></p><br>Positive<br>Minus<br>Film<br>Picture<br>Attitude", data:{card: 'Negative', critical_trial: 'yes', color:'Purple'}};
+purple_card106= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Toll</b></h4></p><br>Bell<br>Highway<br>Booth<br>Fee<br>Pay", data:{card: 'Toll', critical_trial: 'yes', color:'Purple'}};
+purple_card107= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Flip Flops</b></h4></p><br>Summer<br>Sandals<br>Beach<br>Casual<br>Reverse", data:{card: 'Flip Flops', critical_trial: 'yes', color:'Purple'}};
+purple_card108= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Graduation</b></h4></p><br>Ceremony<br>School<br>Cap<br>Diploma<br>Gown", data:{card: 'Graduation', critical_trial: 'yes', color:'Purple'}};
+purple_card109= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Mistletoe</b></h4></p><br>Hang<br>Kiss<br>Christmas<br>Green<br>Under", data:{card: 'Mistletoe', critical_trial: 'yes', color:'Purple'}};
+purple_card110= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Panic</b></h4></p><br>Attack<br>Fret<br>Worry<br>Calm<br>Stress", data:{card: 'Panic', critical_trial: 'yes', color:'Purple'}};
+purple_card111= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Purple</b></h4></p><br>Color<br>Blue<br>Violet<br>Heart<br>Rain", data:{card: 'Purple', critical_trial: 'yes', color:'Purple'}};
+purple_card112= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Huddle</b></h4></p><br>Gather<br>Football<br>Group<br>Play<br>Together", data:{card: 'Huddle', critical_trial: 'yes', color:'Purple'}};
+purple_card113= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Prom</b></h4></p><br>Dance<br>Dress<br>Tux<br>Date<br>Queen", data:{card: 'Prom', critical_trial: 'yes', color:'Purple'}};
+purple_card114= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Sulk</b></h4></p><br>Pout<br>Mope<br>Frown<br>Kids<br>Silent", data:{card: 'Sulk', critical_trial: 'yes', color:'Purple'}};
+purple_card115= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Puke</b></h4></p><br>Vomit<br>Barf<br>Sick<br>Throw Up<br>Nauseous", data:{card: 'Puke', critical_trial: 'yes', color:'Purple'}};
+purple_card116= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Taxes</b></h4></p><br>IRS<br>Deduction<br>Extension<br>Credit<br>Pay", data:{card: 'Taxes', critical_trial: 'yes', color:'Purple'}};
+purple_card117= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Stable</b></h4></p><br>Horse<br>Relationship<br>Steady<br>Even<br>Farm", data:{card: 'Stable', critical_trial: 'yes', color:'Purple'}};
+purple_card118= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Rain Forest</b></h4></p><br>Amazon<br>Tropical<br>River<br>Wildlife<br>Trees", data:{card: 'Rain Forest', critical_trial: 'yes', color:'Purple'}};
+purple_card119= {stimulus: "<audio autoplay><source src='materials/trial_over.wav'></audio><p><h4><b>Slap</b></h4></p><br>Strike<br>Hit<br>Smack<br>Face<br>Hand", data:{card: 'Slap', critical_trial: 'yes', color:'Purple'}};
 purple_deck = [purple_card1,purple_card2,purple_card3,purple_card4,purple_card5,purple_card6,purple_card7,purple_card8,purple_card9,
 purple_card10,purple_card11,purple_card12,purple_card13,purple_card14,purple_card15,purple_card16,purple_card17,
 purple_card18,purple_card19,purple_card20,purple_card21,purple_card22,purple_card23,purple_card24,purple_card25,
@@ -599,580 +597,579 @@ purple_card106,purple_card107,purple_card108,purple_card109,purple_card110,purpl
 purple_card114,purple_card115,purple_card116,purple_card117, purple_card118, purple_card119];
 
 // YELLOW CARDS
-
 yellow_card1 = {
-     stimulus: '<p><h4><b>Journey</b></h4></p> <p>Trip<br>Travel<br>Adventure<br>Go<br>Band</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Journey</b></h4></p> <p>Trip<br>Travel<br>Adventure<br>Go<br>Band</p>',
      data: {card: 'Journey', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card2 = {
-     stimulus: '<p><h4><b>Geometry</b></h4></p> <p>Angle<br>Math<br>Shape<br>School<br>Algebra</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Geometry</b></h4></p> <p>Angle<br>Math<br>Shape<br>School<br>Algebra</p>',
      data: {card: 'Geometry', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card3 = {
-     stimulus: '<p><h4><b>Dimples</b></h4></p> <p>Face<br>Smile<br>Cheek<br>Cute<br>Baby</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Dimples</b></h4></p> <p>Face<br>Smile<br>Cheek<br>Cute<br>Baby</p>',
      data: {card: 'Dimples', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card4 = {
-     stimulus: '<p><h4><b>Snob</b></h4></p> <p>Better<br>Rich<br>Uppity<br>Nose<br>Conceited</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Snob</b></h4></p> <p>Better<br>Rich<br>Uppity<br>Nose<br>Conceited</p>',
      data: {card: 'Snob', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card5 = {
-     stimulus: '<p><h4><b>Paint</b></h4></p> <p>Color<br>Brush<br>Wall<br>House<br>Artist</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Paint</b></h4></p> <p>Color<br>Brush<br>Wall<br>House<br>Artist</p>',
      data: {card: 'Paint', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card6 = {
-     stimulus: '<p><h4><b>Blow</b></h4></p> <p>Wind<br>Air<br>Mouth<br>Off<br>Bubble</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Blow</b></h4></p> <p>Wind<br>Air<br>Mouth<br>Off<br>Bubble</p>',
      data: {card: 'Blow', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card7 = {
-     stimulus: '<p><h4><b>Hypnosis</b></h4></p> <p>Trance<br>Sleep<br>Watch<br>Relax<br>Subconscious</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Hypnosis</b></h4></p> <p>Trance<br>Sleep<br>Watch<br>Relax<br>Subconscious</p>',
      data: {card: 'Hypnosis', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card8 = {
-     stimulus: '<p><h4><b>Lunch</b></h4></p> <p>Meal<br>Break<br>Noon<br>Eat<br>Breakfast</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Lunch</b></h4></p> <p>Meal<br>Break<br>Noon<br>Eat<br>Breakfast</p>',
      data: {card: 'Lunch', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card9 = {
-     stimulus: '<p><h4><b>Honesty</b></h4></p> <p>Truth<br>Lie<br>Integrity<br>Honor<br>Trustworthy</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Honesty</b></h4></p> <p>Truth<br>Lie<br>Integrity<br>Honor<br>Trustworthy</p>',
      data: {card: 'Honesty', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card10 = {
-     stimulus: '<p><h4><b>Quit</b></h4></p> <p>Resign<br>Stop<br>Give Up<br>Job<br>Fire</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Quit</b></h4></p> <p>Resign<br>Stop<br>Give Up<br>Job<br>Fire</p>',
      data: {card: 'Quit', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card11 = {
-     stimulus: '<p><h4><b>Milk</b></h4></p> <p>Drinks<br>Cow<br>Gallon<br>Dairy<br>Got</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Milk</b></h4></p> <p>Drinks<br>Cow<br>Gallon<br>Dairy<br>Got</p>',
      data: {card: 'Milk', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card12 = {
-     stimulus: '<p><h4><b>Brandy</b></h4></p> <p>Booze<br>Drink<br>Cocktail<br>Liquor<br>Alcohol</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Brandy</b></h4></p> <p>Booze<br>Drink<br>Cocktail<br>Liquor<br>Alcohol</p>',
      data: {card: 'Brandy', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card13 = {
-     stimulus: '<p><h4><b>Museum</b></h4></p> <p>Art<br>Paintings<br>Exhibits<br>Night<br>Collection</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Museum</b></h4></p> <p>Art<br>Paintings<br>Exhibits<br>Night<br>Collection</p>',
      data: {card: 'Museum', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card14 = {
-     stimulus: '<p><h4><b>Canoe</b></h4></p> <p>Boat<br>Paddle<br>Kayak<br>Water<br>Dugout</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Canoe</b></h4></p> <p>Boat<br>Paddle<br>Kayak<br>Water<br>Dugout</p>',
      data: {card: 'Canoe', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card15 = {
-     stimulus: '<p><h4><b>Organic</b></h4></p> <p>Food<br>Natural<br>Cotton<br>Basic<br>Pesticides</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Organic</b></h4></p> <p>Food<br>Natural<br>Cotton<br>Basic<br>Pesticides</p>',
      data: {card: 'Organic', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card16 = {
-     stimulus: '<p><h4><b>Diamond</b></h4></p> <p>Marriage<br>Ring<br>Engagement<br>Rock<br>Carat</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Diamond</b></h4></p> <p>Marriage<br>Ring<br>Engagement<br>Rock<br>Carat</p>',
      data: {card: 'Diamond', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card17 = {
-     stimulus: '<p><h4><b>Butter</b></h4></p> <p>Margarine<br>Spread<br>Dairy<br>Bake<br>Popcorn</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Butter</b></h4></p> <p>Margarine<br>Spread<br>Dairy<br>Bake<br>Popcorn</p>',
      data: {card: 'Butter', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card18 = {
-     stimulus: '<p><h4><b>Lipstick</b></h4></p> <p>Mouth<br>Makeup<br>Cosmetic<br>Red<br>Tube</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Lipstick</b></h4></p> <p>Mouth<br>Makeup<br>Cosmetic<br>Red<br>Tube</p>',
      data: {card: 'Lipstick', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card19 = {
-     stimulus: '<p><h4><b>Bubble Gum</b></h4></p> <p>Chew<br>Baseball Card<br>Bazooka<br>Blow<br>Balls</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Bubble Gum</b></h4></p> <p>Chew<br>Baseball Card<br>Bazooka<br>Blow<br>Balls</p>',
      data: {card: 'Bubble Gum', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card20 = {
-     stimulus: '<p><h4><b>Infinity</b></h4></p> <p>Limitless<br>Eternity<br>Boundless<br>Beyond<br>Forever</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Infinity</b></h4></p> <p>Limitless<br>Eternity<br>Boundless<br>Beyond<br>Forever</p>',
      data: {card: 'Infinity', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card21 = {
-     stimulus: '<p><h4><b>Cast</b></h4></p> <p>Actor<br>Fishing<br>Broken<br>Plaster<br>Bone</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Cast</b></h4></p> <p>Actor<br>Fishing<br>Broken<br>Plaster<br>Bone</p>',
      data: {card: 'Cast', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card22 = {
-     stimulus: '<p><h4><b>Soup</b></h4></p> <p>Tomato<br>Chicken<br>Salad<br>Spoon<br>Homemade</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Soup</b></h4></p> <p>Tomato<br>Chicken<br>Salad<br>Spoon<br>Homemade</p>',
      data: {card: 'Soup', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card23 = {
-     stimulus: '<p><h4><b>Crab</b></h4></p> <p>Seafood<br>Shellfish<br>Alaskan<br>Claws<br>Cakes</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Crab</b></h4></p> <p>Seafood<br>Shellfish<br>Alaskan<br>Claws<br>Cakes</p>',
      data: {card: 'Crab', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card24 = {
-     stimulus: '<p><h4><b>Park</b></h4></p> <p>Recreation<br>Garage<br>Cards<br>Tree<br>Yellowstone</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Park</b></h4></p> <p>Recreation<br>Garage<br>Cards<br>Tree<br>Yellowstone</p>',
      data: {card: 'Park', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card25 = {
-     stimulus: '<p><h4><b>Tunnel</b></h4></p> <p>Dirt<br>Love<br>Cars<br>Mountains<br>Hole</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Tunnel</b></h4></p> <p>Dirt<br>Love<br>Cars<br>Mountains<br>Hole</p>',
      data: {card: 'Tunnel', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card26 = {
-     stimulus: '<p><h4><b>Butterfly</b></h4></p> <p>Wings<br>Moth<br>Caterpillar<br>Cocoon<br>Net</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Butterfly</b></h4></p> <p>Wings<br>Moth<br>Caterpillar<br>Cocoon<br>Net</p>',
      data: {card: 'Butterfly', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card27 = {
-     stimulus: '<p><h4><b>Detective</b></h4></p> <p>Investigate<br>Crime<br>Clues<br>Private eye<br>Sherlock Holmes</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Detective</b></h4></p> <p>Investigate<br>Crime<br>Clues<br>Private eye<br>Sherlock Holmes</p>',
      data: {card: 'Detective', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card28 = {
-     stimulus: '<p><h4><b>Scale</b></h4></p> <p>Fish<br>Weigh<br>Diet<br>Climb<br>Pounds</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Scale</b></h4></p> <p>Fish<br>Weigh<br>Diet<br>Climb<br>Pounds</p>',
      data: {card: 'Scale', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card29 = {
-     stimulus: '<p><h4><b>Crayon</b></h4></p> <p>Wax<br>Children<br>Draw<br>Kids<br>Coloring Book</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Crayon</b></h4></p> <p>Wax<br>Children<br>Draw<br>Kids<br>Coloring Book</p>',
      data: {card: 'Crayon', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card30 = {
-     stimulus: '<p><h4><b>Artist</b></h4></p> <p>Painter<br>Sculptor<br>Canvas<br>Studio<br>Easel</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Artist</b></h4></p> <p>Painter<br>Sculptor<br>Canvas<br>Studio<br>Easel</p>',
      data: {card: 'Artist', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card31 = {
-     stimulus: '<p><h4><b>Flamingo</b></h4></p> <p>Pink<br>Bird<br>Lawn<br>Long<br>Legs</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Flamingo</b></h4></p> <p>Pink<br>Bird<br>Lawn<br>Long<br>Legs</p>',
      data: {card: 'Flamingo', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card32 = {
-     stimulus: '<p><h4><b>Duvet</b></h4></p> <p>Bed<br>Blanket<br>Cover<br>Feathers<br>Quilt</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Duvet</b></h4></p> <p>Bed<br>Blanket<br>Cover<br>Feathers<br>Quilt</p>',
      data: {card: 'Duvet', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card33 = {
-     stimulus: '<p><h4><b>Sauna</b></h4></p> <p>Steam<br>Room<br>Hot<br>Sweat<br>Spa</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Sauna</b></h4></p> <p>Steam<br>Room<br>Hot<br>Sweat<br>Spa</p>',
      data: {card: 'Sauna', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card34 = {
-     stimulus: '<p><h4><b>Deck</b></h4></p> <p>Ship<br>Cards<br>Hit<br>Halls<br>Porch</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Deck</b></h4></p> <p>Ship<br>Cards<br>Hit<br>Halls<br>Porch</p>',
      data: {card: 'Deck', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card35 = {
-     stimulus: '<p><h4><b>Garage</b></h4></p> <p>Car<br>Park<br>House<br>Band<br>Door</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Garage</b></h4></p> <p>Car<br>Park<br>House<br>Band<br>Door</p>',
      data: {card: 'Garage', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card36 = {
-     stimulus: '<p><h4><b>Fall</b></h4></p> <p>Season<br>Spring<br>Winter<br>Down<br>Leaves</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Fall</b></h4></p> <p>Season<br>Spring<br>Winter<br>Down<br>Leaves</p>',
      data: {card: 'Fall', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card37 = {
-     stimulus: '<p><h4><b>Coincidence</b></h4></p> <p>Unexpected<br>Occurs<br>Happen<br>Same<br>Chance</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Coincidence</b></h4></p> <p>Unexpected<br>Occurs<br>Happen<br>Same<br>Chance</p>',
      data: {card: 'Coincidence', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card38 = {
-     stimulus: '<p><h4><b>Feather</b></h4></p> <p>Wing<br>Pillow<br>Fly<br>Bird<br>Light</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Feather</b></h4></p> <p>Wing<br>Pillow<br>Fly<br>Bird<br>Light</p>',
      data: {card: 'Feather', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card39 = {
-     stimulus: '<p><h4><b>Chill</b></h4></p> <p>Cold<br>Ice<br>Night<br>Air<br>Bone</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Chill</b></h4></p> <p>Cold<br>Ice<br>Night<br>Air<br>Bone</p>',
      data: {card: 'Chill', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card40 = {
-     stimulus: '<p><h4><b>Field</b></h4></p> <p>Grass<br>Green<br>Wildflowers<br>Run<br>Picnic</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Field</b></h4></p> <p>Grass<br>Green<br>Wildflowers<br>Run<br>Picnic</p>',
      data: {card: 'Field', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card41 = {
-     stimulus: '<p><h4><b>Ice</b></h4></p> <p>Cube<br>Water<br>Drink<br>Winter<br>Tea</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Ice</b></h4></p> <p>Cube<br>Water<br>Drink<br>Winter<br>Tea</p>',
      data: {card: 'Ice', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card42 = {
-     stimulus: '<p><h4><b>Jump</b></h4></p> <p>Rope<br>Off<br>Up<br>Down<br>High</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Jump</b></h4></p> <p>Rope<br>Off<br>Up<br>Down<br>High</p>',
      data: {card: 'Jump', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card43 = {
-     stimulus: '<p><h4><b>Globe</b></h4></p> <p>World<br>Map<br>Ball<br>Round<br>Earth</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Globe</b></h4></p> <p>World<br>Map<br>Ball<br>Round<br>Earth</p>',
      data: {card: 'Globe', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card44 = {
-     stimulus: '<p><h4><b>Cupcake</b></h4></p> <p>Frosting<br>Party<br>Bake<br>Foil<br>Wars</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Cupcake</b></h4></p> <p>Frosting<br>Party<br>Bake<br>Foil<br>Wars</p>',
      data: {card: 'Cupcake', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card45 = {
-     stimulus: '<p><h4><b>Spider</b></h4></p> <p>Eight<br>Legs<br>Insect<br>Black Widow<br>Web</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Spider</b></h4></p> <p>Eight<br>Legs<br>Insect<br>Black Widow<br>Web</p>',
      data: {card: 'Spider', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card46 = {
-     stimulus: '<p><h4><b>Desert</b></h4></p> <p>Sahara<br>Cactus<br>Hot<br>Dry<br>Sand</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Desert</b></h4></p> <p>Sahara<br>Cactus<br>Hot<br>Dry<br>Sand</p>',
      data: {card: 'Desert', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card47 = {
-     stimulus: '<p><h4><b>Forest</b></h4></p> <p>Trees<br>National<br>Fires<br>Wood<br>See</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Forest</b></h4></p> <p>Trees<br>National<br>Fires<br>Wood<br>See</p>',
      data: {card: 'Forest', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card48 = {
-     stimulus: '<p><h4><b>Customer</b></h4></p> <p>Store<br>Buy<br>Sell<br>Pay<br>Customer</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Customer</b></h4></p> <p>Store<br>Buy<br>Sell<br>Pay<br>Customer</p>',
      data: {card: 'Customer', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card49 = {
-     stimulus: '<p><h4><b>Explode</b></h4></p> <p>Blow<br>Detonate<br>Burst<br>Dynamite<br>Bomb</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Explode</b></h4></p> <p>Blow<br>Detonate<br>Burst<br>Dynamite<br>Bomb</p>',
      data: {card: 'Explode', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card50 = {
-     stimulus: '<p><h4><b>Helicopter</b></h4></p> <p>Blade<br>Ride<br>Chopper<br>Fly<br>Pad</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Helicopter</b></h4></p> <p>Blade<br>Ride<br>Chopper<br>Fly<br>Pad</p>',
      data: {card: 'Helicopter', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card51 = {
-     stimulus: '<p><h4><b>Mop</b></h4></p> <p>Sweep<br>Bucket<br>Clean<br>Floor<br>Spill</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Mop</b></h4></p> <p>Sweep<br>Bucket<br>Clean<br>Floor<br>Spill</p>',
      data: {card: 'Mop', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card52 = {
-     stimulus: '<p><h4><b>Pat</b></h4></p> <p>Tap<br>Back<br>Down<br>Praise<br>Name</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Pat</b></h4></p> <p>Tap<br>Back<br>Down<br>Praise<br>Name</p>',
      data: {card: 'Pat', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card53 = {
-     stimulus: '<p><h4><b>Ghost</b></h4></p> <p>Casper<br>Spirit<br>Halloween<br>Sheet<br>Haunted</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Ghost</b></h4></p> <p>Casper<br>Spirit<br>Halloween<br>Sheet<br>Haunted</p>',
      data: {card: 'Ghost', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card54 = {
-     stimulus: '<p><h4><b>Island</b></h4></p> <p>Adventure<br>Ocean<br>Tropical<br>Breeze<br>Caribbean</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Island</b></h4></p> <p>Adventure<br>Ocean<br>Tropical<br>Breeze<br>Caribbean</p>',
      data: {card: 'Island', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card55 = {
-     stimulus: '<p><h4><b>Stripes</b></h4></p> <p>Horizontal<br>Vertical<br>Lines<br>Flag<br>Stars</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Stripes</b></h4></p> <p>Horizontal<br>Vertical<br>Lines<br>Flag<br>Stars</p>',
      data: {card: 'Stripes', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card56 = {
-     stimulus: '<p><h4><b>Money</b></h4></p> <p>Dollars<br>Cents<br>Buy<br>Spend<br>Cash</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Money</b></h4></p> <p>Dollars<br>Cents<br>Buy<br>Spend<br>Cash</p>',
      data: {card: 'Money', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card57 = {
-     stimulus: '<p><h4><b>Swamp</b></h4></p> <p>Water<br>Mud<br>Marsh<br>Boat<br>Alligator</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Swamp</b></h4></p> <p>Water<br>Mud<br>Marsh<br>Boat<br>Alligator</p>',
      data: {card: 'Swamp', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card58 = {
-     stimulus: '<p><h4><b>Quick</b></h4></p> <p>Fast<br>Express<br>Rapid<br>Hasty<br>Swift</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Quick</b></h4></p> <p>Fast<br>Express<br>Rapid<br>Hasty<br>Swift</p>',
      data: {card: 'Quick', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card59 = {
-     stimulus: '<p><h4><b>Fake</b></h4></p> <p>Fraud<br>Con<brReal><br>Phony<br>Counterfeit</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Fake</b></h4></p> <p>Fraud<br>Con<brReal><br>Phony<br>Counterfeit</p>',
      data: {card: 'Fake', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card60 = {
-     stimulus: '<p><h4><b>Pretzel</b></h4></p> <p>Twisted<br>Salty<br>Snack<br>Dough<br>Mustard</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Pretzel</b></h4></p> <p>Twisted<br>Salty<br>Snack<br>Dough<br>Mustard</p>',
      data: {card: 'Pretzel', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card61 = {
-     stimulus: '<p><h4><b>Ancient</b></h4></p> <p>Old<br>History<br>Past<br>Time<br>Rome</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Ancient</b></h4></p> <p>Old<br>History<br>Past<br>Time<br>Rome</p>',
      data: {card: 'Ancient', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card62 = {
-     stimulus: '<p><h4><b>Heart</b></h4></p> <p>Beat<br>Break<br>Attack<br>Burn<br>Love</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Heart</b></h4></p> <p>Beat<br>Break<br>Attack<br>Burn<br>Love</p>',
      data: {card: 'Heart', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card63 = {
-     stimulus: '<p><h4><b>License</b></h4></p> <p>Driver<br>Permit<br>Tag<br>Plate<br>Poetic</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>License</b></h4></p> <p>Driver<br>Permit<br>Tag<br>Plate<br>Poetic</p>',
      data: {card: 'License', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card64 = {
-     stimulus: '<p><h4><b>Garlic</b></h4></p> <p>Smell<br>Cook<br>Press<br>Pasta<br>Breath</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Garlic</b></h4></p> <p>Smell<br>Cook<br>Press<br>Pasta<br>Breath</p>',
      data: {card: 'Garlic', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card65 = {
-     stimulus: '<p><h4><b>Moon</b></h4></p> <p>Night<br>Sky<br>Sun<br>Full<br>Neil Armstrong</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Moon</b></h4></p> <p>Night<br>Sky<br>Sun<br>Full<br>Neil Armstrong</p>',
      data: {card: 'Moon', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card66 = {
-     stimulus: '<p><h4><b>Germ</b></h4></p> <p>Disease<br>Spread<br>Virus<br>Bacteria<br>Cold</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Germ</b></h4></p> <p>Disease<br>Spread<br>Virus<br>Bacteria<br>Cold</p>',
      data: {card: 'Germ', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card67 = {
-     stimulus: '<p><h4><b>Jackpot</b></h4></p> <p>Win<br>Hit<br>Gamble<br>Money<br>Lottery</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Jackpot</b></h4></p> <p>Win<br>Hit<br>Gamble<br>Money<br>Lottery</p>',
      data: {card: 'Jackpot', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card68 = {
-     stimulus: '<p><h4><b>Cobweb</b></h4></p> <p>Spider<br>Trap<br>Hang<br>Spin<br>Insect</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Cobweb</b></h4></p> <p>Spider<br>Trap<br>Hang<br>Spin<br>Insect</p>',
      data: {card: 'Cobweb', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card69 = {
-     stimulus: '<p><h4><b>Engine</b></h4></p> <p>Motor<br>Cards<br>Light<br>Train<br>Hood</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Engine</b></h4></p> <p>Motor<br>Cards<br>Light<br>Train<br>Hood</p>',
      data: {card: 'Engine', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card70 = {
-     stimulus: '<p><h4><b>Chopsticks</b></h4></p> <p>Wood<br>Piano<br>Utensil<br>Eat<br>Fork</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Chopsticks</b></h4></p> <p>Wood<br>Piano<br>Utensil<br>Eat<br>Fork</p>',
      data: {card: 'Chopsticks', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card71 = {
-     stimulus: '<p><h4><b>Crash</b></h4></p> <p>Stock Market<br>Accident<br>Car<br>Party<br>Collision</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Crash</b></h4></p> <p>Stock Market<br>Accident<br>Car<br>Party<br>Collision</p>',
      data: {card: 'Crash', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card72 = {
-     stimulus: '<p><h4><b>Geyser</b></h4></p> <p>Old Faithful<br>Hot<br>Water<br>Shoot<br>Yellowstone</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Geyser</b></h4></p> <p>Old Faithful<br>Hot<br>Water<br>Shoot<br>Yellowstone</p>',
      data: {card: 'Geyser', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card73 = {
-     stimulus: '<p><h4><b>Debut</b></h4></p> <p>Premiere<br>Introduction<br>First<br>Society<br>Perform</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Debut</b></h4></p> <p>Premiere<br>Introduction<br>First<br>Society<br>Perform</p>',
      data: {card: 'Debut', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card74 = {
-     stimulus: '<p><h4><b>Refrigerator</b></h4></p> <p>Door<br>Freezer<br>Cold<br>Food<br>Raid</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Refrigerator</b></h4></p> <p>Door<br>Freezer<br>Cold<br>Food<br>Raid</p>',
      data: {card: 'Refrigerator', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card75 = {
-     stimulus: '<p><h4><b>Confetti</b></h4></p> <p>Paper<br>Scraps<br>Throw<br>Wedding<br>Celebration</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Confetti</b></h4></p> <p>Paper<br>Scraps<br>Throw<br>Wedding<br>Celebration</p>',
      data: {card: 'Confetti', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card76 = {
-     stimulus: '<p><h4><b>Curfew</b></h4></p> <p>Date<br>Teenagers<br>Time<br>Rules<br>Home</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Curfew</b></h4></p> <p>Date<br>Teenagers<br>Time<br>Rules<br>Home</p>',
      data: {card: 'Curfew', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card77 = {
-     stimulus: '<p><h4><b>Earth</b></h4></p> <p>Globe<br>World<br>Planet<br>Ground<br>Mother</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Earth</b></h4></p> <p>Globe<br>World<br>Planet<br>Ground<br>Mother</p>',
      data: {card: 'Earth', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card78 = {
-     stimulus: '<p><h4><b>Belly Button</b></h4></p> <p>Navel<br>Tummy<br>Ring<br>Cord<br>Lint</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Belly Button</b></h4></p> <p>Navel<br>Tummy<br>Ring<br>Cord<br>Lint</p>',
      data: {card: 'Belly Button', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card79 = {
-     stimulus: '<p><h4><b>Chandelier</b></h4></p> <p>Light<br>Ceiling<br>Fixture<br>Crystal<br>Dining</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Chandelier</b></h4></p> <p>Light<br>Ceiling<br>Fixture<br>Crystal<br>Dining</p>',
      data: {card: 'Chandelier', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card80 = {
-     stimulus: '<p><h4><b>Bulb</b></h4></p> <p>Light<br>Glass<br>Watt<br>Tulip<br>Plant</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Bulb</b></h4></p> <p>Light<br>Glass<br>Watt<br>Tulip<br>Plant</p>',
      data: {card: 'Bulb', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card81 = {
-     stimulus: '<p><h4><b>Decipher</b></h4></p> <p>Decode<br>Interpret<br>Secret<br>Read<br>Figure</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Decipher</b></h4></p> <p>Decode<br>Interpret<br>Secret<br>Read<br>Figure</p>',
      data: {card: 'Decipher', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card82 = {
-     stimulus: '<p><h4><b>Score</b></h4></p> <p>Total<br>Music<br>Goal<br>Average<br>Test</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Score</b></h4></p> <p>Total<br>Music<br>Goal<br>Average<br>Test</p>',
      data: {card: 'Score', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card83 = {
-     stimulus: '<p><h4><b>Newspaper</b></h4></p> <p>Print<br>Press<br>Daily<br>Reporters<br>Read</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Newspaper</b></h4></p> <p>Print<br>Press<br>Daily<br>Reporters<br>Read</p>',
      data: {card: 'Newspaper', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card84 = {
-     stimulus: '<p><h4><b>Knot</b></h4></p> <p>Tie<br>Rope<br>Loop<br>Shoelace<br>Tangle</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Knot</b></h4></p> <p>Tie<br>Rope<br>Loop<br>Shoelace<br>Tangle</p>',
      data: {card: 'Know', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card85 = {
-     stimulus: '<p><h4><b>Rhyme</b></h4></p> <p>Poem<br>Sound<br>Words<br>Alike<br>Nursery</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Rhyme</b></h4></p> <p>Poem<br>Sound<br>Words<br>Alike<br>Nursery</p>',
      data: {card: 'Rhyme', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card86 = {
-     stimulus: '<p><h4><b>Costume</b></h4></p> <p>Halloween<br>Scary<br>Play<br>Stage<br>Party</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Costume</b></h4></p> <p>Halloween<br>Scary<br>Play<br>Stage<br>Party</p>',
      data: {card: 'Costume', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card87 = {
-     stimulus: '<p><h4><b>Parrot</b></h4></p> <p>Bird<br>Pet<br>Mimic<br>Speech<br>Imitate</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Parrot</b></h4></p> <p>Bird<br>Pet<br>Mimic<br>Speech<br>Imitate</p>',
      data: {card: 'Parrot', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card88 = {
-     stimulus: '<p><h4><b>Nest</b></h4></p> <p>Bird<br>Eggs<br>Tree<br>Home<br>Build</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Nest</b></h4></p> <p>Bird<br>Eggs<br>Tree<br>Home<br>Build</p>',
      data: {card: 'Nest', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card89 = {
-     stimulus: '<p><h4><b>Kite</b></h4></p> <p>Fly<br>Wind<br>String<br>Park<br>Sky</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Kite</b></h4></p> <p>Fly<br>Wind<br>String<br>Park<br>Sky</p>',
      data: {card: 'Kite', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card90 = {
-     stimulus: '<p><h4><b>Band</b></h4></p> <p>Group<br>Rubber<br>School<br>Orchestra<br>Wedding</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Band</b></h4></p> <p>Group<br>Rubber<br>School<br>Orchestra<br>Wedding</p>',
      data: {card: 'Band', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card91 = {
-     stimulus: '<p><h4><b>Lizard</b></h4></p> <p>Snake<br>Reptile<br>Salamander<br>Chameleon<br>Alligator</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Lizard</b></h4></p> <p>Snake<br>Reptile<br>Salamander<br>Chameleon<br>Alligator</p>',
      data: {card: 'Lizard', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card92 = {
-     stimulus: '<p><h4><b>Rug</b></h4></p> <p>Floor<br>Carpet<br>Oriental<br>Toupee<br>Hairpiece</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Rug</b></h4></p> <p>Floor<br>Carpet<br>Oriental<br>Toupee<br>Hairpiece</p>',
      data: {card: 'Rug', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card93 = {
-     stimulus: '<p><h4><b>Gravity</b></h4></p> <p>Spave<br>Force<br>Earth<br>Weight<br>Physics</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Gravity</b></h4></p> <p>Spave<br>Force<br>Earth<br>Weight<br>Physics</p>',
      data: {card: 'Gravity', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card94 = {
-     stimulus: '<p><h4><b>Forecast</b></h4></p> <p>Weather<br>Future<br>Radio<br>Prediction<br>News</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Forecast</b></h4></p> <p>Weather<br>Future<br>Radio<br>Prediction<br>News</p>',
      data: {card: 'Forecast', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card95 = {
-     stimulus: '<p><h4><b>Diner</b></h4></p> <p>Eat<br>Greasy Spoon<br>Restaurant<br>Truck Stop<br>50s</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Diner</b></h4></p> <p>Eat<br>Greasy Spoon<br>Restaurant<br>Truck Stop<br>50s</p>',
      data: {card: 'Diner', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card96 = {
-     stimulus: '<p><h4><b>Doll</b></h4></p> <p>House<br>Baby<br>Toy<br>Girl<br>Paper</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Doll</b></h4></p> <p>House<br>Baby<br>Toy<br>Girl<br>Paper</p>',
      data: {card: 'Doll', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card97 = {
-     stimulus: '<p><h4><b>Circle</b></h4></p> <p>Shape<br>Round<br>Ring<br>Friends<br>Full</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Circle</b></h4></p> <p>Shape<br>Round<br>Ring<br>Friends<br>Full</p>',
      data: {card: 'Circle', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card98 = {
-     stimulus: '<p><h4><b>Invitation</b></h4></p> <p>Wedding<br>RSVP<br>Mail<br>Party<br>Friend</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Invitation</b></h4></p> <p>Wedding<br>RSVP<br>Mail<br>Party<br>Friend</p>',
      data: {card: 'Invitation', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card99 = {
-     stimulus: '<p><h4><b>Fajita</b></h4></p> <p>Mexican<br>Wrap<br>Cheese<br>Peppers<br>Salsa</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Fajita</b></h4></p> <p>Mexican<br>Wrap<br>Cheese<br>Peppers<br>Salsa</p>',
      data: {card: 'Fajita', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card100 = {
-     stimulus: '<p><h4><b>Gallery</b></h4></p> <p>Art<br>Museum<br>Collections<br>Shower<br>Paintings</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Gallery</b></h4></p> <p>Art<br>Museum<br>Collections<br>Shower<br>Paintings</p>',
      data: {card: 'Gallery', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card101 = {
-     stimulus: '<p><h4><b>Insomnia</b></h4></p> <p>Sleep<br>Toss<br>Restless<br>Bed<br>Night</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Insomnia</b></h4></p> <p>Sleep<br>Toss<br>Restless<br>Bed<br>Night</p>',
      data: {card: 'Insomnia', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card102 = {
-     stimulus: '<p><h4><b>Couch</b></h4></p> <p>Potato<br>Sofa<br>Sit Still<br>Furniture<br>Leather</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Couch</b></h4></p> <p>Potato<br>Sofa<br>Sit Still<br>Furniture<br>Leather</p>',
      data: {card: 'Couch', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card103 = {
-     stimulus: '<p><h4><b>Reindeer</b></h4></p> <p>Christmas<br>Santa<br>Sleigh<br>Rudolph<br>Red-nosed</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Reindeer</b></h4></p> <p>Christmas<br>Santa<br>Sleigh<br>Rudolph<br>Red-nosed</p>',
      data: {card: 'Reindeer', critical_trial: 'yes', color: 'Yellow'}
    };
 
    yellow_card104 = {
-     stimulus: '<p><h4><b>Break</b></h4></p> <p>Snap<br>Fracture<br>Separate<br>Rest<br>Lucky</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Break</b></h4></p> <p>Snap<br>Fracture<br>Separate<br>Rest<br>Lucky</p>',
      data: {card: 'Break', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card105 = {
-     stimulus: '<p><h4><b>Healthy</b></h4></p> <p>Well<br>Fit<br>Exercise<br>Feel<br>Shape</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Healthy</b></h4></p> <p>Well<br>Fit<br>Exercise<br>Feel<br>Shape</p>',
      data: {card: 'Healthy', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card106 = {
-     stimulus: '<p><h4><b>Coach</b></h4></p> <p>Sports<br>Team<br>Leader<br>Improve<br>Teach</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Coach</b></h4></p> <p>Sports<br>Team<br>Leader<br>Improve<br>Teach</p>',
      data: {card: 'Coach', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card107 = {
-     stimulus: '<p><h4><b>Float</b></h4></p> <p>Swim<br>Raft<br>Parade<br>Root Beer<br>Water</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Float</b></h4></p> <p>Swim<br>Raft<br>Parade<br>Root Beer<br>Water</p>',
      data: {card: 'Float', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card108 = {
-     stimulus: '<p><h4><b>Shuffle</b></h4></p> <p>Cards<br>Feet<br>Dance<br>Walk<br>Board</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Shuffle</b></h4></p> <p>Cards<br>Feet<br>Dance<br>Walk<br>Board</p>',
      data: {card: 'Shuffle', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card109 = {
-     stimulus: '<p><h4><b>Heist</b></h4></p> <p>Robber<br>Thief<br>Steal<br>Art<br>Gene Hackman</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Heist</b></h4></p> <p>Robber<br>Thief<br>Steal<br>Art<br>Gene Hackman</p>',
      data: {card: 'Heist', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card110 = {
-     stimulus: '<p><h4><b>Nutcracker</b></h4></p> <p>Ballet<br>Open<br>Suite<br>Christmas<br>Dance</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Nutcracker</b></h4></p> <p>Ballet<br>Open<br>Suite<br>Christmas<br>Dance</p>',
      data: {card: 'Nutcracker', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card111 = {
-     stimulus: '<p><h4><b>Fan</b></h4></p> <p>Ceiling<br>Air Conditioner<br>Cool<br>Cheer<br>Mail</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Fan</b></h4></p> <p>Ceiling<br>Air Conditioner<br>Cool<br>Cheer<br>Mail</p>',
      data: {card: 'Fan', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card112 = {
-     stimulus: '<p><h4><b>Honey</b></h4></p> <p>Bees<br>Sweetheart<br>Bear<br>Shrunk<br>Hive</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Honey</b></h4></p> <p>Bees<br>Sweetheart<br>Bear<br>Shrunk<br>Hive</p>',
      data: {card: 'Honey', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card113 = {
-     stimulus: '<p><h4><b>Pomegranate</b></h4></p> <p>Fruit<br>Tree<br>Health<br>Juice<br>Red</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Pomegranate</b></h4></p> <p>Fruit<br>Tree<br>Health<br>Juice<br>Red</p>',
      data: {card: 'Pomegranate', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card114 = {
-     stimulus: '<p><h4><b>Clumsy</b></h4></p> <p>Awkward<br>Uncoordinate<br>Drop<br>Oaf<br>Klutz</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Clumsy</b></h4></p> <p>Awkward<br>Uncoordinate<br>Drop<br>Oaf<br>Klutz</p>',
      data: {card: 'Clumsy', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card115 = {
-     stimulus: '<p><h4><b>Sip</b></h4></p> <p>Drink<br>Taste<br>Wine<br>Take<br>Straw</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Sip</b></h4></p> <p>Drink<br>Taste<br>Wine<br>Take<br>Straw</p>',
      data: {card: 'Sip', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card116 = {
-     stimulus: '<p><h4><b>Cream</b></h4></p> <p>Coffee<br>Tea<br>Milk<br>Ice<br>Whipped</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Cream</b></h4></p> <p>Coffee<br>Tea<br>Milk<br>Ice<br>Whipped</p>',
      data: {card: 'Cream', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card117 = {
-     stimulus: '<p><h4><b>Brown</b></h4></p> <p>Color<br>Beige<br>Black<br>Golden<br>Sugar</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Brown</b></h4></p> <p>Color<br>Beige<br>Black<br>Golden<br>Sugar</p>',
      data: {card: 'Brown', critical_trial: 'yes', color: 'Yellow'}
    };
    yellow_card118 = {
-     stimulus: '<p><h4><b>Map</b></h4></p> <p>Find<br>Drive<br>Lost<br>Route<br>Road</p>',
+     stimulus: '<audio autoplay><source src="materials/trial_over.wav"></audio><p><h4><b>Map</b></h4></p> <p>Find<br>Drive<br>Lost<br>Route<br>Road</p>',
      data: {card: 'Map', critical_trial: 'yes', color: 'Yellow'}
    };
 
@@ -1327,22 +1324,22 @@ timeline.push(welcome_message)
       }
       
       timeline.push(pause_message_blue)
-      timeline.push(data_collection_screen)
+      // timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(blue_turns[i])
       
       timeline.push(pause_message_red)
-      timeline.push(data_collection_screen)
+      // timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(red_turns[i])
 
       timeline.push(pause_message_purple)
-      timeline.push(data_collection_screen)
+      // timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(purple_turns[i])
 
       timeline.push(pause_message_yellow)
-      timeline.push(data_collection_screen)
+      // timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(yellow_turns[i])
       
@@ -1351,6 +1348,17 @@ timeline.push(welcome_message)
 
 
   var session_id = jsPsych.randomization.randomID();
+
+  /// TESTING 
+  blue_turn1 = {
+                type: 'html-button-response',
+                choices: choice_array,
+                trial_duration: TRIAL_LENGTH, //max duration for one card
+                timeline: [blue_card1],
+                on_start: trial_timer,
+                on_finish: test_for_turn_end
+              }
+
 
   jsPsych.init({
     timeline: timeline,
