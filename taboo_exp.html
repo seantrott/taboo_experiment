@@ -18,9 +18,9 @@
 
   /* High-level variables */
   var TURN_LENGTH =  120 * 1000 //90 * 1000 5 * 1000
-  var TRIAL_LENGTH = 3//30 * 1000
+  var TRIAL_LENGTH = 30 * 1000
   var CARDS_PER_TURN = 14 // change to reflect total number of turns
-  var NUMBER_OF_TURNS = 1 // 8
+  var NUMBER_OF_TURNS =  8
   var choice_array = ['<h3>Won', '<h3>Lost'];
 
   var timeline = [];
@@ -1319,18 +1319,6 @@ yellow_card1 = {
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
-  var str_cards = 'Word,Color\n'
-    for (i in red_turns) {
-      for (j in red_turns[i].timeline) {
-        //console.log(red_turns[i].timeline[j])
-        //console.log(red_turns[i].timeline[j].data['card'])
-        str_cards += red_turns[i].timeline[j].data['card'] + ",Red\n"
-        str_cards += blue_turns[i].timeline[j].data['card'] + ",Blue\n"
-        str_cards += purple_turns[i].timeline[j].data['card'] + ",Purple\n"
-        str_cards += yellow_turns[i].timeline[j].data['card'] + ",Yellow\n"
-      }
-    }
-    console.log(str_cards)
 
 timeline.push(welcome_message, session_screen)
 
