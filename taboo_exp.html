@@ -1368,7 +1368,7 @@ timeline.push(welcome_message, session_screen)
   jsPsych.init({
     timeline: timeline,
     on_finish: function(data) {
-      var filename = session_id + "_pilot.csv";
+      var filename = "session_" + session_id + "_pilot.csv";
       saveData(filename, jsPsych.data.get().csv());
       console.log(jsPsych.data.get().csv());
 
@@ -1376,13 +1376,13 @@ timeline.push(welcome_message, session_screen)
         type:'post',
         cache: false,
         url: "save_data.php",
-        data: {filename: session_id + "_pilot.csv", filedata: jsPsych.data.get().csv()}
+        data: {filename: "session_" + session_id + "_pilot.csv", filedata: jsPsych.data.get().csv()}
       });
       $.ajax({
         type:'post',
         cache: false,
         url: "save_data.php",
-        data: {filename: session_id + "_pilot.json", filedata: jsPsych.data.get().json()}
+        data: {filename: "session_" + session_id + "_pilot.json", filedata: jsPsych.data.get().json()}
       });
       $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the session ID: <b>" + session_id + "</b>");
 
