@@ -18,9 +18,9 @@
 
   /* High-level variables */
   var TURN_LENGTH =  120 * 1000 //90 * 1000 5 * 1000
-  var TRIAL_LENGTH = 30 * 1000
+  var TRIAL_LENGTH = 3//30 * 1000
   var CARDS_PER_TURN = 14 // change to reflect total number of turns
-  var NUMBER_OF_TURNS = 8
+  var NUMBER_OF_TURNS = 1 // 8
   var choice_array = ['<h3>Won', '<h3>Lost'];
 
   var timeline = [];
@@ -29,6 +29,7 @@
   var pair_type;
   var responses;
   var timer;
+  var session_id;
 
 
   /* Save data .*/
@@ -46,7 +47,7 @@
 
     var welcome_message = {
         type: 'instructions',
-        pages: ['Welcome to the Taboo Experiment. Press \"Next\" to begin session.'],
+        pages: ['Welcome to the Taboo Experiment. Press \"Next\" to continue.'],
         data: {'trial_category': 'welcome'},
         show_clickable_nav: true
     }
@@ -58,6 +59,20 @@
         show_clickable_nav: true
     }
 
+    var session_screen = {
+        type: 'survey-text',
+        preamble: 'Please enter some information about the experiment.',
+        questions: [{prompt: 'What is the session ID number?'}],
+        button_label: 'Continue',
+        on_finish: function(){
+          startTime=new Date();
+          session_object = jsPsych.data.get().last(1).values()[0].responses
+          console.log(session_object)
+          session_id = JSON.parse(session_object)['Q0']
+          jsPsych.data.addProperties({'session_id': session_id})
+        }
+    }
+
     var data_collection_screen = {
         type: 'survey-text',
         preamble: 'Please enter some information about the next round.',
@@ -65,6 +80,7 @@
         button_label: 'Start round!',
         on_finish: function(){
           startTime=new Date();
+          
         }
     }
 
@@ -1316,7 +1332,7 @@ yellow_card1 = {
     }
     console.log(str_cards)
 
-timeline.push(welcome_message)
+timeline.push(welcome_message, session_screen)
 
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
 
@@ -1348,23 +1364,10 @@ timeline.push(welcome_message)
 
 
 
-  var session_id = jsPsych.randomization.randomID();
-
-  /// TESTING 
-  blue_turn1 = {
-                type: 'html-button-response',
-                choices: choice_array,
-                trial_duration: TRIAL_LENGTH, //max duration for one card
-                timeline: [blue_card1],
-                on_start: trial_timer,
-                on_finish: test_for_turn_end
-              }
-
 
   jsPsych.init({
     timeline: timeline,
     on_finish: function(data) {
-      jsPsych.data.addProperties({"session_id": session_id});
       var filename = session_id + "_pilot.csv";
       saveData(filename, jsPsych.data.get().csv());
       console.log(jsPsych.data.get().csv());
