@@ -96,9 +96,10 @@ var timeline = [session_screen, closeness_scale, demographics1, age]
 jsPsych.init({
     timeline: timeline,
     on_finish: function(data) {
-      var filename = "session_" + session_id + "_ppt_" + ppt_id + "_pilot.csv";
+      var filename = "session_" + session_id + "_ppt_" + ppt_id + "_survey_response.csv";
       saveData(filename, jsPsych.data.get().csv());
 
+      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the session ID: <b>" + session_id + "</b>");
       /*
       $.ajax({
         type:'post',
