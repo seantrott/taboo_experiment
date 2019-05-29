@@ -1324,7 +1324,7 @@ timeline.push(welcome_message, session_screen)
 
     for (i = 0; i < NUMBER_OF_TURNS; i++) {
 
-      if ((i+1) == NUMBER_OF_TURNS / 2) {
+      if ((i+2) == NUMBER_OF_TURNS / 2) {
         timeline.push(rotate_message)
       }
 
@@ -1347,6 +1347,8 @@ timeline.push(welcome_message, session_screen)
       // timeline.push(data_collection_screen)
       timeline.push(turn_beginning_sound)
       timeline.push(yellow_turns[i])
+
+
 
     }
 

@@ -78,9 +78,19 @@ var closeness_scale = {
   var demographics1 = {
   type: 'survey-multi-choice',
   questions: [{required: true, prompt: 'Please select the gender with which you identify.', options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
-              {required: true, prompt: 'Are you a native speaker of English?', options:['Yes', 'No']}],
+              {required: true, prompt: 'Are you a native speaker of English?', options:['Yes', 'No']}
+              ],
   data: {stimType: "demographic1"}
 }
+
+var taboo_questions = {
+  type: 'survey-multi-choice',
+  questions: [{required: true, prompt: 'Have you played Taboo before?', options:['Yes', 'No']},
+              {required: true, prompt: 'If so, how you rate your expertise on a scale from 1 (novice) to 5 (expert)?', options:[1, 2, 3, 4, 5], horizontal: true}
+              ],
+  data: {stimType: "taboo"}
+}
+
 
 
   var age = {
@@ -90,7 +100,7 @@ var closeness_scale = {
   }
 
 
-var timeline = [session_screen, closeness_scale, demographics1, age]
+var timeline = [session_screen, closeness_scale, taboo_questions, demographics1, age]
 
 
 jsPsych.init({
